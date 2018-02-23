@@ -1,0 +1,26 @@
+<template name="sidebar">
+<div class="container-fluid text-center">
+  <div class="row">
+    <div class="col-md-3 well">
+      <div class="well">
+            <ul class="sidebar-nav onlUsers">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Online Users
+                    </a>
+                </li>
+                {{#each onlusr}}
+                    <li class="user"><a href="{{pathFor route='chat_template'}}">{{username}}</a></li>
+                {{/each}}
+            </ul>
+      </div>
+      <div class="well">
+          <ul class="sidebar-nav rooms">
+              <li ><a href="{{pathFor route='addNewRoom'}}">Add Project</a></li>
+              <li ><a href="{{pathFor route='addNewUser'}}">Add User</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>
+    </template>

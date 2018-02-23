@@ -1,0 +1,36 @@
+<head>
+  <title>ChatApp</title>
+</head>
+
+<body>
+  <div>
+  </div>
+</body>
+
+<template name="header">
+  <header class= "header">
+  </header>
+</template>
+
+<template name="login_template">
+  {{>loginModal}}
+</template>
+
+
+<!--
+<template name="chat_template">
+  <div class="container">
+        {{#if currentUser}}
+          {{> runningSession}}
+        {{else}}
+          {{>login_template}}
+        {{  /if}}
+  </div>
+</template>
+-->
+<template name="runningSession">
+  <div class="container">
+        {{> allMessages}}
+        {{> chatForm}}
+  </div>
+</template>

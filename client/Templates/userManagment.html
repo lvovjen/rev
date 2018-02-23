@@ -1,0 +1,66 @@
+<template name="usersManagement">
+  {{>navbar}}
+  {{>sidebarBoot}}
+  <div class="main-content">
+  <div class="container-fluid text-center pad-2em">
+    <div class="row content">
+      <div class="col-md-12 text-left">
+        <div class="panel panel-default chat">
+          <div class="panel-heading">User Managment</div>
+          <div class="panel-body">
+            {{>usersManagementTemp}}
+            {{>createUser}}
+          </div>
+          {{>addUser_btn}}
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+
+
+<template name="usersManagementTemp">
+          {{#if isInRole 'admin'}}
+
+        <table class="table table-striped custab">
+
+           <thead>
+             <tr>
+               <th>Last Name</th>
+               <th>First Name</th>
+
+               <th>Username</th>
+               <th>Email</th>
+               <th>Score</th>
+               <th>Admin</th>
+
+             </tr>
+         </thead>
+         {{#each users}}
+          <tbody>
+                   <tr>
+                     <td>{{profile.lastName}}</td>
+                     <td>{{profile.fisrtName}}</td>
+                     <td>{{username}}</td>
+                     <td>{{userEmail}}</td>
+                     <td>{{profile.score}}</td>
+                     <th>Admin</th>
+
+                       <td>
+                         <button id="modalBtn" data-modal-template="editUserModal"><span class="glyphicon glyphicon-edit"></span></button>
+</td>
+                 </tr>
+               </tbody>
+          {{/each}}
+        </table>
+
+          {{else}}
+                 <p>Not</p>
+                 {{/if}}
+         </template>
+         <template name="addUser_btn">
+         <button id="addUser_btn" class ="addUser_btn btn btn-primary pull-left" style="font-size:15px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-user-plus"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>

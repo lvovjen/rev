@@ -1,0 +1,52 @@
+<template name="addNewProject">
+  {{>navbar}}
+    {{>sidebarBoot}}
+  <div class="row">
+  <div class="col-sm-4 col-md-6 col-lg-4">
+  </div>
+    <div class="col-sm-8 col-md-6 col-lg-8">
+  <div>
+    <p>Please enter a new Project name and descrpitions</p>
+
+  <form id="addProjectFrm" class="form-horizontal">
+      <input type="text" name="projectName" placeholder="Project name" id="projectName" required="required">
+      <input type="text" name="projectDescrpition" placeholder="Descrpition" id="projectDescrpition" required="required">
+    <input type="submit" value="Add project">
+      <button type="button" id="backBtn">Back</button>
+    </form>
+</div>
+<div>
+  <form id="addUserToProjectFrm">
+    <select id="projectSelect">
+      <option disabled="disabled" selected="selected">Please Select Project</option>
+        {{#each project}}
+            <option value="{{this}}">{{this.projectname}}</option>
+        {{/each}}
+    </select>
+    <select id="userSelect">
+      <option disabled="disabled" selected="selected">Please Select User</option>
+        {{#each user}}
+            <option value="{{this}}">{{username}}</option>
+        {{/each}}
+    </select>
+    <input type="submit" value="Save">
+  </form>
+
+
+  <form id="addConversationToProjectFrm">
+    <select id="projectSelectReq">
+      <option disabled="disabled" selected="selected">Please Select Project</option>
+        {{#each project}}
+            <option value="{{this}}">{{this.projectname}}</option>
+        {{/each}}
+    </select>
+    <input type="text" name="requirementName" placeholder="Requirement name" id="requirementName" required="required">
+    <input type="text" name="reqDescrpition" placeholder="Descrpition" id="reqDescrpition" required="required">
+
+<input type="submit" value="Save">
+  </form>
+
+  </div>
+  </div>
+  </div>
+</template>

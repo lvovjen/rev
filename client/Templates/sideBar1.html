@@ -1,0 +1,89 @@
+<template name= "sidebarBoot" style="/main.css">
+    <!-- uncomment code for absolute positioning tweek see top comment in css -->
+  <!--   <div class="absolute-wrapper"> </div> -->
+    <!-- Menu -->
+  <div class="side-menu" style="background: #393836;">
+    <nav class="navbar navbar-default" role="navigation">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <div class="brand-wrapper">
+                                <!-- Hamburger -->
+                                <button type="button" class="navbar-toggle">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <!-- Search -->
+                              <!--     <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </a>-->
+                                <!-- Search body -->
+                            <!--       <div id="search" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <form class="navbar-form" role="search">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Search">
+                                            </div>
+                                            <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-ok"></span></button>
+                                        </form>
+                                    </div>
+                                </div>    -->
+                            </div>
+                        </div>
+              <!-- Main Menu -->
+              <div class="side-menu-container">
+                  <ul class="nav navbar-nav">
+                    <div class="sidenav-header d-flex align-items-center justify-content-center">
+                      <div class="sidenav-header-inner text-center">
+                        <a href="{{pathFor route='ProfileTemplate'}}"> <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="80" height="80" class="img-circle"></a>
+                        <h2 class="h5 text-uppercase" ><a style="color:white;" href="{{pathFor route='ProfileTemplate'}}"> <b>{{firstName}} {{lastName}}</b></a></h2>
+                      </div>
+
+                    </div>
+                      <!-- Dropdown Management-->
+                      {{#if isInRole 'admin'}}
+                      <li class="panel panel-default" id="dropdown" style="background: #393836;">
+                          <a data-toggle="collapse" href="#dropdown-lvl1-Mng" style="color:white;">
+                              <span class="glyphicon glyphicon-user"></span> Management <span class="caret"></span>
+                          </a>
+                          <!-- Dropdown level 1 -->
+                          <div id="dropdown-lvl1-Mng" class="panel-collapse collapse">
+                              <div class="panel-body">
+                                  <ul class="nav navbar-nav">
+                                    <li class="active"><a href="{{pathFor route='usersManagement'}}" style="color:white;"><span class="glyphicon glyphicon-user"></span>User Management</a></li>
+                                    <li class="active"><a href="{{pathFor route='generalManagement'}}" style="color:white;"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
+
+                                  </ul>
+                              </div>
+                          </div>
+                      </li>
+          {{/if}}
+                      <!-- Dropdown Projects-->
+                      <li class="panel panel-default" id="dropdown" style="background: #393836;">
+                          <a data-toggle="collapse" href="#dropdown-lvl1-Pro" style="color:white;">
+                              <span class="glyphicon glyphicon-briefcase"></span> Projects <span class="caret"></span></a>
+                          <!-- Dropdown level 1 -->
+                          <div id="dropdown-lvl1-Pro" class="panel-collapse collapse">
+                              <div class="panel-body">
+                                  <ul class="nav navbar-nav">
+
+                                    {{#each project}}
+                                      <li class="active" id="project">
+                                              <a href="{{pathFor route='projectProfile'}}" style="color:white;">
+                                                  <span class="	glyphicon glyphicon-paperclip"></span> {{this.projectname}} <span></span></a>
+                                        </li>
+                                      {{/each}}
+
+                                  </ul>
+                              </div>
+                          </div>
+                      </li>
+                      <li class="panel panel-default" id="dropdown" style="background: #393836;"><a href="{{pathFor route='leadershipboard'}}" style="color:white;"><span class="glyphicon glyphicon-king"></span>Leadership Board</a></li>
+
+              <!--        <li style="background: #393836; border: none;"><a href="#" style="color:white;"><span class="glyphicon glyphicon-envelope"></span> Chats </a></li> -->
+                  </ul>
+              </div><!-- /.navbar-collapse -->
+      </nav>
+    </div>
+</template>

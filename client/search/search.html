@@ -1,0 +1,21 @@
+<template name="search">
+  {{> EasySearch.Input index=UsersIndex attributes=inputAttributes}}
+
+    {{#EasySearch.IfInputEmpty index=UsersIndex}}
+  {{else}}
+    <ul class="searchUsersResult">
+        {{#EasySearch.Each index=UsersIndex}}
+        <li class="user"><a href="{{pathFor route='chat_template'}}">{{username}}</a></li>
+    {{/EasySearch.Each}}
+      </ul>
+    {{> EasySearch.LoadMore index=UsersIndex}}
+    {{/EasySearch.IfInputEmpty}}
+
+    {{#EasySearch.IfSearching index=UsersIndex }}
+        <div>Searching</div>
+    {{/EasySearch.IfSearching}}
+
+  <!--  {{#EasySearch.IfNoResults index=UsersIndex}}
+        <div class="no-results">No results found!</div>
+    {{/EasySearch.IfNoResults}}-->
+</template>

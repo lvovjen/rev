@@ -1,0 +1,43 @@
+<template name="summary">
+  {{>navbar}}
+  {{>sidebarBoot}}
+  <div class="main-content">
+  <div class="container-fluid text-center pad-2em">
+    <div class="row content">
+      <div class="col-md-12 text-left">
+        <div class="panel panel-default chat">
+          <div class="panel-heading">Summary</div>
+          {{>prgSum}}
+          <button id="pdf">PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+
+<template name="prgSum">
+  <div class="panel-body">
+    <h4>Project name: </h4> {{p.projectname}}
+
+    <h4>Description: </h4> {{p.descrpition}}
+    <h4>Requirements </h4>
+    <u><h5 style="margin-left:3em"> Functional </h5></u>
+    {{#each reqsCF}}
+          <ul style="margin-left:3em;list-style-type:none;    background-color: #f5f5f5;" class="list-group-item">
+              <li><b>Requirement name:</b> {{roomName}}                      </li>
+              <li><b>Description: </b> {{descrpition}}                      </li>
+          </ul>
+    {{/each}}
+
+    <u><h5 style="margin-left:3em"> Non Functional </h5></u>
+    {{#each reqsCNF}}
+            <ul style="margin-left:3em;list-style-type:none;    background-color: #f5f5f5;" class="list-group-item">
+              <li><b>Requirement name:</b> {{roomName}}                      </li>
+              <li><b>Description:</b><span> {{descrpition}}</span>                      </li>
+              <li><b>Category:</b> {{cat}}                      </li>
+
+          </ul>
+    {{/each}}
+  </div>
+</template>

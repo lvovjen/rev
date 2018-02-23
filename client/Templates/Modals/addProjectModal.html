@@ -1,0 +1,27 @@
+<template name="addProjectModal">
+  <div class="modal fade in" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h4>New project</h4>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+            <div class="panel-body">
+
+              <form id="addProjectFrm" class="form-horizontal">
+                <div class="form-group">
+                   <label for="contain" class="col-sm-3 control-label">Project name</label>
+                     <div class="col-sm-9">
+                    <input class="form-control" type="text" name="projectname" placeholder="Project name" id="projectname" required="required">
+                    </div>
+              </div>
+              <div class="form-group">
+                 <label for="projectDescrpition" class="col-sm-3 control-label">Descrpition</label>
+                   <div class="col-sm-9">
+                     <textarea class="form-control" style="height: 60px" type="text" name="projectDescrpition" placeholder="Descrpition" id="projectDescrpition" required="required"></textarea>
+                  </div>
+                </div>
+                <button id="addProjectBtn" class ="addProjectBtn btn btn-default pull-right"><span class="  glyphicon glyphicon-floppy-disk"></span></button>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

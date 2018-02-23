@@ -1,0 +1,218 @@
+<template name="projectProfile">
+  {{>navbar}}
+  {{>sidebarBoot}}
+  <div class="main-content">
+  <div class="container-fluid text-center pad-2em">
+    <div class="row content">
+      <div class="col-sm-9 text-left">
+        {{>projectInfo}}
+        {{>addProjectReqModal}}
+        {{>removeReqModal}}
+        {{>editReqModal}}
+        {{>editProjectModal}}
+
+              {{#if isInRole 'admin'}}
+                {{>editProject}}
+                {{>projectEditUserModal}}
+                {{>addProjectModal}}
+              {{/if}}
+
+      </div>
+      <div class="col-sm-3 sidenav">
+        <div class="panel panel-default">
+          <div class="panel-heading"><b>Requirements</b></div>
+          <div class="panel-body">
+            <ul class="list-group">
+                    {{#each req}}
+                      <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}">{{roomName}}</a></li>
+                    {{/each}}
+                  </ul>
+<a href="{{pathFor route='projectProfile'}}"><button id="modalBtn" class ="btn btn-primary" data-modal-template="editUserModal">Project Profile</button>
+</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+
+
+<template name="editProject">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="input-group">
+          {{>showSumBtn}}
+          {{#if isInRole 'admin'}}
+          {{>projectImageItem}}
+            {{>addProjectModal}}
+          {{/if}}
+         </div><!-- /input-group -->
+
+      </div>
+    </div>
+</template>
+
+
+<template name="projectInfo" style="chat.css">
+    <div class="panel panel-defaultt">
+      <div class="panel-group">
+         <div class="panel panel-default">
+
+           <div class="panel-heading"><b>{{project.projectname}}</b>{{#if isInRole 'admin'}}{{>editProjectBtn}}{{/if}}</div>
+           <div class="panel-body">{{project.descrpition}}
+           </div>
+         </div>
+         <div class="panel panel-default">
+           <div class="panel-heading"><b>Users</b>{{>projectEditUserButton}}</div>
+<div class="Row">
+           {{#each projectUsers}}
+           <div class="Column">
+                 <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="60" height="60" class="img-circle">
+                 <h4>{{this.profile.fisrtName}} {{this.profile.lastName}}</h4>
+                 <h5>Role: {{this.role}}</h5>
+                 <h5>Score: {{this.profile.score}}</h5>
+               </div>
+           {{/each}}
+         </div>
+       </div>
+
+
+         <div class="panel panel-default">
+           <div class="panel-heading"><b>Requirements {{>addProjectReqBtn}}</b></div>
+
+           <div class="row">
+                            <div class="col-md-12">
+                           <!-- Nav tabs --><div class="card">
+                           <ul class="nav nav-tabs" role="tablist">
+                               <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><b>Functional</b></a></li>
+                               <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><b>Non Functional</b></a></li>
+                           </ul>
+                           <!-- Tab panes -->
+                           <div class="tab-content" style="overflow-y:auto;">
+                               <div role="tabpanel" class="tab-pane active" id="home">
+                                 {{#each reqFun}}
+                         <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} </label></a>
+                           {{>rmvReqBtn}}    {{>editReqModalBtn}}
+</li>
+                            <li class="list-group-item">{{>statusRow}} {{descrpition}}</li>
+                   {{/each}} </div>
+                                                   <div role="tabpanel" class="tab-pane" id="profile">
+                                                     {{#each reqNonFun}}
+                                                    <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} - {{cat}} </label></a>
+                                                {{>rmvReqBtn}}  {{>editReqModalBtn}}
+                                                  </li>
+                                                  <li class="list-group-item">{{>statusRow}} {{descrpition}}</li>
+                                                    {{/each}}                                                   </div>
+                                               </div>
+           </div>
+                                           </div>
+           	</div>
+         </div>
+       </div>
+      </div>
+    </template>
+
+
+
+
+      <template name="projectEditUserModal">
+        <div class="modal fade in" id="projectEditUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit users</h4>
+              </div>
+              <div class="modal-body">
+                <div class="panel panel-defaultt">
+                  <div class="panel-group">
+
+                    <form id="addUserToProjectFrm">
+        <p>Add a new user</p>
+                      <select id="userSelect">
+                        <option disabled="disabled" selected="selected">Select User</option>
+                          {{#each user}}
+                              <option value="{{this.username}}">{{username}}</option>
+                          {{/each}}
+                      </select>
+                      <select id="roleSelect">
+                        <option disabled="disabled" selected="selected">Select Role</option>
+                              <option value="{{this}}">Creator</option>
+                              <option value="{{this}}">Reviewer</option>
+                              <option value="{{this}}">Customer</option>
+                      </select>
+                      <input type="submit" value="Save">
+                    </form>
+
+                    <form id="updateRoleInProjectFrm">
+                <p>Update role</p>
+                      <select id="userSelect">
+                        <option disabled="disabled" selected="selected">Select User</option>
+                          {{#each userToRemove}}
+                          <option value="{{this}}">{{this.profile.fisrtName}} {{this.profile.lastName}}</option>
+                            {{/each}}
+                      </select>
+                      <select id="roleSelect">
+                        <option disabled="disabled" selected="selected">Select Role</option>
+                            <option value="{{this}}">Creator</option>
+                            <option value="{{this}}">Reviewer</option>
+                            <option value="{{this}}">Customer</option>
+                      </select>
+                      <input type="submit" value="Save">
+                    </form>
+                    <form id="removeUserFromProjectFrm">
+                      <p>Remove user</p>
+                      <select id="userSelectremove">
+                        <option disabled="disabled" selected="selected">Select User</option>
+                          {{#each userToRemove}}
+                              <option value="{{this}}">{{this.profile.fisrtName}} {{this.profile.lastName}}</option>
+                          {{/each}}
+                      </select>
+                      <input type="submit" value="Remove">
+                    </form>
+                     </div>
+                   </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </template>
+
+
+      <template name="addProjectReqBtn">
+      <button id="addProjectReqBtn" class ="addProjectReqBtn btn btn-default pull-right"><span class="fa fa-plus"></span></button>
+       <!--<input type="button" class="open-modal1" value="Add" />-->
+      </template>
+
+
+      <template name="projectEditUserButton">
+      <button id="open-modal1" class ="open-modal1 btn btn-default pull-right"><span class="fa fa-plus"></span></button>
+       <!--<input type="button" class="open-modal1" value="Add" />-->
+      </template>
+
+      <template name="editProjectBtn">
+      <button id="open-editProjectBtn" class ="editProjectBtn btn btn-default pull-right" ><span class="glyphicon glyphicon-edit"></span></button>
+       <!--<input type="button" class="open-modal1" value="Add" />-->
+      </template>
+
+
+      <template name="rmvReqBtn">
+      <button id="open-rmvReqBtn" class ="open-rmvReqBtn btn btn-default pull-right"><span class="glyphicon glyphicon-remove-sign"></span></button>
+       <!--<input type="button" class="open-modal1" value="Add" />-->
+      </template>
+
+      <template name="projectImageItem">
+        <button id="open-modal" class ="open-modal btn btn-default pull-right"><span class="fa fa-plus"></span> Add Project</button>
+       <!--<input type="button" class="open-modal" value="Show modal." />-->
+      </template>
+
+      <template name="showSumBtn">
+      <a href="{{pathFor route='summary'}}">  <button id="open_showSumBtn" class ="open-showSumBtn btn btn-primary pull-right"><span class="fa fa-list-ol"></span> Summary</button></a>
+       <!--<input type="button" class="open-modal" value="Show modal." />-->
+      </template>
+
+<template name="editReqModalBtn">
+  <button id="open-editReqModal" class ="open-editReqModal btn btn-default pull-right"><span class="glyphicon glyphicon-edit"></span></button>
+ <!--<input type="button" class="open-modal" value="Show modal." />-->
+</template>

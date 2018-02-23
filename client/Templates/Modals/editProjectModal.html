@@ -1,0 +1,27 @@
+<template name="editProjectModal">
+  <div class="modal fade in" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h4>Edit</h4>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+            <div class="panel-body">
+
+              <form id="editProjectFrm" class="form-horizontal">
+                <div class="form-group">
+                   <label for="contain" class="col-sm-3 control-label">Project name</label>
+                     <div class="col-sm-9">
+                    <input class="form-control" type="text" name="projectname" value={{projName}} placeholder="Project name" id="editProjectname" required="required">
+                    </div>
+              </div>
+              <div class="form-group">
+                 <label for="projectDescrpition" class="col-sm-3 control-label">Descrpition</label>
+                   <div class="col-sm-9">
+                     <textarea class="form-control" style="height: 60px" type="text" name="projectDescrpition" value={{descValue}} placeholder="Descrpition" id="editprojectDescrpition" required="required"></textarea>
+                  </div>
+                </div>
+                <button id="editProjectBtn" class= "editProjectBtn btn btn-default pull-right"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

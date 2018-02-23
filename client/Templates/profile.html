@@ -1,0 +1,43 @@
+<template name='ProfileTemplate'>
+  {{>navbar}}
+    {{>sidebarBoot}}
+  <div class="container-fluid text-center">
+    <div class="row content">
+      <div class="col-md-3 sidenav">
+
+     </div>
+      <div class="col-md-4 text-left">
+        {{>profileModal}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="profileModal">
+  <div class="container-fluid">
+    <div class="row">
+  		<div class="col-md-4 user-details">
+      <div class="span3 well">
+          <center>
+            <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle">
+          <h3><b>{{u.profile.fisrtName}} {{u.profile.lastName}}</b></h3>
+          <h5><b>Score: {{u.profile.score}}</b></h5>
+
+          <h5><b>Email:</b> {{userEmail}}</h5>
+          <span><strong>Projects: </strong></span>
+          {{#each project}}
+                    <span class="label label-info" style="background-color: #2196F3;    font-size: 14px;">{{this.project.projectname}}</span>
+          {{/each}}
+          <h5><b>Badges:</b>  <img src="/Terauser.gif" height="90" width="90"><img src="/golden.gif" height="90" width="90"><img src="/target.gif" height="90" width="90"></h5>
+
+  		</center>
+      </div>
+    </div>
+  </div>
+  </div>
+<style media="screen">
+.col-md-4 {
+    width: 75%;
+}
+</style>
+</template>

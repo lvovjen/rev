@@ -1,0 +1,33 @@
+<template name="userFeed">
+  {{>navbar}}
+  {{>sidebarBoot}}
+  <div class="main-content">
+  <div class="container-fluid text-center pad-2em">
+    <div class="row content">
+      <div class="col-md-12 text-left">
+        <div class="panel panel-default">
+          <div class="panel-heading">News Feed</div>
+          <div class="panel-body">
+            {{>userFeedtemp}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+
+<template name="userFeedtemp">
+  <div class="panel panel-default">
+
+
+    <div class="panel-heading"></div>
+    <div class="panel-body">
+      {{#each nots}}
+          <option value="{{this}}">{{val}}</option>
+      {{/each}}
+</div>
+
+
+  </div>
+         </template>

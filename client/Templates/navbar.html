@@ -1,0 +1,28 @@
+
+<template name="navbar">
+  <nav class="navbar navbar-inverse navbar-no-padding-no-margin navbar-fixed-top">
+    <div class="container-fluid">
+
+<!--  <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"></button>
+      </div>
+-->
+
+      <div class="myNavbar collapse navbar-collapse" id="myNavbar">
+         <a href="{{pathFor route='userFeed'}}" class="navbar-left"><img src="/revise_logo.png" height="35" width="155" margin-top="9px" style="margin-top:3px;margin-bottom:6px;margin-left:30px"></a>
+            <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" style="color:white; font-size: 16px;"><span class="glyphicon glyphicon-star"></span> My Score: {{currentUser.profile.score}}</a></li>
+                    {{#if currentUser}}
+                    <li><a href="{{pathFor route='login'}}" id="logout" style="color:white; font-size: 16px;"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    {{else}}
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+                    {{/if}}
+              </ul>
+      </div>
+
+
+
+
+    </div>
+  </nav>
+</template>
