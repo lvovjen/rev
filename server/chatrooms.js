@@ -28,7 +28,7 @@ Meteor.methods({
        }
    }
 ,
-
+//Mean score for each request
 updateTotalScore:function(req,vote,user,prodId){
   var user = Meteor.users.findOne({_id:user});
   var exists = ChatRooms.find({"votes.user":user._id,_id:req._id}).fetch();
@@ -51,19 +51,24 @@ if(exists.length > 0)
 ,
 
 //update notification about msg
-updateFeed:function(reqId,projId,val,type){
+updateFeed:function(reqId,projId,type){
     var users = ChatRooms.findOne({_id:reqId}).userIds;
     var req = ChatRooms.findOne({_id:reqId});
     var proj = Projects.findOne({_id:projId});
     if(type=="msg"){
       _.forEach(users,function(u){
+        if(u.user != Meteor.userId()){
         //  Meteor.users.update({ _id:u.user},{$push:{notif:{projId:projId,info:[{reqN:req.roomName}]}}});
-           Meteor.users.update({ _id:u.user,"notif.projId":projId},{$push:{reqN:req.roomName}});
+        Meteor.users.update({ _id:u.user},{$push:{notif:{reqId:reqId,reqN:req.roomName,projN:proj.projectname,type:"msg"}}});
+          }
       })
-  }else{
+
+  }else if(type=="vote"){
     _.forEach(users,function(u){
-      Meteor.users.update({ _id:u.user,"notif.projId":projId},{$push:{notif:[{info:{reqId:reqId,reqN:req.roomName,projN:proj.projectname,val:val,time: new Date(),type:"vote" }}]}});
-  })
+      if(u.user != Meteor.userId()){
+      Meteor.users.update({ _id:u.user},{$push:{notif:{reqId:reqId,reqN:req.roomName,projN:proj.projectname,type:"vote"}}});
+  }
+})
 }
 },//reqId:reqId, reqN:req.roomName, projId:projId, projN:proj.projectname, msg:msg, time:new Date()
 
@@ -71,16 +76,24 @@ updateCompleted:function(req,prodId){
   var r = ChatRooms.findOne({_id:req._id});
   var v = r.votes.length;
   var u = r.userIds.length-1;
-if(r.TotalScore>=r.reqScore && v==u)
-    {
-      ChatRooms.update({_id:req._id},{$set:{completed: true}}) ;
-      Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": true}});
-      Meteor.call('updateScore',req.creator._id,req);
-    }else{
-      ChatRooms.update({_id:req._id},{$set:{completed: false}}) ;
-      Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": false}});
-      Meteor.call('updateScore',req.creator._id,req);
+  if(r.completed==false){
+  if(r.TotalScore>=r.reqScore && v==u)
+      {
+        ChatRooms.update({_id:req._id},{$set:{completed: true}}) ;8
+        Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": true}});
+        Meteor.call('updateScore',req.creator._id,req);
+      }else{
+        ChatRooms.update({_id:req._id},{$set:{completed: false}}) ;
+        Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": false}});
     }
+  }else{
+    if(r.TotalScore>=r.reqScore && v==u)
+        {
+        }else{
+          ChatRooms.update({_id:req._id},{$set:{completed: false}}) ;
+          Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": false}});
+      }
+  }
 }
 ,
 updateMsgNumberInConversation: function(roomId){

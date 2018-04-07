@@ -19,7 +19,11 @@
   		<div class="col-md-4 user-details">
       <div class="span3 well">
           <center>
-            <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle">
+            <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle">
+            <span class="btn btn-success btn-file">
+            Change your avatar
+          <input type="file" accept=".gif,.jpg,.png" class="myFileInput" id="avatar">
+        </span>
           <h3><b>{{u.profile.fisrtName}} {{u.profile.lastName}}</b></h3>
           <h5><b>Score: {{u.profile.score}}</b></h5>
 

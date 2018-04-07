@@ -45,17 +45,27 @@ Template.chat_template.events({
     var req = Session.get("currentRoom");
     var vote =  template.find('#voteInput').value;
     var user = Meteor.userId();
+    if(vote<=100 && vote>=0){
     Meteor.call('updateTotalScore',req,vote,user,Session.get('currentproject'),function(er){
   if(er){
     alert(er);
   }else{
     alert("Thank you for voting!");
-    Meteor.call("updateFeed",Session.get("roomid"),Session.get("currentproject"),vote,"vote");
-  }
-});
-  }
-});
+  }})
+  //  Meteor.call("updateFeed",Session.get("roomid"),Session.get("currentproject"),vote,"vote");
+  Meteor.call("updateFeed",Session.get("roomid"),Session.get("currentproject"),"vote");
 
+  Meteor.call('updateCompleted',req,Session.get('currentproject'),function(er){
+    if(er){
+      alert(er);
+    }
+  })
+}else{
+  alert("Pleae enter a number in range 0-100");
+
+}
+  }
+});
 
 Template.chatForm.helpers({
   'reqScore':function(){

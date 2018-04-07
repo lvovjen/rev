@@ -18,6 +18,21 @@ Template.sidebarBoot.onCreated(function() {
 */
 Template.sidebarBoot.helpers({
     'project': function(){
-       return  Projects.find().fetch();
+       return  Projects.find({"userIds.user":{$in:[Meteor.userId()]}}).fetch();
+    },
+    'ldrBrd':function(){
+      var x =null;
+      Meteor.call("getLshpbrd",function(error,result){
+      x=result;
+      Session.set('ldrbrd',x);
+    })
+    return Session.get('ldrbrd');
     }
 })
+
+/*Template.sidebarBoot.rendered=function(){
+  var x =null;
+  Meteor.call("getLshpbrd",function(error,result){
+  x=result;
+  Session.set('ldrBrd',x);
+});*/

@@ -10,9 +10,5 @@ Template.addNewUser.events({
         console.log(isAdmin);
         Meteor.call('createUsers',username,email,firstName,lastName,isAdmin);
   //    Meteor.loginWithPassword(newUserData.email, newUserData.password);
-},
-'click #backBtn':function(){
-  event.preventDefault();
-  Router.go('/');
 }
 })

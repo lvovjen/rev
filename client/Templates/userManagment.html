@@ -9,10 +9,13 @@
           <div class="panel-heading">User Managment</div>
           <div class="panel-body">
             {{>usersManagementTemp}}
-            {{>createUser}}
+            <!--{{>createUser}}-->
+
+            {{>addUserModal}}
+            {{>editUserModal}}
+
           </div>
           {{>addUser_btn}}
-
         </div>
       </div>
     </div>
@@ -39,7 +42,7 @@
              </tr>
          </thead>
          {{#each users}}
-          <tbody>
+          <tbody id="usrsTbl">
                    <tr>
                      <td>{{profile.lastName}}</td>
                      <td>{{profile.fisrtName}}</td>
@@ -48,8 +51,7 @@
                      <td>{{profile.score}}</td>
                      <th>Admin</th>
 
-                       <td>
-                         <button id="modalBtn" data-modal-template="editUserModal"><span class="glyphicon glyphicon-edit"></span></button>
+                       <td>{{>editUser_Btn}}
 </td>
                  </tr>
                </tbody>
@@ -62,5 +64,10 @@
          </template>
          <template name="addUser_btn">
          <button id="addUser_btn" class ="addUser_btn btn btn-primary pull-left" style="font-size:15px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-user-plus"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+         <template name="editUser_Btn">
+         <button id="editUser_Btn" class ="editUser_Btn btn btn-primary pull-left" style="font-size:15px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-edit"></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>

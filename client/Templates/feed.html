@@ -1,4 +1,7 @@
+
+
 <template name="userFeed">
+{{#if currentUser}}
   {{>navbar}}
   {{>sidebarBoot}}
   <div class="main-content">
@@ -15,6 +18,10 @@
     </div>
   </div>
   </div>
+  {{else}}
+  {{>loginModal}}
+
+  {{/if}}
 </template>
 
 <template name="userFeedtemp">

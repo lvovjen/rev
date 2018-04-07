@@ -20,6 +20,7 @@ shell-server@0.2.4            # Server-side component of the `meteor shell` comm
 accounts-password@1.4.0
 momentjs:moment
 mizzao:user-status
+u2622:persistent-session
 twbs:bootstrap
 easy:search
 easysearch:autosuggest
@@ -34,6 +35,9 @@ session
 fortawesome:fontawesome
 meteortoys:allthings
 email
+cfs:standard-packages
+cfs:gridfs
+cfs:filesystem
 insecure
 autopublish
 alanning:roles

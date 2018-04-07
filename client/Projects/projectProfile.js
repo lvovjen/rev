@@ -36,6 +36,9 @@ Template.projectInfo.helpers({
 Template.projectProfile.helpers({
   'req': function() {
     return Projects.findOne({_id:Session.get("currentproject")}).requests;
+  },
+  'n':function(){
+    return '1';
   }
 })
 

@@ -37,8 +37,18 @@ Template.leadershipboardTemp.helpers({
 Template.addUser_btn.events = {
     'click #addUser_btn' : function() {
     event.preventDefault();
-    $("#createUser").modal("show");
+    $("#addUserModal").modal("show");
   }
+};
+Template.usersManagementTemp.events = {
+    'click #editUser_Btn' : function() {
+    event.preventDefault();
+    $("#editUserModal").modal("show");
+  },
+  'click #usrsTbl': function(event) {
+    Session.set("usrMgmt", this._id);
+  }
+
 };
 
 /*  'click.user_id': function() {

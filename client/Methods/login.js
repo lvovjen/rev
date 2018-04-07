@@ -5,6 +5,9 @@ Template.override_atPwdFormTitle.replaces('atTitle');
 Template.navbar.events({
   'click #logout':function(){
     Meteor.logout();
-    FlowRouter.go('/login');
+
   }
+})
+Accounts.onLogin(function() {
+Router.go('ProfileTemplate');
 })
