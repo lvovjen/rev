@@ -7,7 +7,6 @@ Meteor.methods({
         //already room exists
         console.log("exists");
       } else {
-        console.log("not exists");
         //no room exists
       if(Projects.insert({
           createdAt: new Date(),
@@ -16,7 +15,8 @@ Meteor.methods({
           descrpition: descrpition,
           creator: {_id:Meteor.userId(),profile:Meteor.user().profile},
           requests: [],
-          userIds: []
+          userIds: [],
+          categories:['Accessibility','Backup','Documentation','Reliability' ,'Reusability']
                 })
               ){
                 Meteor.call('updateUserInProject',Projects.findOne({projectname: projectname})._id,user.username,'Creator')
@@ -31,21 +31,25 @@ Meteor.methods({
 
   updateUserInProject: function(projectId,user,role) {
     if (Meteor.user()) {
+
       var pro = Projects.findOne({_id:projectId});
-//update role in user profile
-      Meteor.users.update({username: user},{$push:{projects: {role:role, project:{_id:pro._id,projectname:pro.projectname,descrpition:pro.descrpition}}}});
       var user=  Meteor.users.findOne({username:user});
 //if user is in the project already
-      var u = Projects.find({_id:projectId,userIds:{$in: [user._id]}}).fetch();
+      var u = Projects.find({_id:projectId,"userIds.user":{$in: [user._id]}}).fetch();
+
       if (pro && user) {
-        if (1 > u.length) {
+        if (0 == u.length) {
           //Add user to project
-          var newUserInProject = Projects.update({_id: pro._id}, {$push: {userIds: {user:user._id,profile:user.profile,role:role}}});
+          if(Projects.update({_id: pro._id}, {$push: {userIds: {user:user._id,profile:user.profile,role:role}}})){
+            //update role in user profile
+                  Meteor.users.update({username: user},{$push:{projects: {role:role, project:{_id:pro._id,projectname:pro.projectname,descrpition:pro.descrpition}}}});
+                  Meteor.call('addUserToConversationByUser',pro._id,user);
+
+          }
         } else {
           console.log("Already in room");
         }
       }
-      Meteor.call('addUserToConversationByUser',pro._id,user);
   }
 },
 //not working
@@ -58,7 +62,9 @@ removeUserFromProject: function(projectname, user) {
     if (pro && user) {
       if (1 > u.length) {
         //Add user to project
-        var remove = Projects.update({_id: pro._id}, {$pull: {userIds: {user:user._id}}});
+
+      console.log("good");
+        Projects.update({_id: pro._id}, {$pull: {userIds: {user:user._id}}});
       } else {
         console.log("Already in room");
       }
@@ -99,18 +105,30 @@ updateUserRole: function(projectname, user,role) {
 //Working
 removeConversationFromProject:function(projectId,reqId){
 if (Meteor.user()) {
-  console.log("sjdhkajhskjashkjahskhakshjkahskjah");
       var pro = Projects.findOne({_id: projectId});
       var room = ChatRooms.findOne({_id: reqId});
       if(pro && room)
         {
             var newRequestInProject = Projects.update({_id: projectId}, {$pull: {requests:{_id: reqId}}});
             var temp = Projects.findOne({_id: projectId}).requests.length;
-            console.log(temp);
             var newRequestInProject = Projects.update({_id: projectId}, {$set:{reqNum: temp}});
         }else{
           throw new Meteor.Error('Oops, something went wrong', "error:'Oops, something went wrong");
         }
   }
+},
+addNewCategory:function(proId,x){
+  if (Meteor.user()) {
+    var y=Projects.find({_id:proId, "categories":{$in:[x]}}).fetch();
+
+        if(y.length == 0){
+          Projects.update({_id:proId},{$push:{categories:x}});
+        }else{
+          throw new Meteor.Error('Maybe this category already exists', "Oops, something went wrong");
+        }
+      }else{
+        throw new Meteor.Error('Oops, something went wrong', "You need to sign in");
+      }
 }
+
 });

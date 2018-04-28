@@ -7,11 +7,35 @@
   <div class="main-content">
   <div class="container-fluid text-center pad-2em">
     <div class="row content">
-      <div class="col-md-12 text-left">
+      <div class="col-sm-9 text-left">
         <div class="panel panel-default">
           <div class="panel-heading">News Feed</div>
           <div class="panel-body">
             {{>userFeedtemp}}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 sidenav">
+        <div class="panel panel-default">
+          <div class="panel-heading" ><b>Challenges</b></div>
+          <div class="panel-body">
+            <ul class="list-group">
+              <li class="list-group-item" id="" style="background-color:{{c1}};border: 2px solid #fff;">
+                <p>Create 10 new requirements</p>
+              </li>
+              <li class="list-group-item" id="" style="background-color:{{c2}};border: 2px solid #fff;">
+                <p>Get 10 completed requirements </p>
+              </li>
+              <li class="list-group-item" id="" style="background-color:{{c3}};border: 2px solid #fff;">
+                <p>Be active in 20 chats</p>
+              </li>
+              <li class="list-group-item" id="" >
+                <p>Get 10 requirements completed with score 80+</p>
+              </li>
+              <li class="list-group-item" id="" >
+                <p>Get 20 votes 80+ for your requirements</p>
+              </li>
+      </ul>
           </div>
         </div>
       </div>
@@ -20,20 +44,23 @@
   </div>
   {{else}}
   {{>loginModal}}
-
   {{/if}}
 </template>
 
 <template name="userFeedtemp">
   <div class="panel panel-default">
-
-
-    <div class="panel-heading"></div>
-    <div class="panel-body">
       {{#each nots}}
-          <option value="{{this}}">{{val}}</option>
+          {{#each this.newNot}}
+                <li class="list-group-item" style="background-color: #f9f9f9;padding: 6px 15px; border: 2px solid #fff;">
+                  {{#if vote}}
+    <p>{{ufName}} {{ulName}} voted <b>{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p>
+                  {{else}}
+    <p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b>completed</b> with score {{rScore}}</p>
+                  {{/if}}
+                </li>
+          {{/each}}
       {{/each}}
-</div>
+
 
 
   </div>

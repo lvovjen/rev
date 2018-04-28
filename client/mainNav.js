@@ -27,7 +27,19 @@ Template.sidebarBoot.helpers({
       Session.set('ldrbrd',x);
     })
     return Session.get('ldrbrd');
-    }
+  },
+  'levels':function(){
+    var x =null;
+    Meteor.call("getLevels",function(error,result){
+    x=result;
+    Session.set('levels',x);
+  })
+  return Session.get('ldrbrd');
+},
+'level':function(){
+    return Meteor.user.findOne({_id:Meteor.userId()}).level;
+
+}
 })
 
 /*Template.sidebarBoot.rendered=function(){

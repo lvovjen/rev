@@ -25,6 +25,7 @@ Meteor.methods({
            });
        Meteor.call('addConversationToProject',projId,newReq);
        Meteor.call('addUserToConversationByReq',projId,newReq);
+       Meteor.call('bagdeForCreatedRequirements_Check',Meteor.userId());
        }
    }
 ,
@@ -50,6 +51,7 @@ if(exists.length > 0)
     }
 ,
 
+/*
 //update notification about msg
 updateFeed:function(reqId,projId,type){
     var users = ChatRooms.findOne({_id:reqId}).userIds;
@@ -71,21 +73,25 @@ updateFeed:function(reqId,projId,type){
 })
 }
 },//reqId:reqId, reqN:req.roomName, projId:projId, projN:proj.projectname, msg:msg, time:new Date()
-
+*/
 updateCompleted:function(req,prodId){
   var r = ChatRooms.findOne({_id:req._id});
   var v = r.votes.length;
   var u = r.userIds.length-1;
   if(r.completed==false){
-  if(r.TotalScore>=r.reqScore && v==u)
-      {
-        ChatRooms.update({_id:req._id},{$set:{completed: true}}) ;8
-        Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": true}});
-        Meteor.call('updateScore',req.creator._id,req);
-      }else{
-        ChatRooms.update({_id:req._id},{$set:{completed: false}}) ;
-        Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": false}});
-    }
+      if(r.TotalScore>=r.reqScore && v==u)
+          {
+            ChatRooms.update({_id:req._id},{$set:{completed: true}}) ;
+            Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": true}});
+            Meteor.call('updateNotificationAboutCompletion',req._id);
+            Meteor.call('updateScore',req.creator._id,req);
+            Meteor.call('badgeForCompletion_Check', req.creator._id);
+            Meteor.call('badgeForHighScoreCompletion_Check', req.creator._id);
+
+          }else{
+            ChatRooms.update({_id:req._id},{$set:{completed: false}}) ;
+            Projects.update({"requests._id":req._id},{$set:{"requests.$.completed": false}});
+        }
   }else{
     if(r.TotalScore>=r.reqScore && v==u)
         {
@@ -100,16 +106,66 @@ updateMsgNumberInConversation: function(roomId){
       var temp = ChatRooms.findOne({_id: roomId}).messages.length;
       var de = ChatRooms.update({ _id: roomId},{$set:{ msgs: temp} });
   },
+  //update subscriptions, for each user in the room update the notification abouut new msg in the room
+  updateNotificationAboutMsg(reqId){
+    if(Meteor.user){
+      var users = Subscriptions.find({request: reqId}).fetch();
+      users.forEach(function(u) {
+        if(!(u.user == Meteor.userId()))
+              {
+                 var x = Subscriptions.findOne({request: reqId,user:u.user}).newMsg + 1;
+                        Subscriptions.update({request: reqId,user:u.user},{$set:{newMsg:x}})
+              }
+            })
+    }
+  },
+resetNotInRoom(reqId){
+if(Meteor.user){
+  var x=Subscriptions.find({request: reqId,user:Meteor.userId()}).fetch();
+
+  if(x.length > 0){
+    Subscriptions.update({request: reqId,user:Meteor.userId()},{$set:{newMsg:0}})
+  }
+}
+},
+  updateNotificationAboutVote(reqId,userId,vote){
+    if(Meteor.user()){
+      vuser=Meteor.users.findOne({_id:userId});
+      vreq=ChatRooms.findOne({_id:reqId});
+      vpro=Projects.findOne({_id:vreq.project});
+
+      var users = Subscriptions.find({request: reqId}).fetch();
+      users.forEach(function(u) {
+        if(!(u.user == Meteor.userId()))
+              {
+                Subscriptions.update({request: reqId,user:u.user},{$push:{newNot:{type:"vote",ufName:vuser.profile.fisrtName, ulName:vuser.profile.lastName,vote:vote,rName:vreq.roomName,pName:vpro.projectname,timestamp:new Date()}}})
+              }
+            })
+    }
+  },
+  updateNotificationAboutCompletion(reqId){
+    if(Meteor.user()){
+      var users = Subscriptions.find({request: reqId}).fetch();
+      vreq=ChatRooms.findOne({_id:reqId});
+      users.forEach(function(u) {
+                Subscriptions.update({request: reqId,user:u.user},{$push:{newNot:{type:"completion",rName:vreq.roomName,pName:vpro.projectname,timestamp:new Date(),rScore:vreq.TotalScore}}})
+    })
+  }
+},
+
 //Add the user to all the covnersations in project //Working
 addUserToConversationByUser:function(projectId,userId){
     //Adding the permission to all project related requests
-    var req = Projects.findOne({_id: projectId}).reqIds;
+    var req = Projects.findOne({_id: projectId}).requests;
       if(req)  {
         req.forEach(function(item) {
           //check if user already in conversation.
-          var u = ChatRooms.find({_id: item,userIds: {$in: [userId]}}).fetch();
-          if (1 > u.length) {
-            var newUserInConv = ChatRooms.update({_id: item}, {$push: {userIds: userId}});
+          var u = ChatRooms.find({_id: item._id,userIds: {$in: [userId]}}).fetch();
+          if (0 == u.length) {
+            if(ChatRooms.update({_id: item._id}, {$push: {userIds: userId}}))
+              {
+                Subscriptions.insert({user:userId._id,request:item._id,newNot:[],newMsg:0,active:false});
+              }
           } else {
             console.log("Alrready in conversation");
           }
@@ -119,14 +175,14 @@ addUserToConversationByUser:function(projectId,userId){
 //Add all the related usrs to project projectId to the conversation reqId //Working
 addUserToConversationByReq:function(projectId,reqId){
        //Adding the permission to all project related requests
-       console.log("addUserToConversationByReq");
-
        var users = Projects.findOne({_id: projectId}).userIds;
            users.forEach(function(item) {
              //check if user already in conversation.
              var u = ChatRooms.find({_id: reqId, userIds: {$in: [item]}}).fetch();
-             if (1 > u.length) {
-               var newUserInConv = ChatRooms.update({_id: reqId}, {$push: {userIds: item}});
+             if (0 == u.length) {
+               if(ChatRooms.update({_id: reqId}, {$push: {userIds: item}})){
+               Subscriptions.insert({user:item.user,request:reqId,newNot:[],newMsg:0,active:false});
+}
              } else {
                console.log("Alrready in conversation");
              }
@@ -143,10 +199,7 @@ removeUserFromConversation:function(userId,reqId){
 
 },
 isUserAllowed:function(userId,roomId){
-  console.log(userId ,roomId);
-
   var u = ChatRooms.find({_id: roomId, userIds: {$in: [userId]}}).fetch();
-  console.log(u.length);
 
   if(u.length>0){
       var allowed = true;
@@ -165,6 +218,8 @@ var p = Projects.find({_id:projId}).fetch();
       }
           Meteor.call('removeConversationFromProject',projId,reqId,r.descrpition,r.roomname,r.reqScore,r.cat,r.isFunc);
           ChatRooms.remove({_id:reqId});
+          Subscriptions.remove({request:reqId});
+
 },
 editReq:function(projId,reqId,descrpition,reqname,score,cat,isF){
     var r = ChatRooms.find({_id:reqId}).fetch();

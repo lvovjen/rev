@@ -35,6 +35,7 @@ session
 fortawesome:fontawesome
 meteortoys:allthings
 email
+ongoworks:pdf
 cfs:standard-packages
 cfs:gridfs
 cfs:filesystem

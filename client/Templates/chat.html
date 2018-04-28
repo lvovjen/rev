@@ -14,7 +14,19 @@
 
             <ul class="list-group">
                     {{#each req}}
-                    <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}">{{roomName}} </a></li>
+                    <li class="list-group-item" id="room">
+                        <a href="{{pathFor route='chat_template'}}">
+                              {{#if newmsgs}}
+
+                                                      <span class="msgNotifications" style="float:left;">{{newmsgs}}</span>
+                                                {{/if}}
+
+                              {{#if compR}}
+                                                      <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+                                                {{/if}}
+                              {{roomName}}
+                        </a>
+                    </li>
                     {{/each}}
                   </ul>
 <a href="{{pathFor route='projectProfile'}}"><button id="modalBtn" class ="btn btn-primary" data-modal-template="editUserModal">Project Profile</button>
@@ -67,11 +79,15 @@
 
          </div>
          <label style="margin-left:1.5em;margin-top:1em;color:#74747b;">Required Score: {{reqScore}}</label>
+         {{#if comp}}
+               <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+                {{/if}}
          <ul class="list-group">
                  {{#each votes}}
                  <li style="margin-left: 1.5em;color: #74747b;list-style-type: none;">{{this.profile.fisrtName}} {{this.profile.lastName}}: {{this.vote}}</li>
                  {{/each}}
                </ul>
+
          </form>
 
          </div><!-- /input-group -->
@@ -89,10 +105,17 @@
 
           <div class="media">
             <div class="media-left">
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg" class="media-object img-circle" style="height: 4.5em;">
-            </div>
+
+
+                <img src="{{imgURL}}" name="aboutme" width="55" height="55" class="img-circle">            </div>
             <div class="media-body">
-              <h4 style="    font-size: 17px;" class="media-heading">{{this.user.profile.fisrtName}} {{this.user.profile.lastName}}</h4>
+              <h4 style="font-size: 17px;" class="media-heading">
+                {{#if color}}
+                <svg height="12" width="12">
+                      <circle cx="5" cy="5" r="4" fill="#33c433" />
+                    </svg>
+                {{/if}}
+                            {{this.user.profile.fisrtName}} {{this.user.profile.lastName}}</h4>
               <small>{{timestampFixed}}</small>
               <p>{{message}}</p>
             </div>

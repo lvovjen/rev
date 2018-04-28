@@ -153,7 +153,8 @@ Accounts.onCreateUser(function(options, user) {
     lastName: options.profile.lastName,
   //  picture : "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large",
     score: 0,
-    badges: [{type:"Kilo-User"}],
+    badges: [],
+    level: "Kilo - User",
     date_created: new Date(),
     notif:[],
     comReqs:[]

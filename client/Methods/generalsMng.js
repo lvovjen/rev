@@ -3,14 +3,23 @@ Template.generalMng.helpers({
     return General.find({});
   }
 })
-
-
 Template.editGenModal.helpers({
   'genVar':function(){
     var x=Session.get('genVar');
     return x;
   }
 })
+Template.editGenVarModal.helpers({
+  'status':function(){
+    var x=General.findOne({_id:"leaderBrd"}).score;
+    if(x){
+      return "Enabled";
+  }else{
+    return "Disabled";
+  }
+  }
+})
+
 
 Template.editGenModal.events= {
 'click #saveGen': function(event,template){
@@ -32,16 +41,31 @@ Template.editGenVarModal.events= {
   $("#editGenModal").modal("hide");
   var x = Session.get('genVar');
   var y = template.find('#dis_en').value;
-        if(y=="Disabled")
-        {  Meteor.call('setVar',false);
-        }
-        if(y=="Enabled")
+  if(x == "leaderBrd"){
+        if(y=="Disable")
         {
-           Meteor.call('setVar',true);
-        }
+          Meteor.call('setVar',false,function(er){
+            if(er){
+              alert("Something went wrong");
+            }else{
+                            Session.set('ldrbrd',false);
+            };
+        });
+      }
+        if(y=="Enable")
+        {
+           Meteor.call('setVar',true,function(er){
+             if(er){
+               alert(er);
+             }else{
+               Session.set('ldrbrd',true);
+             }
+           });
+        };
         if(y=="Change"){
           alert("No changes made")
         }
+      }
   }
 }
 

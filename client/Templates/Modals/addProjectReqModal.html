@@ -38,17 +38,19 @@
                          <div class="col-sm-9">
                            <select id="catSelect">
                              <option disabled="disabled" selected="selected">Select Category</option>
-                                   <option value="{{this}}">Availability</option>
-                                   <option value="{{this}}">Performance</option>
-                                   <option value="{{this}}">Documentation</option>
-                                   <option value="{{this}}">Fault tolerance</option>
-                                   <option value="{{this}}">Documentation</option>
-                                   <option value="{{this}}">Maintainability</option>
-                                   <option value="{{this}}">Usability</option>
-                                   <option value="{{this}}">Scalability</option>
-                                   <option value="{{this}}">Other</option>
+                             {{#each category}}
+                                   <option value="{{this}}">{{this}}</option>
+                                   {{/each}}
+
                            </select>
+                           <span style="display: inline-flex;"><br><p>You can add a new category here:</p>
+                             <input class="form-control newCat" style="width: 40%;height: 20px;" name="newCat" placeholder="Category name" id="newCat">
+                             <button id="addCtgBtn">Add</button>
+
+          </span>
+
                         </div>
+
                       </div>
                       {{/unless}}
 

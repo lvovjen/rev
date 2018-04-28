@@ -36,8 +36,13 @@
                   <ul class="nav navbar-nav">
                     <div class="sidenav-header d-flex align-items-center justify-content-center">
                       <div class="sidenav-header-inner text-center">
-                        <a href="{{pathFor route='ProfileTemplate'}}"> <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="80" height="80" class="img-circle"></a>
+                        <a href="{{pathFor route='ProfileTemplate'}}">             <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle">
+</a>
                         <h2 class="h5 text-uppercase" ><a style="color:white;" href="{{pathFor route='ProfileTemplate'}}"> <b>{{firstName}} {{lastName}}</b></a></h2>
+
+<!--{{#if levels}}
+                        <h2 class="h5 text-uppercase" ><a style="    color: #03a3ea;"> <b>{{level}}</b></a></h2>
+{{/if}}-->
                       </div>
 
                     </div>
@@ -74,6 +79,7 @@
                                                   <span class="	glyphicon glyphicon-paperclip"></span> {{this.projectname}} <span></span></a>
                                         </li>
                                       {{/each}}
+            {{>projectImageItem}}
 
                                   </ul>
                               </div>
@@ -89,4 +95,12 @@
               </div><!-- /.navbar-collapse -->
       </nav>
     </div>
+    {{>addProjectModal}}
 </template>
+
+<template name="projectImageItem">
+                                <li class="active " id="open-modal" >
+                                        <a href="{{pathFor route='projectProfile'}}" style="color:white;">
+                                            <span class="fa fa-plus"></span>  Create new project<span></span></a>
+                                  </li>
+      </template>

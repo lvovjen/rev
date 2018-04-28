@@ -123,6 +123,7 @@ msavin:mongol@4.0.1
 npm-bcrypt@0.9.3
 npm-mongo@2.2.30
 observe-sequence@1.0.16
+ongoworks:pdf@1.1.1
 ordered-dict@1.0.9
 peerlibrary:assert@0.2.5
 peerlibrary:base-component@0.14.0

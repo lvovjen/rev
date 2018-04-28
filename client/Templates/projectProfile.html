@@ -16,7 +16,6 @@
               {{#if isInRole 'admin'}}
                 {{>editProject}}
                 {{>projectEditUserModal}}
-                {{>addProjectModal}}
               {{/if}}
       </div>
       <div class="col-sm-3 sidenav">
@@ -24,12 +23,21 @@
           <div class="panel-heading"><b>Requirements</b></div>
           <div class="panel-body">
             <ul class="list-group">
-                    {{#each req}}
-                      <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}">{{n}}{{roomName}}</a></li>
-                    {{/each}}
+                      {{#each req}}
+                      <li class="list-group-item" id="room">
+                          <a href="{{pathFor route='chat_template'}}">
+                                {{#if newmsgs}}
+                                                        <span class="notifications" style="float:left;">{{newmsgs}}</span>
+                                                  {{/if}}
+
+                                {{#if compR}}
+                                                        <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+                                                  {{/if}}
+                                {{roomName}}
+                          </a>
+                      </li>
+                      {{/each}}
                   </ul>
-<a href="{{pathFor route='projectProfile'}}"><button id="modalBtn" class ="btn btn-primary" data-modal-template="editUserModal">Project Profile</button>
-</a>
           </div>
         </div>
       </div>
@@ -51,8 +59,6 @@
         <div class="input-group">
           {{>showSumBtn}}
           {{#if isInRole 'admin'}}
-          {{>projectImageItem}}
-            {{>addProjectModal}}
           {{/if}}
          </div><!-- /input-group -->
 
@@ -75,7 +81,7 @@
 <div class="Row">
            {{#each projectUsers}}
            <div class="Column">
-                 <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="60" height="60" class="img-circle">
+             <img src={{imgURL}}  width="100" height="100" class="img-circle">
                  <h4>{{this.profile.fisrtName}} {{this.profile.lastName}}</h4>
                  <h5>Role: {{this.role}}</h5>
                  <h5>Score: {{this.profile.score}}</h5>
@@ -120,73 +126,6 @@
       </div>
     </template>
 
-
-
-
-      <template name="projectEditUserModal">
-        <div class="modal fade in" id="projectEditUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit users</h4>
-              </div>
-              <div class="modal-body">
-                <div class="panel panel-defaultt">
-                  <div class="panel-group">
-
-                    <form id="addUserToProjectFrm">
-        <p>Add a new user</p>
-                      <select id="userSelect">
-                        <option disabled="disabled" selected="selected">Select User</option>
-                          {{#each user}}
-                              <option value="{{this.username}}">{{username}}</option>
-                          {{/each}}
-                      </select>
-                      <select id="roleSelect">
-                        <option disabled="disabled" selected="selected">Select Role</option>
-                              <option value="{{this}}">Creator</option>
-                              <option value="{{this}}">Reviewer</option>
-                              <option value="{{this}}">Customer</option>
-                      </select>
-                      <input type="submit" value="Save">
-                    </form>
-
-                    <form id="updateRoleInProjectFrm">
-                <p>Update role</p>
-                      <select id="userSelect">
-                        <option disabled="disabled" selected="selected">Select User</option>
-                          {{#each userToRemove}}
-                          <option value="{{this}}">{{this.profile.fisrtName}} {{this.profile.lastName}}</option>
-                            {{/each}}
-                      </select>
-                      <select id="roleSelect">
-                        <option disabled="disabled" selected="selected">Select Role</option>
-                            <option value="{{this}}">Creator</option>
-                            <option value="{{this}}">Reviewer</option>
-                            <option value="{{this}}">Customer</option>
-                      </select>
-                      <input type="submit" value="Save">
-                    </form>
-                    <form id="removeUserFromProjectFrm">
-                      <p>Remove user</p>
-                      <select id="userSelectremove">
-                        <option disabled="disabled" selected="selected">Select User</option>
-                          {{#each userToRemove}}
-                              <option value="{{this}}">{{this.profile.fisrtName}} {{this.profile.lastName}}</option>
-                          {{/each}}
-                      </select>
-                      <input type="submit" value="Remove">
-                    </form>
-                     </div>
-                   </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-      </template>
-
-
       <template name="addProjectReqBtn">
       <button id="addProjectReqBtn" class ="addProjectReqBtn btn btn-default pull-right"><span class="fa fa-plus"></span></button>
        <!--<input type="button" class="open-modal1" value="Add" />-->
@@ -209,10 +148,9 @@
        <!--<input type="button" class="open-modal1" value="Add" />-->
       </template>
 
-      <template name="projectImageItem">
+    <!--  <template name="projectImageItem">
         <button id="open-modal" class ="open-modal btn btn-default pull-right"><span class="fa fa-plus"></span> Add Project</button>
-       <!--<input type="button" class="open-modal" value="Show modal." />-->
-      </template>
+      </template>-->
 
       <template name="showSumBtn">
       <a href="{{pathFor route='summary'}}">  <button id="open_showSumBtn" class ="open-showSumBtn btn btn-primary pull-right"><span class="fa fa-list-ol"></span> Summary</button></a>

@@ -19,7 +19,6 @@ Template.projectInfo.helpers({
     return Projects.findOne({_id:Session.get("currentproject")}).userIds;
   },
   'reqFun': function() {
-
     return ChatRooms.find({project:Session.get("currentproject"),isFunc:true},{sort:{completed:1}});
   },
   'reqNonFun': function() {
@@ -29,7 +28,10 @@ Template.projectInfo.helpers({
     return ChatRooms.find({project:Session.get("currentproject")});
   },
   'role':function(){
-
+  },
+  'imgURL':function(){
+    var x = Meteor.users.findOne({_id:this.user}).profile.avatar;
+    return x;
   }
 });
 
@@ -37,16 +39,20 @@ Template.projectProfile.helpers({
   'req': function() {
     return Projects.findOne({_id:Session.get("currentproject")}).requests;
   },
-  'n':function(){
-    return '1';
+  'compR':function(){
+    return this.completed;
+  },
+  'newmsgs':function(){
+    return Subscriptions.findOne({user:Meteor.userId(),request:this._id}).newMsg;
   }
 })
 
 if (Meteor.isClient) {
     Template.projectImageItem.events = {
-        'click .open-modal' : function() {
+        'click #open-modal' : function() {
         event.preventDefault();
         $("#addProjectModal").modal("show");
+
         }
     };
     Template.projectEditUserButton.events = {
@@ -107,6 +113,7 @@ Template.chat_template.events({
     Session.set('currentRoom', this);
     var room = ChatRooms.findOne(this._id);
     Session.set("roomid", this._id);
+    Meteor.call('resetNotInRoom',this._id);
   }
 });
 
@@ -116,6 +123,22 @@ Template.addProjectReqModal.events({
       Session.set('isFunc',true);
       }else{
         Session.set('isFunc',false);
+      }
+    },
+  'click #addCtgBtn':function(event,template){
+    event.preventDefault();
+    var x = template.find('#newCat').value;
+    if(x ==""){
+      alert("Oh no,the field is empty!");
+    }else{
+      Meteor.call('addNewCategory',Session.get("currentproject"),x,function(er){
+          if(er){
+          alert(er);
+          }
+          else{
+            alert("Added successfully");
+          }
+        })
       }
 }
 });
@@ -129,7 +152,6 @@ Template.projectEditUserModal.events({
     var role = template.find('#roleSelect').value;
     //var username = template.find('#userSelect').valueOf();
     var username = template.find('#userSelect').value;
-    console.log(username)
     Meteor.call('updateUserInProject', Session.get('currentproject'), username,role);
   },
 //not working
@@ -157,6 +179,8 @@ Template.projectProfile.events({
     Session.set('currentRoom', this);
     var room = ChatRooms.findOne(this._id);
     Session.set("roomid", this._id);
+    Meteor.call('resetNotInRoom',this._id);
+
   }
 });
 
@@ -168,7 +192,7 @@ Template.projectInfo.events({
 
   Template.projectEditUserModal.helpers({
     'user': function() {
-      return Meteor.users.find().fetch();
+      return Meteor.users.find({"projects.project._id":{$nin:[Session.get("currentproject")]}}).fetch();
     },
     'userToRemove':function(){
       return Projects.findOne({_id:Session.get("currentproject")}).userIds;
@@ -178,6 +202,9 @@ Template.projectInfo.events({
 Template.addProjectReqModal.helpers({
   'isFunc':function(){
     return Session.get('isFunc',Session.get('isFunc'));
+  },
+  'category':function(){
+    return Projects.findOne({_id:Session.get("currentproject")}).categories;
   }
 });
 
