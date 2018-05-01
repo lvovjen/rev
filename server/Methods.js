@@ -14,11 +14,14 @@ Meteor.methods({
     }
   },
   getLshpbrd:function(){
-    return General.findOne({_id:"leaderBrd"}).score;
+    return General.findOne({_id:"ldrbrd"}).score;
   },
-  setVar:function(x){
+  getLevels:function(){
+    return General.findOne({_id:"levels"}).score;
+  },
+  setVar:function(v, x){
     if (Meteor.user()) {
-    General.update({_id:"leaderBrd"},{$set:{score:x}});
+    General.update({_id:v},{$set:{score:x}});
   }else{
     throw new Meteor.Error('Oops, something went wrong', "error:'Oops, something went wrong");
   }
@@ -30,34 +33,47 @@ getLevels:function(){
 badgeForCompletion_Check:function(userId){
   if(Meteor.users.findOne({_id:userId})){
     var x = Meteor.users.findOne({_id:userId}).comReqs;
-
-    if(x.length > 5){
-      if(!(Meteor.users.findOne({_id:userId,"badges.bType":"badge1"})))
-        {
-                Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge1",timestamp:new Date()}}});
-        }
+    var y = General.findOne({_id:"badge1"}).score;
+  if(y > 0){
+      if(x.length >= y){
+        if(!(Meteor.users.findOne({_id:userId,"badges.bType":"badge1"})))
+          {
+                  Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge1",timestamp:new Date()}}});
+          }
+      }else{
+        console.log("The badge is not active");
     }
-  }else{
-    console.log("The creator of the requirement is not active anymore");
+    }else{
+      console.log("The creator of the requirement is not active anymore");
+    }
   }
 },
 bagdeForCreatedRequirements_Check:function(userId){
   var x = ChatRooms.find({"creator._id":userId}).fetch();
-if( x.length > 10)
-  {
-    if(Meteor.users.find({_id:userId,"badges.bType":"badge2"}).fetch().length == 0){
-      Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge2",timestamp:new Date()}}});
+  var y = General.findOne({_id:"badge2"}).score;
+  if(y > 0){
+        if( x.length >= y)
+          {
+            if(Meteor.users.find({_id:userId,"badges.bType":"badge2"}).fetch().length == 0){
+              Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge2",timestamp:new Date()}}});
+            }
+        }
+      }else{
+        console.log("The badge is not active");
     }
-}
 },
 badgeForParticipants_Check:function(userId){
   var x = Subscriptions.find({user:userId,active:true}).fetch();
-    if( x.length > 5){
-      if(Meteor.users.find({_id:userId,"badges.bType":"badge3"}).fetch().length == 0){
-        Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge3",timestamp:new Date()}}});
-      }
-    }
-
+  var y = General.findOne({_id:"badge3"}).score;
+  if(y > 0){
+            if( x.length >= y){
+              if(Meteor.users.find({_id:userId,"badges.bType":"badge3"}).fetch().length == 0){
+                Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge3",timestamp:new Date()}}});
+              }
+            }
+          }else{
+            console.log("The badge is not active");
+        }
 },
 badgeForHighScoreCompletion_Check:function(userId){
 

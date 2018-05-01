@@ -8,6 +8,9 @@ Template.editUserModal.helpers({
   'username':function(){
     return Meteor.users.findOne({_id:Session.get('usrMgmt')}).username;
   },
+  'email':function(){
+    return Meteor.users.findOne({_id:Session.get('usrMgmt')}).emails[0].address;
+  },
   'admin':function(){
     var x = Meteor.users.find( { "roles": { $in: [admin] } } ).fetch();
     if(x.length>0){

@@ -29,5 +29,12 @@ if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge3"}).fetch().leng
       return '#fff';
     }
 return '#61ff2b69';
+},
+'b1':function(){
+  return General.findOne({_id:"badge1"}).score;
+},'b2':function(){
+  return General.findOne({_id:"badge2"}).score;
+},'b3':function(){
+  return General.findOne({_id:"badge3"}).score;
 }
 })

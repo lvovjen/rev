@@ -21,13 +21,13 @@
           <div class="panel-body">
             <ul class="list-group">
               <li class="list-group-item" id="" style="background-color:{{c1}};border: 2px solid #fff;">
-                <p>Create 10 new requirements</p>
+                <p>Get {{b1}} completed requirements </p>
               </li>
               <li class="list-group-item" id="" style="background-color:{{c2}};border: 2px solid #fff;">
-                <p>Get 10 completed requirements </p>
+                <p>Create {{b2}} new requirements</p>
               </li>
               <li class="list-group-item" id="" style="background-color:{{c3}};border: 2px solid #fff;">
-                <p>Be active in 20 chats</p>
+                <p>Be active in {{b3}} chats</p>
               </li>
               <li class="list-group-item" id="" >
                 <p>Get 10 requirements completed with score 80+</p>
@@ -53,9 +53,9 @@
           {{#each this.newNot}}
                 <li class="list-group-item" style="background-color: #f9f9f9;padding: 6px 15px; border: 2px solid #fff;">
                   {{#if vote}}
-    <p>{{ufName}} {{ulName}} voted <b>{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p>
+    <p>{{ufName}} {{ulName}} voted <b style="color:#2196F3;">{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p>
                   {{else}}
-    <p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b>completed</b> with score {{rScore}}</p>
+    <p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b style="color:#33c433;">completed</b> with score {{rScore}}</p>
                   {{/if}}
                 </li>
           {{/each}}

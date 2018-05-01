@@ -33,12 +33,45 @@ if (this.userId) {
     }}
 );
 
+
+
+Accounts.emailTemplates.verifyEmail.text = function(user, url) {
+    return '<a href="' + url + '">Verify eMail</a> <br> \n\n Revise Team.';
+};
+
+Accounts.emailTemplates.enrollAccount.subject = (user) => {
+  return `Welcome to Revise`;
+};
+
+Accounts.emailTemplates.enrollAccount.text = (user, url) => {
+  return 'You have been selected to participate in building a better future!'
+    + ' To activate your account, simply click the link below:\n\n'
+    + url+'\n\nRevise Team';
+};
+
+Accounts.emailTemplates.siteName = 'Revise';
+Accounts.emailTemplates.from = 'Revise WebApp Admin <no-reply@example.com>';
+
+Accounts.emailTemplates.resetPassword.from = () => {
+  // Overrides the value set in `Accounts.emailTemplates.from` when resetting
+  // passwords.
+  return 'Revise Password Reset <no-reply@example.com>';
+};
+
+Accounts.emailTemplates.verifyEmail = {
+   subject() {
+      return "Activate your account now!";
+   },
+   text(user, url) {
+      return `Hey ${user}! Verify your e-mail by following this link: ${url}`;
+   }
+};
+
   Meteor.methods({
    createUsers: function(username, email,firstName,lastName,isAdmin){
     var userId = Accounts.createUser({username: username, email: email,
       profile:{firstName:firstName,lastName:lastName,isAdmin:isAdmin}, password: 'initialPassword'});
     Accounts.sendEnrollmentEmail(userId);
-    console.log(isAdmin)
     if (isAdmin == 'true') {
       Roles.addUsersToRoles(userId,['admin'])
     } else {
@@ -114,7 +147,6 @@ scoreRecalc:function(){
               Meteor.users.update({_id:userId},{$set:{"profile.score":s}});
               //add to completed requests of the user
               Meteor.users.update({_id:userId},{$push:{comReqs:{_id:req._id,isFunc:req.isFunc}}});
-              console.log(s)
             }else{
               x=General.findOne({_id:'funScore'}).score;
               parseInt(x);
@@ -122,7 +154,6 @@ scoreRecalc:function(){
               Meteor.users.update({_id:userId},{$set:{"profile.score":s}});
               //add to completed requests of the user
               Meteor.users.update({_id:userId},{$push:{comReqs:{_id:req._id,isFunc:req.isFunc}}});
-              console.log(s)
 }
       }else{
       }
@@ -153,11 +184,10 @@ Accounts.onCreateUser(function(options, user) {
     lastName: options.profile.lastName,
   //  picture : "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large",
     score: 0,
-    badges: [],
     level: "Kilo - User",
     date_created: new Date(),
-    notif:[],
-    comReqs:[]
+    comReqs:[],
+    avatar:"avatarLogo.gif"
   }
   return user;
 });

@@ -18,6 +18,6 @@ Meteor.startup(function() {
       return false;
     }
   })
-  process.env.MAIL_URL = 'smtp://postmaster@sandbox7fbb8738ea5f4f799207cc19b1800eba.mailgun.org:e42a4eb9c59bf4a2495f5159cef923af@smtp.mailgun.org:587'
-
+  process.env.MAIL_URL = 'smtp://postmaster@reviseappweb.com:a8c3580a48f0cea40922c937a01bf5ef-52b1d812-81351cc5@smtp.mailgun.org:587'
+  process.env.ROOT_URL = 'http://mydomain.com:3000';
 })

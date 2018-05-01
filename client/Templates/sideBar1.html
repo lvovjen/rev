@@ -36,9 +36,14 @@
                   <ul class="nav navbar-nav">
                     <div class="sidenav-header d-flex align-items-center justify-content-center">
                       <div class="sidenav-header-inner text-center">
-                        <a href="{{pathFor route='ProfileTemplate'}}">             <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle">
+                        <a href="{{pathFor route='ProfileTemplate'}}">
+                          <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle">
 </a>
+<br><img src="goldBadge-1.gif" name="badgeImg" width="43" height="42"><img src="goldBadge-1.gif" name="badgeImg" width="43" height="42"><img src="goldBadge-1.gif" name="badgeImg" width="43" height="42"><img src="goldBadge-1.gif" name="badgeImg" width="43" height="42"><img src="goldBadge-1.gif" name="badgeImg" width="43" height="42">
+
                         <h2 class="h5 text-uppercase" ><a style="color:white;" href="{{pathFor route='ProfileTemplate'}}"> <b>{{firstName}} {{lastName}}</b></a></h2>
+                        <h2 class="h5 text-uppercase" ><a style="color:white;" href=""> <b>Level</b></a></h2>
+
 
 <!--{{#if levels}}
                         <h2 class="h5 text-uppercase" ><a style="    color: #03a3ea;"> <b>{{level}}</b></a></h2>
@@ -79,7 +84,9 @@
                                                   <span class="	glyphicon glyphicon-paperclip"></span> {{this.projectname}} <span></span></a>
                                         </li>
                                       {{/each}}
-            {{>projectImageItem}}
+                                      {{#if  isInRole 'admin'}}
+                                            {{>projectImageItem}}
+                                          {{/if}}
 
                                   </ul>
                               </div>

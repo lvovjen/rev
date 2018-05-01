@@ -33,8 +33,13 @@
            {{#each all}}
             <tbody>
                      <tr>
-                       <td>{{_id}}</td>
+                       <td>{{name}}</td>
+                       {{#if score}}
                        <td>{{score}}</td>
+                       {{else}}
+                       <td>Disabled</td>
+                       {{/if}}
+
                        <td><button id="open_edit{{_id}}Modal" class ="open_edit{{Name}}Modal btn btn-default pull-right"><span class="glyphicon glyphicon-edit"></span></button></td>
                  </tr>
                </tbody>
@@ -46,6 +51,7 @@
          </template>
 
 
+<!--modal for updating score of levels, score for completion-->
 
          <template name="editGenModal">
            <div class="modal fade in" id="editGenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -55,7 +61,7 @@
                      <div class="panel-body">
                        <form id="addProjectFrm" class="form-horizontal">
                          <div class="form-group">
-                            <label for="contain" class="col-sm-3 control-label">{{genVar}}</label>
+                            <label for="contain" class="col-sm-6 control-label">{{genVar}}</label>
                        </div>
                        <div class="form-group">
                           <label for="scoreGen" class="col-sm-3 control-label">score</label>
@@ -70,6 +76,8 @@
              </div>
            </div>
          </template>
+
+   <!--//modal for enabing/disablin gamification elemet-->
          <template name="editGenVarModal">
            <div class="modal fade in" id="editGenVarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
              <div class="modal-dialog">

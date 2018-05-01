@@ -14,7 +14,7 @@ Template.usersManagementTemp.helpers({
     return this.emails[0].address;
   },
   admin: function() {
-    return Roles.userIsInRole(this._id, 'admin') ? 'admin' : 'normal';
+    return Roles.userIsInRole(this._id, 'admin') ? 'admin' : '';
   },
   dateFormat: function() {
     return moment(this.createdAt).format('D M YYYY')

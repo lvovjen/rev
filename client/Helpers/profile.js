@@ -16,8 +16,7 @@ Template.profileModal.helpers({
       return Meteor.users.findOne({_id:Meteor.userId()}).projects;
     },
     'img':function(){
-      var x =Meteor.users.findOne({_id:Meteor.userId()}).profile.avatar;
-      console.log(Images.findOne(x));
+  //    var x =Meteor.users.findOne({_id:Meteor.userId()}).profile.avatar;
       return Meteor.users.findOne({_id:Meteor.userId()});
     }
   });

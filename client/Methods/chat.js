@@ -36,7 +36,7 @@ Template.allMessages.helpers({
     return Projects.findOne({_id:Session.get("currentproject")});
   },
   timestampFixed: function() {
-    return moment(this.timestamp).format('h:mm a');
+    return moment(this.timestamp).format('h:mma DD/MM/YYYY');
   },  messages: function() {
       return ChatRooms.findOne({_id:Session.get("roomid")}).messages;
 },
