@@ -29,12 +29,12 @@
               <li class="list-group-item" id="" style="background-color:{{c3}};border: 2px solid #fff;">
                 <p>Be active in {{b3}} chats</p>
               </li>
-              <li class="list-group-item" id="" >
-                <p>Get 10 requirements completed with score 80+</p>
+              <li class="list-group-item" id="" style="background-color:{{c4}};border: 2px solid #fff;">
+                <p>Get {{b4}} requirements completed with score 80+</p>
               </li>
-              <li class="list-group-item" id="" >
+            <!--  <li class="list-group-item" id="" >
                 <p>Get 20 votes 80+ for your requirements</p>
-              </li>
+              </li>-->
       </ul>
           </div>
         </div>
@@ -50,15 +50,15 @@
 <template name="userFeedtemp">
   <div class="panel panel-default">
       {{#each nots}}
-          {{#each this.newNot}}
                 <li class="list-group-item" style="background-color: #f9f9f9;padding: 6px 15px; border: 2px solid #fff;">
                   {{#if vote}}
-    <p>{{ufName}} {{ulName}} voted <b style="color:#2196F3;">{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p>
+    <span style="display:inline;"><p>{{ufName}} {{ulName}} voted <b style="color:#2196F3;">{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
+                  {{else if bdg}}
+              <span style="display:inline;"><p><b style="color:#2196F3;">Congratulations!</b> You got a new badge!</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
                   {{else}}
-    <p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b style="color:#33c433;">completed</b> with score {{rScore}}</p>
+    <span style="display:inline;"><p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b style="color:#33c433;">completed</b> with score {{rScore}}</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
                   {{/if}}
                 </li>
-          {{/each}}
       {{/each}}
 
 

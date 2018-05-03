@@ -138,7 +138,7 @@ if(Meteor.user){
       users.forEach(function(u) {
         if(!(u.user == Meteor.userId()))
               {
-                Subscriptions.update({request: reqId,user:u.user},{$push:{newNot:{type:"vote",ufName:vuser.profile.fisrtName, ulName:vuser.profile.lastName,vote:vote,rName:vreq.roomName,pName:vpro.projectname,timestamp:new Date()}}})
+                Meteor.users.update({_id:u.user},{$push:{notif:{type:"vote",ufName:vuser.profile.fisrtName, ulName:vuser.profile.lastName,vote:vote,rName:vreq.roomName,pName:vpro.projectname,timestamp:new Date()}}})
               }
             })
     }
@@ -148,7 +148,7 @@ if(Meteor.user){
       var users = Subscriptions.find({request: reqId}).fetch();
       vreq=ChatRooms.findOne({_id:reqId});
       users.forEach(function(u) {
-                Subscriptions.update({request: reqId,user:u.user},{$push:{newNot:{type:"completion",rName:vreq.roomName,pName:vpro.projectname,timestamp:new Date(),rScore:vreq.TotalScore}}})
+                Meteor.users.update({_id:u.user},{$push:{notif:{type:"completion",rName:vreq.roomName,pName:vpro.projectname,timestamp:new Date(),rScore:vreq.TotalScore}}})
     })
   }
 },

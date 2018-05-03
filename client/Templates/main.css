@@ -9,6 +9,10 @@
     min-width: 1em;
     margin-right: 0.5em;
   }
+.p {
+    margin: 0 0 1px !important;
+}
+
 
   .Row
   {
@@ -86,7 +90,7 @@
 
   img {
       vertical-align: middle;
-      margin-top: 1em !important;
+      margin-top: 1px !important;
   }
   .profile-img
   {
@@ -97,6 +101,11 @@
       -moz-border-radius: 50%;
       -webkit-border-radius: 50%;
       border-radius: 50%;
+  }
+  .imgSideBar {
+    vertical-align: middle;
+    margin-top: 12px !important;
+    margin-bottom: 12px;
   }
   .login-logo{
     height: 40px;

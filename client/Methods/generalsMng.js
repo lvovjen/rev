@@ -35,13 +35,19 @@ Template.editGenModal.events= {
   event.preventDefault();
   $("#editGenModal").modal("hide");
   var a = template.find('#scNew').value;
-  if(a>=3 && a<=10000)
+
+//ביקורת שיש היררכיה מבחינת ניקוד
+
+  if(a>=0 && a<=10000)
     {
       Meteor.call("saveGen",Session.get('genVar'),a)
       template.find('#scNew').value = '';
-
+      if(Session.get('genVar') == "terauser" ||Session.get('genVar') == "gigauser" ||Session.get('genVar') == "megauser")
+      {
+              Meteor.call('levels_checkAll');
+      }
     }else{
-      alert("Please enter a number (3,10000)")
+      alert("Please enter a number (0,10000)")
     }
   }
 }
@@ -136,6 +142,11 @@ Session.set('genVar',"badge2")
 event.preventDefault();
 $("#editGenModal").modal("show");
 Session.set('genVar',"badge3")
+},
+'click #open_editbadge4Modal' : function() {
+event.preventDefault();
+$("#editGenModal").modal("show");
+Session.set('genVar',"badge4")
 }
 
 

@@ -9,9 +9,9 @@ Meteor.methods({
   },
   saveGen:function(x,score){
     General.update({_id:x},{$set:{score:score}})
-    if(x=="nonfunScore" || x=="funScore"){
+  /*  if(x=="nonfunScore" || x=="funScore"){
       Meteor.call('scoreRecalc');
-    }
+    }*/
   },
   getLshpbrd:function(){
     return General.findOne({_id:"ldrbrd"}).score;
@@ -39,6 +39,7 @@ badgeForCompletion_Check:function(userId){
         if(!(Meteor.users.findOne({_id:userId,"badges.bType":"badge1"})))
           {
                   Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge1",timestamp:new Date()}}});
+                  Meteor.call('updateNotificationAboutBadge',userId);
           }
       }else{
         console.log("The badge is not active");
@@ -48,6 +49,13 @@ badgeForCompletion_Check:function(userId){
     }
   }
 },
+
+  updateNotificationAboutBadge(userId){
+    if(Meteor.user()){
+          Meteor.users.update({_id:userId},{$push:{notif:{type:"bdg",timestamp:new Date()}}})
+        }
+  },
+  //userId=Meteor.userId()
 bagdeForCreatedRequirements_Check:function(userId){
   var x = ChatRooms.find({"creator._id":userId}).fetch();
   var y = General.findOne({_id:"badge2"}).score;
@@ -56,6 +64,7 @@ bagdeForCreatedRequirements_Check:function(userId){
           {
             if(Meteor.users.find({_id:userId,"badges.bType":"badge2"}).fetch().length == 0){
               Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge2",timestamp:new Date()}}});
+              Meteor.call('updateNotificationAboutBadge',userId);
             }
         }
       }else{
@@ -69,39 +78,43 @@ badgeForParticipants_Check:function(userId){
             if( x.length >= y){
               if(Meteor.users.find({_id:userId,"badges.bType":"badge3"}).fetch().length == 0){
                 Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge3",timestamp:new Date()}}});
+                Meteor.call('updateNotificationAboutBadge',userId);
               }
             }
           }else{
             console.log("The badge is not active");
         }
 },
+//userID = creatorId
 badgeForHighScoreCompletion_Check:function(userId){
+
+  if(Meteor.users.findOne({_id:userId})){
+    var x = ChatRooms.find({"creator._id":userId,completed:true,TotalScore:{$gte:80}}).fetch();
+    console.log(x.length);
+    var y = General.findOne({_id:"badge4"}).score;
+  if(y > 0){
+      if(x.length >= y){
+        if(!(Meteor.users.findOne({_id:userId,"badges.bType":"badge4"})))
+          {
+                  Meteor.users.update({_id:userId},{$push:{badges:{bType:"badge4",timestamp:new Date()}}});
+                  Meteor.call('updateNotificationAboutBadge',userId);
+          }
+      }else{
+        console.log("The badge is not active");
+    }
+    }else{
+      console.log("The creator of the requirement is not active anymore");
+    }
+  }
 
 },
 updateActiveInChatroom:function(reqId,userId){
   if(!Subscriptions.findOne({request:reqId,user:userId}).active){
     Subscriptions.update({request: reqId,user:userId},{$set:{active:true}})
     var x = Subscriptions.find({user:userId,active:true}).fetch();
-      if( x.length > 5){
           Meteor.call('badgeForParticipants_Check',userId);
-      }
   }
 }
-/*
-updateNotificationAboutBadge(userId,badge){
-  if(Meteor.user()){
-    vuser=Meteor.users.findOne({_id:userId});
-
-    var users = Subscriptions.find({request: reqId}).fetch();
-    users.forEach(function(u) {
-      if(!(u.user == Meteor.userId()))
-            {
-              Subscriptions.update({request: reqId,user:u.user},{$push:{newNot:{type:"vote",ufName:vuser.profile.fisrtName, ulName:vuser.profile.lastName,vote:vote,rName:vreq.roomName,pName:vpro.projectname,timestamp:new Date()}}})
-            }
-          })
-  }
-}*/
-
  /* ,
 addNewCategory:function(x){
   if (Meteor.user()) {

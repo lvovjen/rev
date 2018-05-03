@@ -1,7 +1,7 @@
 Template.userFeedtemp.helpers({
   'nots':function(){
-    var x = Subscriptions.find({user:Meteor.userId()}).fetch();
-    return x;
+    var x = Meteor.users.findOne({_id:Meteor.userId()}).notif;
+    return _.sortBy(x, e => e.startDate).reverse();
  },
  'vote':function(){
    if(this.type == 'vote')
@@ -9,6 +9,16 @@ Template.userFeedtemp.helpers({
         return true;
 }
   return false;
+},
+timestampFixed: function() {
+  return moment(this.timestamp).format('h:mma DD/MM/YYYY');
+},
+'bdg':function(){
+  if(this.type == 'bdg')
+{
+       return true;
+}
+ return false;
 }
 })
 Template.userFeed.helpers({
@@ -26,6 +36,12 @@ return '#61ff2b69';
 },
 'c3':function(){
 if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge3"}).fetch().length == 0){
+      return '#fff';
+    }
+return '#61ff2b69';
+},
+'c4':function(){
+if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge4"}).fetch().length == 0){
       return '#fff';
     }
 return '#61ff2b69';

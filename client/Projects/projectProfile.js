@@ -3,6 +3,8 @@ Template.projectInfo.onCreated(function() {
   this.autorun(() => {
     this.subscribe('chatrooms');
     this.subscribe('projects');
+    this.subscribe('allUsers');
+
       });
 });
 
@@ -32,6 +34,12 @@ Template.projectInfo.helpers({
   'imgURL':function(){
     var x = Meteor.users.findOne({_id:this.user}).profile.avatar;
     return x;
+  },
+  'bdg':function(){
+    return Meteor.users.findOne({_id:this.user}).badges;
+  },
+  'level':function(){
+    return Meteor.users.findOne({_id:this.user}).profile.level;
   }
 });
 

@@ -86,7 +86,6 @@ updateUsrProfile: function(userId,firstName,lastName,username){
 scoreRecalc:function(){
   var x = Meteor.users.find({},{_id:1}).fetch();
   _.forEach(x,function(a){
-    console.log(a._id);
     var result = Meteor.users.aggregate([
         { "$unwind": "$comReqs" },
           {
@@ -107,13 +106,13 @@ scoreRecalc:function(){
             }
           }
     ]);
-    //  console.log(result[0].nonFunc_count);
-    //  console.log(result[0].func_count);
+    console.log(result[0].func_count);
       nf = General.findOne({_id:'nonfunScore'}).score;
       f = General.findOne({_id:'funScore'}).score;
       s = nf * result[0].nonFunc_count + f * result[0].func_count;
-    //  console.log(s);
       Meteor.users.update({_id:a._id},{$set:{"profile.score":s}});
+
+      Meteor.call('levels_check',a._id);
 
       var cr = ChatRooms.find({"creator._id":a._id}).fetch();
   //update in chatrooms where creator is the user
@@ -173,21 +172,63 @@ scoreRecalc:function(){
               Projects.update({_id:a._id,"userIds.user":userId},{$set:{'userIds.$.profile.score':s}})
             });
 },
-  updateBadge:function()
-{
+levels_check:function(userId){
+      if(Meteor.users.findOne({_id:userId}))
+              {
+                var x = Meteor.users.findOne({_id:userId}).profile.score;
+                var a = General.findOne({_id:"megauser"}).score;
+                var b = General.findOne({_id:"gigauser"}).score;
+                var c = General.findOne({_id:"terauser"}).score;
+                console.log(x);
 
-}});
+                console.log(a);
+
+                console.log(b);
+
+                console.log(c);
+
+                console.log(userId);
+
+                if(x < a){
+                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Kilo - User"}});
+                  console.log("Kilo");
+
+                }
+                if(x >= a && x < b){
+                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Mega - User"}});
+                  console.log("Mega");
+
+                }
+                if(x >= b && x < c){
+                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Giga - User"}});
+                  console.log("Giga");
+
+                }
+                if(x >= c){
+                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Tera - User"}});
+                  console.log("Tera");
+
+                }
+              }
+      },
+levels_checkAll:function(userId){
+      var users = Meteor.users.find({}).fetch();
+
+      _.forEach(users,function(u){
+        Meteor.call('levels_check',u._id);
+      })
+    }
+});
 
 Accounts.onCreateUser(function(options, user) {
   user.profile = {
     fisrtName: options.profile.firstName,
     lastName: options.profile.lastName,
-  //  picture : "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large",
     score: 0,
     level: "Kilo - User",
     date_created: new Date(),
     comReqs:[],
-    avatar:"avatarLogo.gif"
+    avatar:"avatarLogo.gif",
   }
   return user;
 });

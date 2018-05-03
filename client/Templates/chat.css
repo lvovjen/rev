@@ -16,6 +16,25 @@
 .text-r{
     float:right;padding-left:10px;
 }
+.p {
+    margin: 0 0 1px !important;
+  }
+.pp {
+  margin-top: 2px !important;
+  margin-bottom: 1px !important;
+  font-size: 13.5px;
+}
+.notifications{
+        font-size: 12px;
+        background: #337ab7;
+        height: 17px;
+        width: 23px;
+        border-radius: 8px;
+        font-weight: bold;
+        color: #ffffff;
+        float:left;
+  },
+
 .avatar{
     display:flex;
     justify-content:center;

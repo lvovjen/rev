@@ -39,6 +39,10 @@ Template.sidebarBoot.helpers({
 'level':function(){
     return Meteor.user.findOne({_id:Meteor.userId()}).level;
 
+},
+'bdg':function(){
+  console.log(Meteor.users.findOne({_id:Meteor.userId()}).badges.length)
+  return Meteor.users.findOne({_id:Meteor.userId()}).badges;
 }
 })
 
