@@ -1,9 +1,3 @@
-Template.sidebarBoot.onCreated(function() {
-  this.autorun(() => {
-    this.subscribe('projects');
-  });
-});
-
 
 Template.profileModal.helpers({
 'u':function(){

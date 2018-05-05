@@ -40,6 +40,15 @@ Template.projectInfo.helpers({
   },
   'level':function(){
     return Meteor.users.findOne({_id:this.user}).profile.level;
+  },
+  'fname':function(){
+    return Meteor.users.findOne({_id:this.user}).profile.fisrtName;
+  },
+  'lname':function(){
+    return Meteor.users.findOne({_id:this.user}).profile.lastName;
+  },
+  'score':function(){
+    return Meteor.users.findOne({_id:this.user}).profile.score;
   }
 });
 

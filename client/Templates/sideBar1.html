@@ -45,7 +45,7 @@
         <img src="goldBadge-1.gif" name="badgeImg" width="43" height="41">
         {{/each}}
 
-                        <h2 class="h5 text-uppercase" ><a style="color:white;" href="{{pathFor route='ProfileTemplate'}}"> <b>{{firstName}} {{lastName}}</b></a></h2>
+                        <h2 class="h5 text-uppercase" ><a style="color:white;" href="{{pathFor route='ProfileTemplate'}}"> <b>{{currentUser.profile.fisrtName}} {{currentUser.profile.lastName}}</b></a></h2>
                         <h2 class="h5 text-uppercase" style="color: #f9d33f;"><b>{{currentUser.profile.level}}</b></h2>
 
 

@@ -44,9 +44,13 @@ Template.editReqModal.helpers({
     return ChatRooms.findOne({_id:Session.get('roomid')}).cat;
   },
   'isFunc':function(){
-    return Session.get('isFunc',ChatRooms.findOne({_id:Session.get('roomid')}).isFunc);
+    return ChatRooms.findOne({_id:Session.get('roomid')}).isFunc;
+  },
+  'category':function(){
+    return Projects.findOne({_id:Session.get("currentproject")}).categories;
   }
-})
+});
+
 
 Template.editReqModal.onRendered(function(){
   Session.set('isFunc',ChatRooms.findOne({_id:Session.get('roomid')}).isFunc);

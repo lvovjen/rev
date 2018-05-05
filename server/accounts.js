@@ -78,11 +78,15 @@ Accounts.emailTemplates.verifyEmail = {
       Roles.addUsersToRoles(userId, ['normal-user']);
   }
 },
-updateUsrProfile: function(userId,firstName,lastName,username){
+updateUsrProfile: function(userId,firstName,lastName,username,isAdmin){
   Meteor.users.update({_id:userId},{$set:{"profile.fisrtName":firstName,"profile.lastName":lastName,username:username}});
 },
 
 //recalculation of the score after changing the score for functional or non functional requirement
+
+//no need for this function because the score is just keep running with new values
+
+/*
 scoreRecalc:function(){
   var x = Meteor.users.find({},{_id:1}).fetch();
   _.forEach(x,function(a){
@@ -130,7 +134,7 @@ scoreRecalc:function(){
                 Projects.update({_id:b._id,"userIds.user":a._id},{$set:{'userIds.$.profile.score':s}})
               });
   })
-},
+},*/
 
 //updating the score after a completion of a requirement and adding the req id to an
 //array that holds all the completed requirement that created by the user
@@ -148,9 +152,10 @@ scoreRecalc:function(){
               Meteor.users.update({_id:userId},{$push:{comReqs:{_id:req._id,isFunc:req.isFunc}}});
             }else{
               x=General.findOne({_id:'funScore'}).score;
-              parseInt(x);
               s=s+parseInt(x);
               Meteor.users.update({_id:userId},{$set:{"profile.score":s}});
+              Meteor.call('levels_check',a._id);
+
               //add to completed requests of the user
               Meteor.users.update({_id:userId},{$push:{comReqs:{_id:req._id,isFunc:req.isFunc}}});
 }
@@ -172,6 +177,20 @@ scoreRecalc:function(){
               Projects.update({_id:a._id,"userIds.user":userId},{$set:{'userIds.$.profile.score':s}})
             });
 },
+resetScore:function(userId){
+  Meteor.users.update({_id:userId},{$set:{"profile.score":0}});
+  Meteor.users.update({_id:userId},{$set:{"comReqs":[]}});
+  Meteor.users.update({_id:userId},{$set:{'profile.level':"Kilo - User"}});
+
+
+},
+resetAllScore:function()
+{
+  var users = Meteor.users.find({}).fetch();
+  _.forEach(users,function(u){
+      Meteor.call('resetScore',u._id);
+    })
+},
 levels_check:function(userId){
       if(Meteor.users.findOne({_id:userId}))
               {
@@ -179,16 +198,6 @@ levels_check:function(userId){
                 var a = General.findOne({_id:"megauser"}).score;
                 var b = General.findOne({_id:"gigauser"}).score;
                 var c = General.findOne({_id:"terauser"}).score;
-                console.log(x);
-
-                console.log(a);
-
-                console.log(b);
-
-                console.log(c);
-
-                console.log(userId);
-
                 if(x < a){
                   Meteor.users.update({_id:userId},{$set:{'profile.level':"Kilo - User"}});
                   console.log("Kilo");
@@ -228,7 +237,7 @@ Accounts.onCreateUser(function(options, user) {
     level: "Kilo - User",
     date_created: new Date(),
     comReqs:[],
-    avatar:"avatarLogo.gif",
+    avatar:"avatarLogo.gif"
   }
   return user;
 });

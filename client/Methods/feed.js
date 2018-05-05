@@ -52,5 +52,7 @@ return '#61ff2b69';
   return General.findOne({_id:"badge2"}).score;
 },'b3':function(){
   return General.findOne({_id:"badge3"}).score;
+},'b4':function(){
+  return General.findOne({_id:"badge4"}).score;
 }
 })

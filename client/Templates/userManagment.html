@@ -13,9 +13,11 @@
 
             {{>addUserModal}}
             {{>editUserModal}}
+            {{>resetAllScoreConfirmationModal}}
 
           </div>
           {{>addUser_btn}}
+          {{>resetAllScore_btn}}
         </div>
       </div>
     </div>
@@ -52,7 +54,7 @@
                      <th>{{admin}}</th>
 
                        <td>{{>editUser_Btn}}</td>
-                       <td>{{>infoUser_btn}}</td>
+                      <!-- <td>{{>infoUser_btn}}</td> -->
                        <td>{{>removeUser_Btn}}</td>
                  </tr>
                </tbody>
@@ -64,7 +66,12 @@
                  {{/if}}
          </template>
          <template name="addUser_btn">
-         <button id="addUser_btn" class ="addUser_btn btn btn-primary pull-left" style="font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-user-plus"></span></button>
+         <button id="addUser_btn" class ="addUser_btn btn btn-primary pull-left" style="width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-user-plus"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+         <template name="resetAllScore_btn">
+         <button id="resetAllScore_btn" class ="resetAllScore_btn btn btn-primary pull-left" style="font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;">Reset Score to All </button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 
@@ -80,4 +87,23 @@
          <template name="removeUser_Btn">
          <button id="removeUser_Btn" class ="removeUser_Btn btn btn-primary pull-left" style="font-size:15px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="glyphicon glyphicon-remove-sign"></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+
+         <template name="resetAllScoreConfirmationModal">
+           <div class="modal fade in" id="resetAllScoreConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+               <div class="panel panel-default">
+                 <div class="panel-heading"><h4>Reset all Scores</h4>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                 <div style="height: 10vh;padding: 12px;">
+
+                      <h4>Are you sure?</h4>
+
+                 </div>
+                 <div class="modal-footer">
+                   <button id="confirmResetBtn" class ="confirmResetBtn btn btn-default pull-right">Yes</button>
+                 </div>
+               </div>
+             </div>
+           </div>
          </template>

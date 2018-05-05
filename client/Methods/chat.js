@@ -2,6 +2,7 @@ Template.sidebarBoot.onCreated(function() {
   this.autorun(() => {
     this.subscribe('chatrooms');
     this.subscribe('projects');
+    this.subscribe('allUsers');
       });
 
 });
@@ -47,6 +48,9 @@ return x;
 'imgURL':function(){
   var x = Meteor.users.findOne({_id:this.user._id}).profile.avatar;
   return x;
+},
+'bdg':function(){
+  return Meteor.users.findOne({_id:this.user._id}).badges;
 }
 });
 

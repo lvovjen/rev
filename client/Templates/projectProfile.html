@@ -82,14 +82,15 @@
            {{#each projectUsers}}
            <div class="Column">
              <img src={{imgURL}}  width="100" height="100" class="img-circle">
-                 <h4>{{this.profile.fisrtName}} {{this.profile.lastName}}</h4>
-                 <p class="pp"><b style="color:#4080b9;font-size:14px;">{{level}}</b></p>
-                 <p class="pp">{{this.role}}</p>
-                 <h5 class="pp">Score: {{this.profile.score}}</h5>
-
+                 <h4>{{fname}} {{lname}}</h4>
                  {{#each bdg}}
                      <img src="goldBadge-1.gif" name="badgeImg" width="43" height="41">
                      {{/each}}
+
+                 <p class="pp"><b style="color:#4080b9;font-size:14px;">{{level}}</b></p>
+                 <h5 class="pp">Score: {{score}}</h5>
+                 <p class="pp">{{this.role}}</p>
+
 
                </div>
            {{/each}}

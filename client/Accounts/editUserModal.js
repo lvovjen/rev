@@ -1,3 +1,10 @@
+Template.editUserModal.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('projects');
+    this.subscribe('allUsers');
+  });
+});
+
 Template.editUserModal.helpers({
   'fName':function(){
     return Meteor.users.findOne({_id:Session.get('usrMgmt')}).profile.fisrtName;
@@ -11,24 +18,31 @@ Template.editUserModal.helpers({
   'email':function(){
     return Meteor.users.findOne({_id:Session.get('usrMgmt')}).emails[0].address;
   },
-  'admin':function(){
-    var x = Meteor.users.find( { "roles": { $in: [admin] } } ).fetch();
-    if(x.length>0){
-      return true;
-    }
-    else return false;
+  'projects': function() {
+     return  Projects.find({"userIds.user":{$in:[Session.get('usrMgmt')]}}).fetch();
+    },
+  'ad':function(){
+    return Roles.userIsInRole(Session.get('usrMgmt'), 'admin') ? true : false;
   },
-
-
 })
+
 Template.editUserModal.events({
 'click #editSaveUsrBtn':function(event,template){
   event.preventDefault();
   var fn = template.find('#firstNameEdit').value;
   var ln = template.find('#lastNameEdit').value;
   var usrn = template.find('#userNameEdit').value;
-console.log(fn, ln, usrn)
+  var ad =  template.find('#ad').checked;
+  var reset =  template.find('#resetScore').checked;
+
   $("#editUserModal").modal("hide");
-  Meteor.call('updateUsrProfile',Session.get('usrMgmt'),fn,ln,usrn);
+  Meteor.call('updateUsrProfile',Session.get('usrMgmt'),fn,ln,usrn,ad);
+  if(reset)
+  {
+    Meteor.call('resetScore',Session.get('usrMgmt'));
+  }
+},
+'click #project': function(event) {
+  Session.set("currentproject", this._id);
 }
 })

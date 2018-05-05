@@ -34,12 +34,30 @@ Template.leadershipboardTemp.helpers({
     return moment(this.createdAt).format('D M YYYY')
   }
 })
+
 Template.addUser_btn.events = {
     'click #addUser_btn' : function() {
     event.preventDefault();
     $("#addUserModal").modal("show");
   }
 };
+
+Template.resetAllScoreConfirmationModal.events({
+    'click #confirmResetBtn' : function() {
+    event.preventDefault();
+    $("#resetAllScoreConfirmationModal").modal("hide");
+    Meteor.call('resetAllScore');
+  }
+})
+
+Template.resetAllScore_btn.events = {
+    'click #resetAllScore_btn' : function() {
+    event.preventDefault();
+    $("#resetAllScoreConfirmationModal").modal("show");
+  }
+};
+
+
 Template.usersManagementTemp.events = {
     'click #editUser_Btn' : function() {
     event.preventDefault();
@@ -48,7 +66,6 @@ Template.usersManagementTemp.events = {
   'click #usrsTbl': function(event) {
     Session.set("usrMgmt", this._id);
   }
-
 };
 
 /*  'click.user_id': function() {

@@ -90,7 +90,7 @@
 
   img {
       vertical-align: middle;
-      margin-top: 1px !important;
+    /*  margin-top: 1px !important;*/
   }
   .profile-img
   {
