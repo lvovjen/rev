@@ -1,0 +1,107 @@
+<template name="projsManagement">
+  {{>navbar}}
+  {{>sidebarBoot}}
+  <div class="main-content">
+  <div class="container-fluid text-center pad-2em">
+    <div class="row content">
+      <div class="col-md-12 text-left">
+        <div class="panel panel-default chat">
+          <div class="panel-heading">Project Managment</div>
+          <div class="panel-body">
+            {{>projsManagementTemp}}
+            <!--{{>createUser}}-->
+
+            {{>addProjectModal}}
+            {{>editProjectModal}}
+            {{>projectInfoModal}}
+            {{>removeProjConfirmationModal}}
+
+          </div>
+          {{>addProject_btn}}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+
+
+<template name="projsManagementTemp">
+          {{#if isInRole 'admin'}}
+
+        <table class="table table-striped custab">
+
+           <thead>
+             <tr>
+               <th>Name</th>
+               <th>Creator</th>
+               <th>Date</th>
+               <th>Active</th>
+
+
+             </tr>
+         </thead>
+         {{#each project}}
+          <tbody id="projsTbl">
+                   <tr>
+
+                     <td><a href="{{pathFor route='projectProfile'}}">{{projectname}}</a></td>
+                     <td>{{creator.profile.lastName}} {{creator.profile.fisrtName}}</td>
+                     <td>{{dateFormat}}</td>
+                     <td>{{active}}</td>
+                       <td>{{>editProjBtn}}</td>
+                      <td>{{>infoPro_btn}}</td>
+                      <td>{{>removeProj_Btn}}</td>
+                 </tr>
+               </tbody>
+          {{/each}}
+        </table>
+
+          {{else}}
+                 <h3>Sorry friend, you a have no permission</h3>
+                 {{/if}}
+         </template>
+
+         <template name="editProjBtn">
+           <button id="editProjBtn" class ="editProjBtn btn btn-primary pull-left" style="padding: 1px 6px !important; font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-edit"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+         <template name="addProject_btn">
+         <button id="addProject_btn" class ="addProject_btn btn btn-primary pull-left" style="width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-plus"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+
+         <template name="infoPro_btn">
+         <button id="infoPro_btn" class ="infoPro_btn btn btn-primary pull-left" style="padding: 0.5px 9px !important; font-size:14px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-info"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+         <template name="removeProj_Btn">
+         <button id="removeProj_Btn" class ="removeProj_Btn btn btn-primary pull-left" style="    padding: 1px 6px !important;    font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="glyphicon glyphicon-remove-sign"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+         <template name="removeProjConfirmationModal">
+           <div class="modal fade in" id="removeProjConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+               <div class="panel panel-default">
+                 {{#if act}}
+                 <div class="panel-heading"><h4>Diactivate Project</h4>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                 {{else}}
+                 <div class="panel-heading"><h4>Activate Project</h4>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+
+                 {{/if}}
+                 <div style="height: 10vh;padding: 12px;">
+
+                      <h4>Are you sure?</h4>
+
+                 </div>
+                 <div class="modal-footer">
+                   <button id="confirmRemoveProjoBtn" class ="confirmResetBtn btn btn-default pull-right">Yes</button>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </template>

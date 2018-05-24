@@ -4,44 +4,23 @@
 {{#if currentUser}}
   {{>navbar}}
   {{>sidebarBoot}}
-  <div class="main-content">
-  <div class="container-fluid text-center pad-2em">
-    <div class="row content">
-      <div class="col-sm-9 text-left">
-        <div class="panel panel-default">
-          <div class="panel-heading">News Feed</div>
-          <div class="panel-body">
-            {{>userFeedtemp}}
+        <div class="main-content">
+          <div class="container-fluid text-center pad-2em">
+            <div class="row content">
+              <div class="col-sm-9 text-left">
+                <div class="panel panel-default">
+                  <div class="panel-heading">News Feed</div>
+                  <div class="panel-body">
+                    {{>userFeedtemp}}
+                  </div>
+                </div>
+              </div>
+                  <div class="col-sm-3 sidenav">
+                      {{>challenges}}
+                  </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-3 sidenav">
-        <div class="panel panel-default">
-          <div class="panel-heading" ><b>Challenges</b></div>
-          <div class="panel-body">
-            <ul class="list-group">
-              <li class="list-group-item" id="" style="background-color:{{c1}};border: 2px solid #fff;">
-                <p>Get {{b1}} completed requirements </p>
-              </li>
-              <li class="list-group-item" id="" style="background-color:{{c2}};border: 2px solid #fff;">
-                <p>Create {{b2}} new requirements</p>
-              </li>
-              <li class="list-group-item" id="" style="background-color:{{c3}};border: 2px solid #fff;">
-                <p>Be active in {{b3}} chats</p>
-              </li>
-              <li class="list-group-item" id="" style="background-color:{{c4}};border: 2px solid #fff;">
-                <p>Get {{b4}} requirements completed with score 80+</p>
-              </li>
-            <!--  <li class="list-group-item" id="" >
-                <p>Get 20 votes 80+ for your requirements</p>
-              </li>-->
-      </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
   {{else}}
   {{>loginModal}}
   {{/if}}
@@ -49,17 +28,21 @@
 
 <template name="userFeedtemp">
   <div class="panel panel-default">
-      {{#each nots}}
-                <li class="list-group-item" style="background-color: #f9f9f9;padding: 6px 15px; border: 2px solid #fff;">
-                  {{#if vote}}
-    <span style="display:inline;"><p>{{ufName}} {{ulName}} voted <b style="color:#2196F3;">{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
-                  {{else if bdg}}
-              <span style="display:inline;"><p><b style="color:#2196F3;">Congratulations!</b> You got a new badge!</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
-                  {{else}}
-    <span style="display:inline;"><p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b style="color:#33c433;">completed</b> with score {{rScore}}</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
-                  {{/if}}
-                </li>
-      {{/each}}
+    {{#if isNots}}
+          {{#each nots}}
+                    <li class="list-group-item" style="background-color: #f9f9f9;padding: 6px 15px; border: 2px solid #fff;">
+                      {{#if vote}}
+                        <span style="display:inline;"><p>{{ufName}} {{ulName}} voted <b style="color:#2196F3;">{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
+                      {{else if bdg}}
+                                <span style="display:inline;"><p><b style="color:#2196F3;">Congratulations!</b> You got a new badge!</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
+                      {{else}}
+                        <span style="display:inline;"><p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b style="color:#33c433;">completed</b> with score {{rScore}}</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
+                      {{/if}}
+                    </li>
+          {{/each}}
+      {{else}}
+      <h4>No News Yet</h4>
+      {{/if}}
 
 
 

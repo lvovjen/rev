@@ -6,7 +6,7 @@
   <div class="main-content">
   <div class="container-fluid text-center pad-2em">
     <div class="row content">
-      <div class="col-sm-9 text-left">
+      <div class="col-sm-10 text-left">
         {{>projectInfo}}
         {{>addProjectReqModal}}
         {{>removeReqModal}}
@@ -18,7 +18,7 @@
                 {{>projectEditUserModal}}
               {{/if}}
       </div>
-      <div class="col-sm-3 sidenav">
+      <div class="col-sm-2 sidenav">
         <div class="panel panel-default">
           <div class="panel-heading"><b>Requirements</b></div>
           <div class="panel-body">
@@ -56,7 +56,7 @@
 <template name="editProject">
     <div class="panel panel-default">
       <div class="panel-body">
-        <div class="input-group">
+        <div class="input-group" style="JUSTIFY-CONTENT: CENTER;DISPLAY: FLEX;">
           {{>showSumBtn}}
           {{#if isInRole 'admin'}}
           {{/if}}
@@ -72,7 +72,7 @@
       <div class="panel-group">
          <div class="panel panel-default">
 
-           <div class="panel-heading"><b>{{project.projectname}}</b>{{#if isInRole 'admin'}}{{>editProjectBtn}}{{/if}}</div>
+             <div class="panel-heading"><b>{{project.projectname}}</b>{{#if isInRole 'admin'}}{{>editProjectBtn}}{{/if}}</div>
            <div class="panel-body">{{project.descrpition}}
            </div>
          </div>
@@ -81,16 +81,33 @@
 <div class="Row">
            {{#each projectUsers}}
            <div class="Column">
-             <img src={{imgURL}}  width="100" height="100" class="img-circle">
+             <img src={{imgURL}}  width="83" height="83" class="img-circle">
                  <h4>{{fname}} {{lname}}</h4>
-                 {{#each bdg}}
-                     <img src="goldBadge-1.gif" name="badgeImg" width="43" height="41">
-                     {{/each}}
 
+            {{#if badges}}
+                {{#if c1}}
+                    <img src="goldBadge_1.gif" width="40" height="37">
+                      {{/if}}
+
+                      {{#if c2}}
+                      <img src="goldBadge_2.gif" width="40" height="37">
+                            {{/if}}
+
+                            {{#if c3}}
+                            <img src="goldBadge_3.gif" width="40" height="37">
+                                  {{/if}}
+
+                                  {{#if c4}}
+                                  <img src="goldBadge_4.gif" width="40" height="37">
+                                        {{/if}}
+                   {{/if}}
+
+             {{#if levels}}
                  <p class="pp"><b style="color:#4080b9;font-size:14px;">{{level}}</b></p>
                  <h5 class="pp">Score: {{score}}</h5>
-                 <p class="pp">{{this.role}}</p>
+               {{/if}}
 
+                 <p class="pp">{{this.role}}</p>
 
                </div>
            {{/each}}
@@ -112,14 +129,21 @@
                            <div class="tab-content" style="overflow-y:auto;">
                                <div role="tabpanel" class="tab-pane active" id="home">
                                  {{#each reqFun}}
-                         <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} </label></a>
+                         <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} - Created by: {{this.creator.profile.lastName}} {{this.creator.profile.fisrtName}}
+</label></a>
                            {{>rmvReqBtn}}    {{>editReqModalBtn}}
 </li>
-                            <li class="list-group-item">{{>statusRow}} {{descrpition}}</li>
+                            <li class="list-group-item">{{>statusRow}}
+
+                                          {{#each votes}}
+                                        <li style="color: #74747b;display: inline;">{{this.profile.fisrtName}} {{this.profile.lastName}}: {{this.vote}}</li>
+                                        {{/each}}
+                                              <br>   {{descrpition}}
+                                               </li>
                    {{/each}} </div>
                                                    <div role="tabpanel" class="tab-pane" id="profile">
                                                      {{#each reqNonFun}}
-                                                    <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} - {{cat}} </label></a>
+                                                    <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} - {{cat}} - Created by:{{this.creator.profile.lastName}} {{this.creator.profile.fisrtName}}</label></a>
                                                 {{>rmvReqBtn}}  {{>editReqModalBtn}}
                                                   </li>
                                                   <li class="list-group-item">{{>statusRow}} {{descrpition}}</li>
@@ -160,7 +184,7 @@
       </template>-->
 
       <template name="showSumBtn">
-      <a href="{{pathFor route='summary'}}">  <button id="open_showSumBtn" class ="open-showSumBtn btn btn-primary pull-right"><span class="fa fa-list-ol"></span> Summary</button></a>
+      <a href="{{pathFor route='summary'}}"><button id="open_showSumBtn" class ="open-showSumBtn btn btn-primary pull-right" style="width:250px !important;height: 120%;"><span class="fa fa-list-ol"></span> Summary</button></a>
        <!--<input type="button" class="open-modal" value="Show modal." />-->
       </template>
 

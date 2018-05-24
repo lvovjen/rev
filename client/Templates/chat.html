@@ -89,16 +89,27 @@
                </ul>
 
          </form>
-
          </div><!-- /input-group -->
+
+         <div class="form-group">
+              <div class="col-sm-12">
+                <textarea class="form-control" style="height: 60px" type="text" name="requirementDescrpition" value={{reqDesc}} placeholder="Descrpition" id="editReqDescrpitionInChat" required="required"></textarea>
+                <button id="saveDescChangesChat" class ="saveDescChangesChat btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk"></span> Save changes</button>
+             </div>
+           </div>
 
       </div>
     </div>
 </template>
 
 <template name="allMessages" style="chat.css">
-    <div class="panel panel-default chat">
-      <div class="panel-heading"><b>Chat - {{project.projectname}} - {{room}}</b></div>
+    <div class="panel panel-default chat" id="panel panel-default chat">
+      {{#if compR}}
+        <div class="panel-heading"><b>Chat - {{project.projectname}} - {{room}} </b><span style="color:#33c433;font-size: 18px;" class="glyphicon glyphicon-check"></span></div>
+        {{else}}
+        <div class="panel-heading"><b>Chat - {{project.projectname}} - {{room}}</b></div>
+        {{/if}}
+
       <div class="panel-body">
         <!-- Left-aligned -->
         {{#each messages}}
@@ -115,9 +126,25 @@
                       <circle cx="5" cy="5" r="4" fill="#33c433" />
                     </svg>
                 {{/if}}
-                            {{this.user.profile.fisrtName}} {{this.user.profile.lastName}}                  {{#each bdg}}
-                                                 <img src="goldBadge-1.gif" name="badgeImg" width="25" height="22.7">
-                                                 {{/each}}
+                            {{this.user.profile.fisrtName}} {{this.user.profile.lastName}}
+
+                            {{#if badges}}
+                                {{#if c1}}
+                                    <img src="goldBadge_1.gif" width="35" height="32">
+                                      {{/if}}
+
+                                      {{#if c2}}
+                                      <img src="goldBadge_2.gif" width="35" height="32">
+                                            {{/if}}
+
+                                            {{#if c3}}
+                                            <img src="goldBadge_3.gif" width="35" height="32">
+                                                  {{/if}}
+
+                                                  {{#if c4}}
+                                                  <img src="goldBadge_4.gif" width="35" height="32">
+                                                        {{/if}}
+                                   {{/if}}
 </h4>
               <small>{{timestampFixed}}</small>
               <p>{{message}}</p>

@@ -1,21 +1,15 @@
-Template.sidebarBoot.onCreated(function() {
+Template.allMessages.onCreated(function() {
   this.autorun(() => {
-    this.subscribe('chatrooms');
-    this.subscribe('projects');
     this.subscribe('allUsers');
       });
-
 });
 
-Template.chat_template.onRendered(function () {
-console.log("im on render")
-});
+Template.allMessages.onRendered(function(){
+  var objDiv = document.getElementById("panel panel-default chat");
+    objDiv.scrollTop = objDiv.scrollHeight;
+})
 
-/*Template.singleMessage.helpers({
-  timestampFixed: function() {
-    return moment(this.timestamp).format('h:mm a');
-  }
-});*/
+
 Template.chat_template.helpers({
 'req': function() {
   var temp = Projects.findOne({_id:Session.get("currentproject")}).requests;
@@ -38,20 +32,49 @@ Template.allMessages.helpers({
   },
   timestampFixed: function() {
     return moment(this.timestamp).format('h:mma DD/MM/YYYY');
-  },  messages: function() {
-      return ChatRooms.findOne({_id:Session.get("roomid")}).messages;
-},
-'color':function(){
-  var x = Meteor.users.findOne({_id:this.user._id}).status.online;
-return x;
-},
-'imgURL':function(){
-  var x = Meteor.users.findOne({_id:this.user._id}).profile.avatar;
+  },
+  messages: function() {
+  var ms = ChatRooms.findOne({_id:Session.get("roomid")}).messages;
+      return _.sortBy(ms, e => e.timestamp).reverse();
+  },
+  'color':function(){
+    var x = Meteor.users.findOne({_id:this.user._id}).status.online;
   return x;
-},
-'bdg':function(){
-  return Meteor.users.findOne({_id:this.user._id}).badges;
-}
+  },
+  'imgURL':function(){
+    var x = Meteor.users.findOne({_id:this.user._id}).profile.avatar;
+    return x;
+  },
+   'c1':function(){
+          if(Meteor.users.find({_id:this.user._id,"badges.bType":"badge1"}).fetch().length == 0){
+          return false;
+        }
+    return true;
+    },
+    'c2':function(){
+          if(Meteor.users.find({_id:this.user._id,"badges.bType":"badge2"}).fetch().length == 0){
+          return false;
+        }
+      return true;
+    },
+    'c3':function(){
+          if(Meteor.users.find({_id:this.user._id,"badges.bType":"badge3"}).fetch().length == 0){
+          return false;
+        }
+    return true;
+    },
+    'c4':function(){
+          if(Meteor.users.find({_id:this.user._id,"badges.bType":"badge4"}).fetch().length == 0){
+          return false;
+        }
+    return true;
+  },
+  'badges':function(){
+    return Session.get('badges');
+  },
+  'compR':function(){
+    return ChatRooms.findOne({_id:Session.get('roomid')}).completed;
+  }
 });
 
 
@@ -99,7 +122,10 @@ Template.chatForm.helpers({
   },
   'comp':function(){
     return ChatRooms.findOne({_id:Session.get("roomid")}).completed;
-  }
+  },
+    'reqDesc':function(){
+      return ChatRooms.findOne({_id:Session.get('roomid')}).descrpition;
+    }
 });
 Template.chatForm.events({
   'submit #sendmsgFrm':function(event){
@@ -121,9 +147,25 @@ Template.chatForm.events({
                 Meteor.call("updateMsgNumberInConversation",Session.get("roomid"));
                 Meteor.call("updateNotificationAboutMsg",Session.get("roomid"));
                 Meteor.call("updateActiveInChatroom",Session.get("roomid"),Meteor.userId());
+
       }
   }else{
     alert("You must log in");
   }
-}
+},
+'click #saveDescChangesChat':function(event,template){
+  event.preventDefault();
+   var desc = template.find('#editReqDescrpitionInChat').value;
+   Meteor.call('updateDescription',Session.get('roomid'),desc);
+  }
 });
+/*
+setTimeout(function() {
+   var objDiv = document.getElementById("panel panel-default chat");
+   console.log(objDiv.scrollHeight);
+   console.log(objDiv.scrollTop);
+   objDiv.scrollTop = objDiv.scrollHeight;
+
+   console.log(objDiv.scrollTop);
+}, 100);
+*/

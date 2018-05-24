@@ -20,16 +20,19 @@ if (this.userId) {
 
 // Validate username, without a specific error message.
   Accounts.validateNewUser((user) => {
-    if (user.username && user.username.length >= 3) {
+    if (user.username.length >= 3 &&
+     user.username.length <= 16 &&
+     user.username !== 'root' &&
+     user.username !== 'admin') {
       return true;
     } else {
-      throw new Meteor.Error(403, 'Username must have at least 3 characters');
+      throw new Meteor.Error(403, 'Invalid username. Sorry!');
     }
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       if(user.email.match(mailformat)){
       return true;
     } else {
-      throw new Meteor.Error(403, 'Email format wrong');
+      throw new Meteor.Error(403, 'Wring Email format');
     }}
 );
 
@@ -68,25 +71,36 @@ Accounts.emailTemplates.verifyEmail = {
 };
 
   Meteor.methods({
-   createUsers: function(username, email,firstName,lastName,isAdmin){
-    var userId = Accounts.createUser({username: username, email: email,
-      profile:{firstName:firstName,lastName:lastName,isAdmin:isAdmin}, password: 'initialPassword'});
-    Accounts.sendEnrollmentEmail(userId);
-    if (isAdmin == 'true') {
+   createUsers: function(username, email,firstName,lastName,isAdmin,passkey){
+    var userId = Accounts.createUser({username: username,profile:{firstName:firstName,lastName:lastName,email:email,isAdmin:isAdmin}, password: passkey});
+
+//    console.log( Accounts.createUser({username: username, email: email,profile:{firstName:firstName,lastName:lastName,isAdmin:isAdmin}, password: 'initialPassword'}))
+  //  Accounts.sendVerificationEmail(userId);
+    if (isAdmin) {
       Roles.addUsersToRoles(userId,['admin'])
     } else {
       Roles.addUsersToRoles(userId, ['normal-user']);
   }
 },
 updateUsrProfile: function(userId,firstName,lastName,username,isAdmin){
-  Meteor.users.update({_id:userId},{$set:{"profile.fisrtName":firstName,"profile.lastName":lastName,username:username}});
+  if(isAdmin){
+    if(!Roles.userIsInRole(userId,'admin'))
+    {
+    Roles.addUsersToRoles(userId,['admin'])
+  }
+  }else{
+    if(Roles.userIsInRole(userId,'admin')){
+    Roles.removeUsersFromRoles(userId,['admin'])
+  }
+}
+      Meteor.users.update({_id:userId},{$set:{"profile.fisrtName":firstName,"profile.lastName":lastName,username:username}});
 },
 
 //recalculation of the score after changing the score for functional or non functional requirement
 
 //no need for this function because the score is just keep running with new values
 
-/*
+
 scoreRecalc:function(){
   var x = Meteor.users.find({},{_id:1}).fetch();
   _.forEach(x,function(a){
@@ -110,7 +124,6 @@ scoreRecalc:function(){
             }
           }
     ]);
-    console.log(result[0].func_count);
       nf = General.findOne({_id:'nonfunScore'}).score;
       f = General.findOne({_id:'funScore'}).score;
       s = nf * result[0].nonFunc_count + f * result[0].func_count;
@@ -134,7 +147,7 @@ scoreRecalc:function(){
                 Projects.update({_id:b._id,"userIds.user":a._id},{$set:{'userIds.$.profile.score':s}})
               });
   })
-},*/
+},
 
 //updating the score after a completion of a requirement and adding the req id to an
 //array that holds all the completed requirement that created by the user
@@ -154,7 +167,7 @@ scoreRecalc:function(){
               x=General.findOne({_id:'funScore'}).score;
               s=s+parseInt(x);
               Meteor.users.update({_id:userId},{$set:{"profile.score":s}});
-              Meteor.call('levels_check',a._id);
+              Meteor.call('levels_check',userId);
 
               //add to completed requests of the user
               Meteor.users.update({_id:userId},{$push:{comReqs:{_id:req._id,isFunc:req.isFunc}}});
@@ -191,43 +204,78 @@ resetAllScore:function()
       Meteor.call('resetScore',u._id);
     })
 },
-levels_check:function(userId){
-      if(Meteor.users.findOne({_id:userId}))
-              {
-                var x = Meteor.users.findOne({_id:userId}).profile.score;
-                var a = General.findOne({_id:"megauser"}).score;
-                var b = General.findOne({_id:"gigauser"}).score;
-                var c = General.findOne({_id:"terauser"}).score;
-                if(x < a){
-                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Kilo - User"}});
-                  console.log("Kilo");
 
-                }
-                if(x >= a && x < b){
-                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Mega - User"}});
-                  console.log("Mega");
+  levels_check:function(userId){
+        if(Meteor.users.findOne({_id:userId}))
+          {
+            var x = Meteor.users.findOne({_id:userId}).profile.score;
+            var l = Meteor.users.findOne({_id:userId}).profile;
 
-                }
-                if(x >= b && x < c){
-                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Giga - User"}});
-                  console.log("Giga");
-
-                }
-                if(x >= c){
-                  Meteor.users.update({_id:userId},{$set:{'profile.level':"Tera - User"}});
-                  console.log("Tera");
-
-                }
+            var a = General.findOne({_id:"megauser"}).score;
+            var b = General.findOne({_id:"gigauser"}).score;
+            var c = General.findOne({_id:"terauser"}).score;
+            var reqs = ChatRooms.find({"userIds.user":userId}).fetch();
+            if(x < a){
+              Meteor.users.update({_id:userId},{$set:{'profile.level':"Kilo - User"}});
+              if(l.level !== "Kilo - User"){
+                _.forEach(reqs,function(u){
+                  ChatRooms.update({_id:u._id},{$push:{messages:{message:"Congratulations! "+ l.lastName +" "+ l.fisrtName +" is a Kilo - User now!",user:{profile:{fisrtName:"Revise",lastName:"Admin",avatar:"avatarLogo.gif"}},timestamp: new Date()}}})
+                })
               }
-      },
-levels_checkAll:function(userId){
-      var users = Meteor.users.find({}).fetch();
+            }
+            if(x >= a && x < b){
+              Meteor.users.update({_id:userId},{$set:{'profile.level':"Mega - User"}});
+              if(l.level !== "Mega - User"){
+                _.forEach(reqs,function(u){
+                    ChatRooms.update({_id:u._id},{$push:{messages:{message:"Congratulations! "+ l.lastName +" "+ l.fisrtName +" is a Mega - User now!",user:{profile:{fisrtName:"Revise",lastName:"Admin",avatar:"avatarLogo.gif"}},timestamp: new Date()}}})
+                })
+            }
+          }
+            if(x >= b && x < c){
+              Meteor.users.update({_id:userId},{$set:{'profile.level':"Giga - User"}});
+              if(l.level !== "Giga - User"){
+                _.forEach(reqs,function(u){
+                  ChatRooms.update({_id:u._id},{$push:{messages:{message:"Congratulations! "+ l.lastName +" "+ l.fisrtName +" is a Giga - User now!",user:{profile:{fisrtName:"Revise",lastName:"Admin",avatar:"avatarLogo.gif"}},timestamp: new Date()}}})
+                })
+            }
+          }
+            if(x >= c){
+              Meteor.users.update({_id:userId},{$set:{'profile.level':"Tera - User"}});
+              if(l.level !== "Tera - User"){
+                _.forEach(reqs,function(u){
+                  ChatRooms.update({_id:u._id},{$push:{messages:{message:"Congratulations! "+ l.lastName +" "+ l.fisrtName +" is a Tera - User now!",user:{profile:{fisrtName:"Revise",lastName:"Admin",avatar:"avatarLogo.gif"}},timestamp: new Date()}}})
+                })
+            }
+          }
+    }
+  },
 
+  levels_checkAll:function(userId){
+      var users = Meteor.users.find({}).fetch();
       _.forEach(users,function(u){
         Meteor.call('levels_check',u._id);
       })
+    },
+
+  removeUser:function(userId){
+    if(Meteor.users.remove({_id:userId})){
+    //remove from projects
+    var projs = Projects.find({"userIds.user":{$in:[userId]}}).fetch();
+
+    _.forEach(projs,function(a){
+      Projects.update({_id:a._id},{$pull:{userIds:{user:userId}}});
+    });
+    //remove frome chatrooms
+
+      var reqs = ChatRooms.find( { "userIds.user": { $in: [userId] } } ).fetch();
+    _.forEach(reqs,function(a){
+      Meteor.call('removeUserFromConversation',userId,a._id);
+    });
     }
+  }
 });
+
+
 
 Accounts.onCreateUser(function(options, user) {
   user.profile = {
@@ -238,6 +286,11 @@ Accounts.onCreateUser(function(options, user) {
     date_created: new Date(),
     comReqs:[],
     avatar:"avatarLogo.gif"
-  }
-  return user;
+  },
+  user.pass = options.profile.pass
+/*
+  user.levelsEl = true,
+  user.badgesEl = true,
+  user.leaderBrdEl = true*/
+    return user;
 });

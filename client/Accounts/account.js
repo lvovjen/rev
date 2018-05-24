@@ -24,13 +24,7 @@ AccountsTemplates.addFields([
     required: true,
     minLenght: 2
   },
-/*  {
-    _id:'Score',
-    type: 'text',
-    displayName: 'Score',
-    required:false,
-    minLenght: 1,
-  },*/
+
   {
     _id:'lastName',
     type: 'text',

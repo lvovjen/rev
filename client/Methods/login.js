@@ -9,5 +9,5 @@ Template.navbar.events({
   }
 })
 Accounts.onLogin(function() {
-Router.go('ProfileTemplate');
+Router.go('Feed');
 })

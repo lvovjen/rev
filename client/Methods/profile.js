@@ -12,7 +12,35 @@ Template.profileModal.helpers({
     'img':function(){
   //    var x =Meteor.users.findOne({_id:Meteor.userId()}).profile.avatar;
       return Meteor.users.findOne({_id:Meteor.userId()});
+    },
+/*    'bdg':function(){
+      return Meteor.users.findOne({_id:Meteor.userId()}).badges;
     }
+*/
+    'c1':function(){
+          if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge1"}).fetch().length == 0){
+          return false;
+        }
+    return true;
+    },
+    'c2':function(){
+          if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge2"}).fetch().length == 0){
+          return false;
+        }
+      return true;
+    },
+    'c3':function(){
+          if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge3"}).fetch().length == 0){
+          return false;
+        }
+    return true;
+    },
+    'c4':function(){
+          if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge4"}).fetch().length == 0){
+          return false;
+        }
+    return true;
+}
   });
 
 

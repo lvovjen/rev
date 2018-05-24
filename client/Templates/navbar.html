@@ -10,16 +10,21 @@
 
       <div class="myNavbar collapse navbar-collapse" id="myNavbar">
          <a href="{{pathFor route='Feed'}}" class="navbar-left"><img src="/revise_logo.png" height="35" width="155" margin-top="9px" style="margin-top:3px;margin-bottom:6px;margin-left:30px"></a>
+         {{#if currentUser}}
+           <a href="{{pathFor route='login'}}" id="logout" style="color:white; font-size: 16px;float:right;    padding-top: 12px;"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+         {{else}}
+           <a href="#" style="color:white; font-size: 16px;float:right;    padding-top: 12px;"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+         {{/if}}
+
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#" style="color:white; font-size: 16px;"><span class="glyphicon glyphicon-star"></span> {{currentUser.profile.level}}</a></li>
+
+              {{#if levels}}
+                  <li><a href="#" style="color:white; font-size: 16px;"><span class="glyphicon glyphicon-star"></span> {{currentUser.profile.level}}</a></li>
 
                     <li><a href="#" style="color:white; font-size: 16px;"><span class="glyphicon glyphicon-star"></span> Score: {{currentUser.profile.score}}</a></li>
-                    {{#if currentUser}}
-                    <li><a href="{{pathFor route='login'}}" id="logout" style="color:white; font-size: 16px;"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                    {{else}}
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-                    {{/if}}
+                      {{/if}}
               </ul>
+
       </div>
 
 

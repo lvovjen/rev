@@ -13,21 +13,12 @@ Meteor.methods({
       Meteor.call('scoreRecalc');
     }*/
   },
-  getLshpbrd:function(){
-    return General.findOne({_id:"ldrbrd"}).score;
-  },
-  getLevels:function(){
-    return General.findOne({_id:"levels"}).score;
-  },
   setVar:function(v, x){
     if (Meteor.user()) {
     General.update({_id:v},{$set:{score:x}});
   }else{
     throw new Meteor.Error('Oops, something went wrong', "error:'Oops, something went wrong");
   }
-},
-getLevels:function(){
-  return General.findOne({_id:"levels"}).score;
 },
 //update bagde for user - userId = creator of the completed requirement
 badgeForCompletion_Check:function(userId){

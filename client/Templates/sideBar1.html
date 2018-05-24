@@ -36,27 +36,35 @@
                   <ul class="nav navbar-nav">
                     <div class="sidenav-header d-flex align-items-center justify-content-center">
                       <div class="sidenav-header-inner text-center">
-                        <a href="{{pathFor route='ProfileTemplate'}}">
-                          <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle imgSideBar">
-</a>
+                        <a href="{{pathFor route='Profile'}}">
+                          <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle imgSideBar"></a>
+                          <br>
+                              {{#if badges}}
+                              {{#if c1}}
+                                  <img src="goldBadge_1.gif" width="43" height="40">
+                                    {{/if}}
 
-<br>
-    {{#each bdg}}
-        <img src="goldBadge-1.gif" name="badgeImg" width="43" height="41">
-        {{/each}}
+                                    {{#if c2}}
+                                    <img src="goldBadge_2.gif" width="43" height="40">
+                                          {{/if}}
 
-                        <h2 class="h5 text-uppercase" ><a style="color:white;" href="{{pathFor route='ProfileTemplate'}}"> <b>{{currentUser.profile.fisrtName}} {{currentUser.profile.lastName}}</b></a></h2>
-                        <h2 class="h5 text-uppercase" style="color: #f9d33f;"><b>{{currentUser.profile.level}}</b></h2>
+                                          {{#if c3}}
+                                          <img src="goldBadge_3.gif" width="43" height="40">
+                                                {{/if}}
 
+                                                {{#if c4}}
+                                                <img src="goldBadge_4.gif" width="43" height="40">
+                                                      {{/if}}                                    {{/if}}
+                                            <h2 class="h5 text-uppercase" ><a style="color:white;" href="{{pathFor route='Profile'}}"> <b>{{currentUser.profile.fisrtName}} {{currentUser.profile.lastName}}</b></a></h2>
 
-<!--{{#if levels}}
-                        <h2 class="h5 text-uppercase" ><a style="    color: #03a3ea;"> <b>{{level}}</b></a></h2>
-{{/if}}-->
+                                  {{#if levels}}
+                                              <h2 class="h5 text-uppercase" style="color: #f9d33f;"><b>{{currentUser.profile.level}}</b></h2>
+                                          {{/if}}
                       </div>
-
                     </div>
+
                       <!-- Dropdown Management-->
-                      {{#if isInRole 'admin'}}
+                {{#if isInRole 'admin'}}
                       <li class="panel panel-default" id="dropdown" style="background: #393836;">
                           <a data-toggle="collapse" href="#dropdown-lvl1-Mng" style="color:white;">
                               <span class="glyphicon glyphicon-user"></span> Management <span class="caret"></span>
@@ -66,13 +74,14 @@
                               <div class="panel-body">
                                   <ul class="nav navbar-nav">
                                     <li class="active"><a href="{{pathFor route='usersManagement'}}" style="color:white;"><span class="glyphicon glyphicon-user"></span>User Management</a></li>
+                                    <li class="active"><a href="{{pathFor route='projsManagement'}}" style="color:white;"><span class="glyphicon glyphicon-cog"></span>Projects Management</a></li>
                                     <li class="active"><a href="{{pathFor route='generalManagement'}}" style="color:white;"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
 
                                   </ul>
                               </div>
                           </div>
                       </li>
-          {{/if}}
+                {{/if}}
                       <!-- Dropdown Projects-->
                       <li class="panel panel-default" id="dropdown" style="background: #393836;">
                           <a data-toggle="collapse" href="#dropdown-lvl1-Pro" style="color:white;">
@@ -81,24 +90,35 @@
                           <div id="dropdown-lvl1-Pro" class="panel-collapse collapse">
                               <div class="panel-body">
                                   <ul class="nav navbar-nav">
-
-                                    {{#each project}}
-                                      <li class="active" id="project">
-                                              <a href="{{pathFor route='projectProfile'}}" style="color:white;">
-                                                  <span class="	glyphicon glyphicon-paperclip"></span> {{this.projectname}} <span></span></a>
-                                        </li>
-                                      {{/each}}
+{{#if ifProjects}}
+                                      {{#each project}}
+                                        {{#if act}}
+                                        <li class="active" id="project">
+                                                <a href="{{pathFor route='projectProfile'}}" style="color:white;">
+                                                    <span class="	glyphicon glyphicon-paperclip"></span> {{this.projectname}} <span></span></a>
+                                          </li>
+                                          {{/if}}
+                                        {{/each}}
+                                {{else}}
+                                        <li class="active" id="project">
+                                                <a href="" style="color:white;">
+                                                    <span class="	glyphicon glyphicon-paperclip"></span>No Projects<span></span></a>
+                                          </li>
+{{/if}}
                                       {{#if  isInRole 'admin'}}
                                             {{>projectImageItem}}
-                                          {{/if}}
+
+                                        {{/if}}
 
                                   </ul>
                               </div>
                           </div>
-                      </li>
-                      {{#if ldrBrd}}
+                        </li>
 
-                      <li class="panel panel-default" id="dropdown" style="background: #393836;"><a href="{{pathFor route='leadershipboard'}}" style="color:white;"><span class="glyphicon glyphicon-king"></span>Leadership Board</a></li>
+                      {{#if ledrBrd}}
+
+                      <li class="panel panel-default" id="dropdown" style="background: #393836;"><a href="{{pathFor route='leadershipboard'}}" style="color:white;"><span class="glyphicon glyphicon-king" style="color: #f3cf3e;"></span>Leadership Board</a></li>
+                      <li class="panel panel-default" id="dropdown" style="background: #393836;"></li>
 
                       {{/if}}
               <!--        <li style="background: #393836; border: none;"><a href="#" style="color:white;"><span class="glyphicon glyphicon-envelope"></span> Chats </a></li> -->

@@ -8,9 +8,13 @@ Template.addProjectReqModal.events({
   var descrpition = template.find('#requirementDescrpition').value;
   var isFunc= template.find('#isFunc').checked;
   var reqScore= template.find('#requiredScore').value;
-  if(!isFunc){
-    var cat= template.find('#catSelect').value;
-}
+
+    if(!isFunc){
+          var cat= template.find('#catSelect').value;
+          if(cat == "Select Category"){
+            alert("Please choose a category")
+          }
+      }
   var user = Meteor.user();
   if(reqScore>100){
     alert("Score off limits");
@@ -18,6 +22,7 @@ Template.addProjectReqModal.events({
   }
 //console.log(user);
 //console.log(projId, roomname, descrpition, isFunc,reqScore,cat);
+$("#addProjectReqModal").modal("hide");
 if(cat == "Select Category")
 {
   cat=null;
@@ -29,7 +34,12 @@ if(roomname != "" && descrpition != "" && reqScore != ""){
     alert(er);
     }
     else{
-      $("#addProjectReqModal").modal("hide");
+      template.find('#requirementname').value = "";
+      template.find('#requirementDescrpition').value = "";
+      template.find('#isFunc').checked = false;
+      template.find('#requiredScore').value = false;
+      template.find('#catSelect').value = "";
+
       alert("Added successfully");
     }});
   }else{

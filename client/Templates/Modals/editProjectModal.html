@@ -15,9 +15,27 @@
               <div class="form-group">
                  <label for="projectDescrpition" class="col-sm-3 control-label">Descrpition</label>
                    <div class="col-sm-9">
-                     <textarea class="form-control" style="height: 60px" type="text" name="projectDescrpition" value={{descValue}} placeholder="Descrpition" id="editprojectDescrpition" required="required"></textarea>
+                     <textarea class="form-control" style="height: 80px" type="text" name="projectDescrpition" value={{descValue}} placeholder="Descrpition" id="editprojectDescrpition" required="required"></textarea>
                   </div>
                 </div>
+              <div class="form-group">
+                 <label  class="col-sm-4 control-label">Levels</label>
+                  <div class="col-sm-6">
+                        <input type="checkbox"  id="isLvl" checked="{{isLvl}}"><br>
+                      </div>
+              </div>
+              <div class="form-group">
+                 <label  class="col-sm-4 control-label">Badges</label>
+                  <div class="col-sm-6">
+                        <input type="checkbox" id="isBdgs" checked="{{isBdgs}}"><br>
+                      </div>
+              </div>
+              <div class="form-group">
+                 <label  class="col-sm-4 control-label">Leader Board</label>
+                  <div class="col-sm-6">
+                        <input type="checkbox" id="isLdrb" checked="{{isLdrb}}"><br>
+                      </div>
+                  </div>
                 <button id="editProjectBtn" class= "editProjectBtn btn btn-default pull-right"><span class="glyphicon glyphicon-floppy-disk"></span></button>
               </form>
         </div>

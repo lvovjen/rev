@@ -14,7 +14,7 @@
             {{>addUserModal}}
             {{>editUserModal}}
             {{>resetAllScoreConfirmationModal}}
-
+            {{>removeUserConfirmationModal}}
           </div>
           {{>addUser_btn}}
           {{>resetAllScore_btn}}
@@ -35,11 +35,11 @@
              <tr>
                <th>Last Name</th>
                <th>First Name</th>
-
                <th>Username</th>
                <th>Email</th>
                <th>Score</th>
                <th>Admin</th>
+               <th>Status</th>
 
              </tr>
          </thead>
@@ -52,6 +52,14 @@
                      <td>{{userEmail}}</td>
                      <td>{{profile.score}}</td>
                      <th>{{admin}}</th>
+                     <td>
+                       {{#if status.online}}
+                       <svg height="12" width="12">
+                             <circle cx="5" cy="5" r="4" fill="#33c433" />
+                           </svg>
+                              {{/if}}
+                     </td>
+
 
                        <td>{{>editUser_Btn}}</td>
                       <!-- <td>{{>infoUser_btn}}</td> -->
@@ -66,26 +74,26 @@
                  {{/if}}
          </template>
          <template name="addUser_btn">
-         <button id="addUser_btn" class ="addUser_btn btn btn-primary pull-left" style="width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-user-plus"></span></button>
+         <button id="addUser_btn" class ="addUser_btn btn btn-primary pull-left" style="  width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-user-plus"></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 
          <template name="resetAllScore_btn">
-         <button id="resetAllScore_btn" class ="resetAllScore_btn btn btn-primary pull-left" style="font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;">Reset Score to All </button>
+         <button id="resetAllScore_btn" class ="resetAllScore_btn btn btn-primary pull-left" style="   font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;">Reset Score to All </button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 
        <template name="infoUser_btn">
-       <button id="infoUser_btn" class ="infoUser_btn btn btn-primary pull-left" style="font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-info"></span></button>
+       <button id="infoUser_btn" class ="infoUser_btn btn btn-primary pull-left" style="    padding: 1px 6px !important;   font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-info"></span></button>
         <!--<input type="button" class="open-modal" value="Show modal." />-->
        </template>
 
          <template name="editUser_Btn">
-         <button id="editUser_Btn" class ="editUser_Btn btn btn-primary pull-left" style="font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-edit"></span></button>
+         <button id="editUser_Btn" class ="editUser_Btn btn btn-primary pull-left" style="    padding: 1px 6px !important;   font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-edit"></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
          <template name="removeUser_Btn">
-         <button id="removeUser_Btn" class ="removeUser_Btn btn btn-primary pull-left" style="font-size:15px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="glyphicon glyphicon-remove-sign"></span></button>
+         <button id="removeUser_Btn" class ="removeUser_Btn btn btn-primary pull-left" style="    padding: 1px 6px !important;    font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="glyphicon glyphicon-remove-sign"></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 
@@ -101,7 +109,25 @@
 
                  </div>
                  <div class="modal-footer">
-                   <button id="confirmResetBtn" class ="confirmResetBtn btn btn-default pull-right">Yes</button>
+                   <button id="confirmResetBtn" class ="confirmRemoveUserBtn btn btn-default pull-right">Yes</button>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </template>
+
+         <template name="removeUserConfirmationModal">
+           <div class="modal fade in" id="removeUserConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+               <div class="panel panel-default">
+                 <div class="panel-heading"><h4>Remove User</h4>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                 <div style="height: 10vh;padding: 12px;">
+
+                      <h4>Are you sure?</h4>
+
+                 </div>
+                 <div class="modal-footer">
+                   <button id="confirmRemoveUserBtn" class ="confirmResetBtn btn btn-default pull-right">Yes</button>
                  </div>
                </div>
              </div>

@@ -1,13 +1,7 @@
 
-/*Template.loginModal.events({
-  'click.close-login':() =>{
-    Session.set('nav-toggle','');
-  }
-});
-*/
 AccountsTemplates.configure({
-  hideSignUpLink:true,
-  forbidClientAccountCreation: true,
+  hideSignUpLink:false,
+  forbidClientAccountCreation: false,
   enablePasswordChange: true,
   showForgotPasswordLink: true
 });

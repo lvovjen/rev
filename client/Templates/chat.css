@@ -20,9 +20,9 @@
     margin: 0 0 1px !important;
   }
 .pp {
-  margin-top: 2px !important;
-  margin-bottom: 1px !important;
-  font-size: 13.5px;
+  margin-top: 1px !important;
+      margin-bottom: 0px !important;
+      font-size: 12px;
 }
 .notifications{
         font-size: 12px;
@@ -109,17 +109,22 @@ input:focus{
     color: #d4d4d4;
 }
 
+.h4 {
+    font-size: 15px;
+}
 .chat .media {
   padding: 1em;
   border-radius: 10px;
 }
-
+p {
+    margin: 0 0 4px !important;
+}
 .chat .media:nth-child(odd) {
     background: whitesmoke;
 }
 
 .chat .panel-body {
-  height: 60vh;
+    height: 75vh;
     overflow-y: scroll;
 }
 

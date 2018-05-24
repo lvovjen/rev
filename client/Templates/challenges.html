@@ -1,0 +1,55 @@
+<template name = "challenges">
+<div class="panel panel-default">
+  <div class="panel-heading" ><b>Challenges</b></div>
+  <div class="panel-body">
+    <ul class="list-group">
+        {{#if c1}}
+        <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#f9f9f9;border: 2px solid #fff;">
+              <p>Get {{b1}} completed requirements </p>
+       </li>
+              {{else}}
+              <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#7eff38c9;border: 2px solid #fff;">
+                <strike>  <p>Get {{b1}} completed requirements</p> </strike>
+                <p><b>You are a Completed requirements Master!</b></p>
+            </li>
+        {{/if}}
+
+        {{#if c2}}
+        <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#f9f9f9;border: 2px solid #fff;">
+          <p>Create {{b2}} new requirements</p>
+       </li>
+              {{else}}
+              <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#7eff38c9;border: 2px solid #fff;">
+                <strike>  <p>Create {{b2}} new requirements</p> </strike>
+                <p><b>You are a New requirements Wizard!</b></p>
+            </li>
+        {{/if}}
+
+        {{#if c3}}
+        <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#f9f9f9;border: 2px solid #fff;">
+          <p>Be active in {{b3}} chats</p>
+       </li>
+              {{else}}
+              <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#7eff38c9;border: 2px solid #fff;">
+                <strike>  <p>Be active in {{b3}} chats</p> </strike>
+                <p><b>You are a Social chatting Member!</b></p>
+            </li>
+        {{/if}}
+
+        {{#if c4}}
+        <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#f9f9f9;border: 2px solid #fff;">
+          <p>Get {{b4}} requirements completed with score 80+</p>
+       </li>
+              {{else}}
+              <li class="list-group-item" id="" style="font-size: 11.5px;background-color:#7eff38c9;border: 2px solid #fff;">
+                <strike>  <p>Get {{b4}} requirements completed with score 80+</p> </strike>
+                <p><b>You are a Completed requirements creator!</b></p>
+            </li>
+        {{/if}}
+    <!--  <li class="list-group-item" id="" >
+        <p>Get 20 votes 80+ for your requirements</p>
+      </li>-->
+</ul>
+  </div>
+</div>
+</template>

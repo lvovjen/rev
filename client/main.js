@@ -20,12 +20,6 @@ Template.sidebar.helpers({
 });
 
 /*
-Template.main_template.helpers({
-  currentUser: function() {
-    return Meteor.userId();
-  }
-})
-
 
 Template.sidebar.events({
   'click.user': function() {

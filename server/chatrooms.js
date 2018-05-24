@@ -24,7 +24,7 @@ Meteor.methods({
              messages: []
            });
        Meteor.call('addConversationToProject',projId,newReq);
-       Meteor.call('addUserToConversationByReq',projId,newReq);
+       Meteor.call('addUserToConversationByReq',projId,newReq,"creator");
        Meteor.call('bagdeForCreatedRequirements_Check',Meteor.userId());
        }
    }
@@ -120,13 +120,20 @@ updateMsgNumberInConversation: function(roomId){
     }
   },
 resetNotInRoom(reqId){
-if(Meteor.user){
-  var x=Subscriptions.find({request: reqId,user:Meteor.userId()}).fetch();
+    if(Meteor.user){
+      var x=Subscriptions.find({request: reqId,user:Meteor.userId()}).fetch();
 
-  if(x.length > 0){
-    Subscriptions.update({request: reqId,user:Meteor.userId()},{$set:{newMsg:0}})
-  }
-}
+      if(x.length > 0){
+        Subscriptions.update({request: reqId,user:Meteor.userId()},{$set:{newMsg:0}})
+      }
+    }
+},
+updateDescription(roomId,desc){
+    if(Meteor.user){
+      if(ChatRooms.findOne({_id:roomId})){
+        ChatRooms.update({_id:roomId},{$set:{descrpition:desc}})
+      }
+    }
 },
   updateNotificationAboutVote(reqId,userId,vote){
     if(Meteor.user()){
@@ -154,17 +161,18 @@ if(Meteor.user){
 },
 
 //Add the user to all the covnersations in project //Working
-addUserToConversationByUser:function(projectId,userId){
+addUserToConversationByUser:function(projectId,userId,role){
     //Adding the permission to all project related requests
     var req = Projects.findOne({_id: projectId}).requests;
+    var user = Meteor.users.findOne({_id:userId});
       if(req)  {
         req.forEach(function(item) {
           //check if user already in conversation.
-          var u = ChatRooms.find({_id: item._id,userIds: {$in: [userId]}}).fetch();
+          var u = ChatRooms.find({_id: item._id, "userIds.user": {$in: [userId]}}).fetch();
           if (0 == u.length) {
-            if(ChatRooms.update({_id: item._id}, {$push: {userIds: userId}}))
+            if(ChatRooms.update({_id: item._id}, {$push:{userIds: {user: userId,profile:user.profile,role:role}}}))
               {
-                Subscriptions.insert({user:userId._id,request:item._id,newNot:[],newMsg:0,active:false});
+                Subscriptions.insert({user:userId,request:item._id,newNot:[],newMsg:0,active:false});
               }
           } else {
             console.log("Alrready in conversation");
@@ -173,31 +181,44 @@ addUserToConversationByUser:function(projectId,userId){
       }
    },
 //Add all the related usrs to project projectId to the conversation reqId //Working
-addUserToConversationByReq:function(projectId,reqId){
+addUserToConversationByReq:function(projectId,reqId,role){
        //Adding the permission to all project related requests
        var users = Projects.findOne({_id: projectId}).userIds;
-           users.forEach(function(item) {
-             //check if user already in conversation.
-             var u = ChatRooms.find({_id: reqId, userIds: {$in: [item]}}).fetch();
-             if (0 == u.length) {
-               if(ChatRooms.update({_id: reqId}, {$push: {userIds: item}})){
-               Subscriptions.insert({user:item.user,request:reqId,newNot:[],newMsg:0,active:false});
-}
-             } else {
-               console.log("Alrready in conversation");
-             }
-           });
-      },
-
+            users.forEach(function(item) {
+              //check if user already in conversation.
+              var u = ChatRooms.find({_id: reqId, "userIds.user": {$in: [item.user]}}).fetch();
+              if (0 == u.length) {
+                if(ChatRooms.update({_id: reqId}, {$push: {userIds:{user: item.user,profile:item.profile,role:role}}})){
+                Subscriptions.insert({user:item.user,request:reqId,newNot:[],newMsg:0,active:false});
+ }
+              } else {
+                console.log("Alrready in conversation");
+              }
+            });
+       },
 
 //Add specific user to specific conversation TODO
 addUserToConversationByUserAndReq:function(userId,reqId){
 
 },
-//Remove the user from specific conversation TODO
+//Remove the user from specific conversation
 removeUserFromConversation:function(userId,reqId){
+  var req = ChatRooms.findOne({_id: reqId});
+  var isIn = ChatRooms.find({_id: reqId,userIds: {$in: [userId]}}).fetch();
+if(isIn)  {
+  console.log("in isif")
 
-},
+    if(req)  {
+        //check if user in conversation.
+        var u = ChatRooms.find({_id: reqId,"userIds.user": {$in: [userId]}}).fetch();
+        if (0 < u.length) {
+          Subscriptions.remove({user:userId,request:reqId});
+          ChatRooms.update({_id:reqId},{$pull:{userIds:{user:userId}}});
+        } else {
+        }
+      };
+    }
+  },
 isUserAllowed:function(userId,roomId){
   var u = ChatRooms.find({_id: roomId, userIds: {$in: [userId]}}).fetch();
 
@@ -230,4 +251,5 @@ editReq:function(projId,reqId,descrpition,reqname,score,cat,isF){
         Projects.update({"requests._id":reqId},{$set:{"requests.$.descrpition": descrpition,"requests.$.roomName":reqname,"requests.$.reqScore":score,"requests.$.cat":cat,"requests.$.isFunc":isF}});
       }
   }
+
 });

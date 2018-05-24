@@ -1,58 +1,51 @@
+
+
+Template.userFeed.onRendered(function() {
+  Session.set('levels',true);
+  Session.set('ldrbrd',true);
+  Session.set('badges',true);
+
+});
+
+/*
+Template.userFeed.onCreated(function() {
+console.log("in oncreate")
+  console.log(Session.set('badges',true));
+  Session.set('levels',true);
+  Session.set('ldrbrd',true);
+});
+*/
 Template.userFeedtemp.helpers({
   'nots':function(){
+  var x = Meteor.users.findOne({_id:Meteor.userId()}).notif;
+  return _.sortBy(x, e => e.startDate).reverse();
+  },
+  'isNots':function(){
     var x = Meteor.users.findOne({_id:Meteor.userId()}).notif;
-    return _.sortBy(x, e => e.startDate).reverse();
- },
+    if(x.length > 0){
+      console.log("true");
+    return true;
+  }else{
+    console.log("false");
+
+   return false;
+ }
+},
  'vote':function(){
-   if(this.type == 'vote')
-{
-        return true;
-}
-  return false;
-},
-timestampFixed: function() {
-  return moment(this.timestamp).format('h:mma DD/MM/YYYY');
-},
-'bdg':function(){
-  if(this.type == 'bdg')
-{
-       return true;
-}
- return false;
-}
-})
-Template.userFeed.helpers({
-  'c1':function(){
-  if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge1"}).fetch().length == 0){
-        return '#fff';
+     if(this.type == 'vote')
+        {
+                return true;
+        }
+      return false;
+  },
+  timestampFixed: function() {
+    return moment(this.timestamp).format('h:mma DD/MM/YYYY');
+  },
+  'bdg':function(){
+    if(this.type == 'bdg')
+      {
+             return true;
       }
-  return '#61ff2b69';
-},
-'c2':function(){
-if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge2"}).fetch().length == 0){
-      return '#fff';
-    }
-return '#61ff2b69';
-},
-'c3':function(){
-if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge3"}).fetch().length == 0){
-      return '#fff';
-    }
-return '#61ff2b69';
-},
-'c4':function(){
-if(Meteor.users.find({_id:Meteor.userId(),"badges.bType":"badge4"}).fetch().length == 0){
-      return '#fff';
-    }
-return '#61ff2b69';
-},
-'b1':function(){
-  return General.findOne({_id:"badge1"}).score;
-},'b2':function(){
-  return General.findOne({_id:"badge2"}).score;
-},'b3':function(){
-  return General.findOne({_id:"badge3"}).score;
-},'b4':function(){
-  return General.findOne({_id:"badge4"}).score;
-}
-})
+       return false;
+  }
+});

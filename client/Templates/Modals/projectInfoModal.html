@@ -1,0 +1,101 @@
+<template name="projectInfoModal">
+  <div class="modal fade in" id="projectInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+          <div class="panel panel-default" style="width: 950px;height:730px;">
+            <div class="panel-heading"><h4>Project Information</h4>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+            <div class="panel-body">
+
+              <form id="editProjectFrm" class="form-horizontal">
+                <div class="form-group">
+                   <label for="contain" class="col-sm-3 control-label">Project name</label>
+                     <div class="col-sm-9">
+                    <input class="form-control" type="text" name="projectname" value={{projName}} id="projName" readonly>
+                    </div>
+              </div>
+              <div class="form-group">
+                 <label for="contain" class="col-sm-3 control-label">Description</label>
+                   <div class="col-sm-9">
+                  <textarea class="form-control" type="text" name="projectname" value={{projDesc}} style="height: 70px;" id="projDesc" readonly></textarea>
+                  </div>
+            </div>
+              <div class="form-group">
+                 <label for="contain" class="col-sm-3 control-label">Users</label>
+                   <div class="col-sm-9">
+
+                     <table class="table table-striped custab">
+
+                        <thead>
+                          <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                          </tr>
+                      </thead>
+                      {{#each users}}
+                       <tbody>
+                                <tr>
+
+                                  <td>{{this.profile.fisrtName}}</td>
+                                  <td>{{this.profile.lastName}}</td>
+                                  <td>{{username}}</td>
+                                  <td>{{this.role}}</td>
+                              </tr>
+                            </tbody>
+                       {{/each}}
+                     </table>
+
+                   </div>
+            </div>
+
+            <div class="form-group">
+               <label for="contain" class="col-sm-3 control-label">Number of requests</label>
+                 <div class="col-sm-9">
+                <input class="form-control" type="text" name="projectname" value={{numOfReqs}} id="numOfReqs" readonly>
+                </div>
+              </div>
+
+              <div class="form-group">
+                 <label for="contain" class="col-sm-2 control-label">Requests</label>
+                   <div class="col-sm-10">
+
+                     <table class="table table-striped custab">
+
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Creator</th>
+                            <th>Required Score</th>
+                            <th>Score</th>
+                            <th>Completed</th>
+                          </tr>
+                      </thead>
+                      {{#each reqs}}
+                       <tbody>
+                                <tr>
+                                  <td>{{roomName}}</td>
+                                  <td>{{descrpition}}</td>
+                                  <td>{{creator.profile.lastName}} {{creator.profile.fisrtName}}</td>
+                                  <td>{{reqScore}}</td>
+
+                                  <td>{{TotalScore}}</td>
+                                  {{#if this.TotalScore}}
+                                    <td>Yes</td>
+                                    {{else}}
+                                    <td>No</td>
+                                  {{/if}}
+                              </tr>
+                            </tbody>
+                       {{/each}}
+                     </table>
+
+                   </div>
+            </div>
+
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,50 +1,66 @@
-<template name='ProfileTemplate'>
+<template name="ProfileTemplate">
+{{#if currentUser}}
   {{>navbar}}
-    {{>sidebarBoot}}
-  <div class="container-fluid text-center">
-    <div class="row content">
-      <div class="col-md-3 sidenav">
-
-     </div>
-      <div class="col-md-4 text-left">
-        {{>profileModal}}
-      </div>
-    </div>
-  </div>
+  {{>sidebarBoot}}
+        <div class="main-content">
+          <div class="container-fluid text-center pad-2em">
+            <div class="row content">
+              <div class="col-sm-9 text-left">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    {{>profileModal}}
+                  </div>
+                </div>
+              </div>
+                  <div class="col-sm-3 sidenav">
+                      {{>challenges}}
+                  </div>
+            </div>
+          </div>
+        </div>
+  {{else}}
+  {{>loginModal}}
+  {{/if}}
 </template>
 
 
-<template name="profileModal">
-  <div class="container-fluid">
-    <div class="row">
-  		<div class="col-md-4 user-details">
-      <div class="span3 well">
-          <center>
+<template name='profileModal'>
+              <div>
+                <center>
 
-            <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle">
-            <span class="btn btn-success btn-file">
-            Change your avatar
-          <input type="file" accept=".gif,.jpg,.png" class="myFileInput" id="avatar">
-        </span>
-          <h3><b>{{u.profile.fisrtName}} {{u.profile.lastName}}</b></h3>
-          <h5><b>Score: {{u.profile.score}}</b></h5>
-          <h5><b>Level: {{currentUser.profile.level}}</b></h5>
+                        <img src="{{currentUser.profile.avatar}}" name="aboutme" width="190" height="190" class="img-circle">
+                        <span class="btn btn-success btn-file">
+                          Change your avatar
+                          <input type="file" accept=".gif,.jpg,.png" class="myFileInput" id="avatar">
+                        </span>
+                          <h3><b>{{u.profile.fisrtName}} {{u.profile.lastName}}</b></h3>
+
+                          <h5><b>Level: {{currentUser.profile.level}}</b></h5>
+                          <h5><b>Score: {{u.profile.score}}</b></h5>
+
+                            {{#if c1}}
+                                <img src="goldBadge_1.gif" width="66" height="62">
+                                  {{/if}}
+
+                                  {{#if c2}}
+                                  <img src="goldBadge_2.gif" width="66" height="62">
+                                        {{/if}}
+
+                                        {{#if c3}}
+                                        <img src="goldBadge31.gif" width="66" height="62">
+                                              {{/if}}
+
+                                              {{#if c4}}
+                                              <img src="goldBadge_4.gif" width="66" height="62">
+                                                    {{/if}}
 
 
-          <h5><b>Email:</b> {{userEmail}}</h5>
-          <span><strong>Projects: </strong></span>
-          {{#each project}}
-                    <span class="label label-info" style="background-color: #2196F3;    font-size: 14px;">{{this.project.projectname}}</span>
-          {{/each}}
+                          <h5><b>Email:</b> {{userEmail}}</h5>
+                          <span><strong>Projects: </strong></span>
+                          {{#each project}}
+                                    <span class="label label-info" style="background-color: #2196F3;    font-size: 14px;">{{this.project.projectname}}</span>
+                          {{/each}}
 
-  		</center>
-      </div>
-    </div>
-  </div>
-  </div>
-<style media="screen">
-.col-md-4 {
-    width: 75%;
-}
-</style>
+        		</center>
+          </div>
 </template>

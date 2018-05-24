@@ -15,39 +15,41 @@
                 <select id="userSelect">
                   <option disabled="disabled" selected="selected">Select User</option>
                     {{#each user}}
-                        <option value="{{this.username}}">{{this.profile.fisrtName}} {{this.profile.lastName}} - {{username}}</option>
+                        <option value="{{this._id}}">{{this.profile.fisrtName}} {{this.profile.lastName}} - {{username}}</option>
                     {{/each}}
                 </select>
                 <select id="roleSelect">
                   <option disabled="disabled" selected="selected">Select Role</option>
                         <option value="{{this}}">Reviewer</option>
                         <option value="{{this}}">Customer</option>
+                        <option value="{{this}}">Creator</option>
+
                 </select>
                 <input type="submit" value="Save">
               </form>
-
+<!--
               <form id="updateRoleInProjectFrm">
           <p>Update role</p>
-                <select id="userSelect">
+                <select id="userSelectToUpdate">
                   <option disabled="disabled" selected="selected">Select User</option>
-                    {{#each userToRemove}}
-                    <option value="{{this}}">{{this.profile.fisrtName}} {{this.profile.lastName}}</option>
+                    {{#each userSelectToRemove}}
+                    <option value="{{this._id}}">{{this.profile.fisrtName}} {{this.profile.lastName}} - {{username}}</option>
                       {{/each}}
                 </select>
-                <select id="roleSelect">
+                <select id="upRoleSelect">
                   <option disabled="disabled" selected="selected">Select Role</option>
-                      <option value="{{this}}">Creator</option>
                       <option value="{{this}}">Reviewer</option>
                       <option value="{{this}}">Customer</option>
                 </select>
                 <input type="submit" value="Save">
               </form>
+    -->
               <form id="removeUserFromProjectFrm">
                 <p>Remove user</p>
                 <select id="userSelectremove">
                   <option disabled="disabled" selected="selected">Select User</option>
-                    {{#each userToRemove}}
-                        <option value="{{this}}">{{this.profile.fisrtName}} {{this.profile.lastName}}</option>
+                    {{#each userSelectToRemove}}
+                        <option value="{{this._id}}">{{this.profile.fisrtName}} {{this.profile.lastName}} - {{this.username}}</option>
                     {{/each}}
                 </select>
                 <input type="submit" value="Remove">

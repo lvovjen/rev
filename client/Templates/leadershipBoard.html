@@ -1,4 +1,6 @@
 <template name="leadershipboard">
+  {{#if currentUser}}
+
   {{>navbar}}
   {{>sidebarBoot}}
   <div class="main-content">
@@ -15,11 +17,15 @@
     </div>
   </div>
   </div>
+  {{else}}
+  {{>loginModal}}
+  {{/if}}
+
 </template>
 
 
 <template name="leadershipboardTemp">
-        <table class="table table-striped custab" id="leaderTbl" style="counter-reset:rownumber;">
+        <table class="table table-striped custab" id="leaderTbl" style="counter-reset:rownumber;    font-family: sans-serif;">
 
            <thead>
                <tr>
@@ -32,7 +38,8 @@
            </thead>
            {{#each users}}
             <tbody>
-              <tr style="counter-increment:rownumber;">
+
+              <tr style="counter-increment:rownumber;background-color:{{clr}};">
                 <td></td>
 
                        <td>{{profile.lastName}}</td>
