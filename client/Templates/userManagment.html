@@ -18,6 +18,8 @@
           </div>
           {{>addUser_btn}}
           {{>resetAllScore_btn}}
+		  {{>archiveUsr_btn}}
+
         </div>
       </div>
     </div>
@@ -43,38 +45,66 @@
 
              </tr>
          </thead>
-         {{#each users}}
-          <tbody id="usrsTbl">
-                   <tr>
-                     <td>{{profile.lastName}}</td>
-                     <td>{{profile.fisrtName}}</td>
-                     <td>{{username}}</td>
-                     <td>{{userEmail}}</td>
-                     <td>{{profile.score}}</td>
-                     <th>{{admin}}</th>
-                     <td>
-                       {{#if status.online}}
-                       <svg height="12" width="12">
-                             <circle cx="5" cy="5" r="4" fill="#33c433" />
-                           </svg>
-                              {{/if}}
-                     </td>
+						 {{#if archiveUsr}}
+							 {{#each nonActiveUsers}}
+							  <tbody id="usrsTbl">
+									   <tr>
+										 <td>{{profile.lastName}}</td>
+										 <td>{{profile.fisrtName}}</td>
+										 <td>{{username}}</td>
+										 <td>{{userEmail}}</td>
+										 <td>{{profile.score}}</td>
+										 <th>{{admin}}</th>
+										 <td>
+										   {{#if status.online}}
+										   <svg height="12" width="12">
+												 <circle cx="5" cy="5" r="4" fill="#33c433" />
+											   </svg>
+												  {{/if}}
+										 </td>
+										   <td>{{>editUser_Btn}}</td>
+										 <td>{{>diactivate_Btn}}</td>
+										   <td>{{>removeUser_Btn}}</td>
+									 </tr>
+								   </tbody>
+							  {{/each}}
+						  {{else}}
+									 {{#each activeUsers}}
+							  <tbody id="usrsTbl">
+									   <tr>
+										 <td>{{profile.lastName}}</td>
+										 <td>{{profile.fisrtName}}</td>
+										 <td>{{username}}</td>
+										 <td>{{userEmail}}</td>
+										 <td>{{profile.score}}</td>
+										 <th>{{admin}}</th>
+										 <td>
+										   {{#if status.online}}
+										   <svg height="12" width="12">
+												 <circle cx="5" cy="5" r="4" fill="#33c433" />
+											   </svg>
+												  {{/if}}
+										 </td>
+										   <td>{{>editUser_Btn}}</td>
+										 <td>{{>diactivate_Btn}}</td>
+										   <td>{{>removeUser_Btn}}</td>
+									 </tr>
+								   </tbody>
+									{{/each}}
+						{{/if}}
 
-
-                       <td>{{>editUser_Btn}}</td>
-                      <!-- <td>{{>infoUser_btn}}</td> -->
-                       <td>{{>removeUser_Btn}}</td>
-                 </tr>
-               </tbody>
-          {{/each}}
-        </table>
-
+						</table>
           {{else}}
                  <h3>Sorry friend, you a have no permission</h3>
                  {{/if}}
          </template>
          <template name="addUser_btn">
          <button id="addUser_btn" class ="addUser_btn btn btn-primary pull-left" style="  width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-user-plus"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+		 <template name="diactivate_Btn">
+         <button id="diactivate_Btn" class ="diactivate_Btn btn btn-primary pull-left" style=" padding: 1px 6px !important;   font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="">{{usrActiveLbl}}</span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 
@@ -94,6 +124,11 @@
          </template>
          <template name="removeUser_Btn">
          <button id="removeUser_Btn" class ="removeUser_Btn btn btn-primary pull-left" style="    padding: 1px 6px !important;    font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="glyphicon glyphicon-remove-sign"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+
+		          <template name="archiveUsr_btn">
+         <button id="archiveUsr_btn" class ="archiveUsr_btn btn btn-primary pull-left" style="width: 77.5%;font-size:12px;color: white;background-color: ##286090;border-color: #978a8a;"><span class="">{{btnLbl}}</span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 

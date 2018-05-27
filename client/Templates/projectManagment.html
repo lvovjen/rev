@@ -18,6 +18,9 @@
 
           </div>
           {{>addProject_btn}}
+
+                {{>archivePro_btn}}
+
         </div>
       </div>
     </div>
@@ -41,7 +44,8 @@
 
              </tr>
          </thead>
-         {{#each project}}
+         {{#if archivePro}}
+         {{#each nonActPro}}
           <tbody id="projsTbl">
                    <tr>
 
@@ -55,6 +59,23 @@
                  </tr>
                </tbody>
           {{/each}}
+
+          {{else}}
+          {{#each activePro}}
+           <tbody id="projsTbl">
+                    <tr>
+
+                      <td><a href="{{pathFor route='projectProfile'}}">{{projectname}}</a></td>
+                      <td>{{creator.profile.lastName}} {{creator.profile.fisrtName}}</td>
+                      <td>{{dateFormat}}</td>
+                      <td>{{active}}</td>
+                        <td>{{>editProjBtn}}</td>
+                       <td>{{>infoPro_btn}}</td>
+                       <td>{{>removeProj_Btn}}</td>
+                  </tr>
+                </tbody>
+           {{/each}}
+          {{/if}}
         </table>
 
           {{else}}
@@ -69,6 +90,10 @@
 
          <template name="addProject_btn">
          <button id="addProject_btn" class ="addProject_btn btn btn-primary pull-left" style="width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-plus"></span></button>
+          <!--<input type="button" class="open-modal" value="Show modal." />-->
+         </template>
+         <template name="archivePro_btn">
+         <button id="archivePro_btn" class ="archivePro_btn btn btn-primary pull-left" style="width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="">{{btnLbl}}</span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 

@@ -6,10 +6,12 @@ Template.usersManagement.onCreated(function() {
   });
 });
 
+Template.usersManagement.onRendered(function() {
+    Session.set("archiveUsr", false);
+});
+
 Template.usersManagementTemp.helpers({
-  users: function() {
-    return Meteor.users.find({},{sort:{"profile.lastName":-1}});
-  },
+
   userEmail: function() {
     return this.emails[0].address;
   },
@@ -36,16 +38,10 @@ Template.leadershipboardTemp.helpers({
   },
   clr:function() {
     if(this._id == Meteor.userId()){
-      return "#f0fa4abd";
+      return "#03a9f430";
     }else{
       return "#f9f9f9"
     }
-  },
-  avat: function() {
-    if(this.profile.avatar == "avatarLogo.gif"){
-      return false;
-    }
-    return true;
   }
 })
 
@@ -86,6 +82,43 @@ Template.removeUser_Btn.events = {
   }
 };
 
+Template.diactivate_Btn.events = {
+    'click #diactivate_Btn' : function() {
+    event.preventDefault();
+		Meteor.call('updateActiveUsr',Session.get('usrMgmt'));
+	}
+};
+Template.diactivate_Btn.helpers = {
+    'usrActiveLbl' : function() {
+		console.log(this + "fsfdfsfs");
+			/*if(Meteor.users.findOne({_id:this._id}).active){
+				console.log("true");
+				return "fa fa-arrow-circle-o-down"
+			}else{
+					console.log("false");
+
+				return "fa fa-arrow-circle-o-up"
+			}*/
+		}
+};
+Template.archiveUsr_btn.events({
+  'click #archiveUsr_btn': function(event) {
+    if(Session.get("archiveUsr")){
+      Session.set('archiveUsr',false);
+      return;
+    }
+    Session.set("archiveUsr", true);
+  }
+});
+
+Template.archiveUsr_btn.helpers({
+  'btnLbl': function() {
+    if(Session.get("archiveUsr")){
+      return "Active"
+    }
+    return "Archive";
+  }
+});
 
 
 Template.usersManagementTemp.events = {

@@ -97,7 +97,11 @@ Template.chat_template.events({
         alert(er);
   }else{
           alert("Thank you for voting!");
-          Meteor.call('updateNotificationAboutVote',req._id,user,vote);
+          Meteor.call('updateNotificationAboutVote',req._id,user,vote,function(er){
+            if(er){
+              alert(er);
+            }
+          })
           Meteor.call('updateCompleted',req,Session.get('currentproject'),function(er){
             if(er){
               alert(er);

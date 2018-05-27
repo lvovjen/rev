@@ -5,13 +5,22 @@ Template.projsManagement.onCreated(function() {
     this.subscribe('projects');
   });
 });
+Template.projsManagement.onRendered(function() {
+    Session.set("archivePro", false);
+});
 
 Template.projsManagementTemp.helpers({
-  'project': function() {
-    return Projects.find({});
+  'activePro': function() {
+    return Projects.find({active:true});
+  },
+  'nonActPro': function() {
+    return Projects.find({active:false});
   },
   'dateFormat': function() {
     return moment(this.createdAt).format('D M YYYY')
+  },
+  'archivePro':function(){
+    return Session.get('archivePro');
   }
 })
 
@@ -20,6 +29,27 @@ Template.projsManagementTemp.events({
     Session.set("currentproject", this._id);
   }
 })
+
+Template.archivePro_btn.events({
+  'click #archivePro_btn': function(event) {
+    if(Session.get("archivePro")){
+      Session.set('archivePro',false);
+      return;
+    }
+    Session.set("archivePro", true);
+  }
+});
+
+Template.archivePro_btn.helpers({
+  'btnLbl': function() {
+    if(Session.get("archivePro")){
+      return "Active"
+    }
+    return "Archive";
+  }
+});
+
+
 Template.infoPro_btn.events = {
     'click #infoPro_btn' : function() {
     event.preventDefault();

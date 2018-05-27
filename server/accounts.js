@@ -204,7 +204,13 @@ resetAllScore:function()
       Meteor.call('resetScore',u._id);
     })
 },
-
+  updateActiveUsr:function(userId){
+    if(Meteor.users.findOne({_id:userId}).active){
+          Meteor.users.update({_id:userId},{$set:{active:false}});
+        }else{
+          Meteor.users.update({_id:userId},{$set:{active:true}});
+        }
+  },
   levels_check:function(userId){
         if(Meteor.users.findOne({_id:userId}))
           {
