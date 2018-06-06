@@ -1,0 +1,77 @@
+
+<template name="navbarMobile">
+  <nav class="navbar navbar-inverse navbar-no-padding-no-margin navbar-fixed-top" style=" background-color: #393836;">
+    <div class="container-fluid">
+
+
+      <div class="myNavbar collapse navbar-collapse" style=" background-color: #393836;" id="myNavbar">
+		  <ul class="nav navbar-nav navbar-right" style=" background-color: #393836;">
+
+         <li><a href="{{pathFor route='Feed'}}" class="navbar-left"><img src="/revise_logo.png" height="45" width="175"  style="margin-top:4px;margin-bottom:5px;margin-left:0px"></a></li>
+         {{#if currentUser}}
+						            <li class="dropdown" >
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white; font-size: 32px;padding-top:25px;background-color: #393836;">
+                              <span class="glyphicon glyphicon-briefcase"></span> Projects <span class="caret"></span></a>
+									  <ul class="dropdown-menu" role="menu">
+{{#if ifProjects}}
+                                      {{#each project}}
+                                        {{#if act}}
+                                        <li class="active" id="project" style="width:200%;background-color: #393836;border: 3px solid #f5f6f9fa;">
+                                                <a href="{{pathFor route='projectProfile'}}" style="background-color: #393836;font-size: 38px;color:white;padding-top: 20px;padding-bottom: 14px;text-align:center;">
+                                                     {{this.projectname}} <span></span></a>
+                                          </li>
+                                          {{/if}}
+                                        {{/each}}
+                                {{else}}
+                                        <li class="active" id="project">
+                                                <a href="" style="background: #393836;font-size: 30px;color:white;padding-top: 27px;padding-bottom: 14px;">
+                                                    <span class="	glyphicon glyphicon-paperclip"></span>No Projects<span></span></a>
+                                          </li>
+									{{/if}}
+                                      
+									  </ul>
+									</li>
+												                     {{#if ldrbrd}}
+							<li><a href="{{pathFor route='leadershipboard'}}" style="color:white; font-size: 32px;padding-top:25px"><span class="glyphicon glyphicon-king" style="color: #f3cf3e;"></span>Leaderboard</a>	</li>								
+														{{/if}}
+
+					{{#if isInRole 'admin'}}
+						<li class="dropdown" >
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white; font-size: 37px;padding-top:24px">
+                              <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
+												  <ul class="dropdown-menu" role="menu">
+												<li class="active"><a href="{{pathFor route='usersManagement'}}" style="border: 3px solid #f5f6f9fa;background: #393836;font-size: 38px;color:white;padding-top: 14px;padding-bottom: 14px;text-align:center;">User Management</a></li>
+												<li class="active"><a href="{{pathFor route='projsManagement'}}" style="border: 3px solid #f5f6f9fa;background: #393836;font-size: 38px;color:white;padding-top: 14px;padding-bottom: 14px;text-align:center;">Projects Management</a></li>
+												<li class="active"><a href="{{pathFor route='generalManagement'}}" style="border: 3px solid #f5f6f9fa;background: #393836;font-size: 38px;color:white;padding-top: 14px;padding-bottom: 14px;text-align:center;">Settings</a></li>
+									  </ul>
+									</li>
+						{{/if}}
+						
+									
+						
+							
+           <li class="pull-right"><a href="{{pathFor route='login'}}" id="logout" style="color:white; font-size: 26px;padding-top:27px"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+         {{else}}
+           <li class="pull-right"><a href="#" style="color:white; font-size: 26px;padding-top:27px"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+         {{/if}}
+
+
+              </ul>
+
+      </div>
+
+
+    </div>
+  </nav>
+</template>
+
+
+<template name="footerMobile">
+<div class="footer" style="main.css">
+         <a href="{{pathFor route='Profile'}}" style="color:white; padding-top:30px">{{currentUser.profile.lastName}} {{currentUser.profile.fisrtName}}</a>
+</div>
+              {{#if levels}}
+                  <a href="#" style="color:white;padding-top:27px"><span class="glyphicon glyphicon-star"></span> {{currentUser.profile.level}}</a>
+                      {{/if}}
+
+</template>

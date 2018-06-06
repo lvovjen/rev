@@ -5,7 +5,7 @@ Meteor.methods({
       var res = Projects.findOne({projectname: projectname});
       if (res) {
         //already room exists
-        throw new Meteor.Error('A project with the same name already exists')
+        console.log("exists");
       } else {
         //no room exists
       if(Projects.insert({
@@ -45,10 +45,10 @@ Meteor.methods({
           if (0 == u.length) {
             //Add user to project
             if(Projects.update({_id: pro._id}, {$push: {userIds: {user:user._id,profile:user.profile,role:role}}})){
-              Meteor.users.update({_id:userId},{$push:{notif:{type:"proj",pName:pro.projectname,timestamp:new Date()}}})
-
               //update role in user profile
                     Meteor.users.update({_id: userId},{$push:{projects: {role:role, project:{_id:pro._id,projectname:pro.projectname,descrpition:pro.descrpition}}}});
+					              Meteor.users.update({_id:userId},{$push:{notif:{type:"proj",pName:pro.projectname,timestamp:new Date()}}})
+s
                       Meteor.call('addUserToConversationByUser',projectId,userId,role);
           } else {
             console.log("Already in room");

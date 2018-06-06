@@ -37,7 +37,7 @@
                     <div class="sidenav-header d-flex align-items-center justify-content-center">
                       <div class="sidenav-header-inner text-center">
                         <a href="{{pathFor route='Profile'}}">
-                          <img src="{{currentUser.profile.avatar}}" name="aboutme" width="140" height="140" class="img-circle imgSideBar"></a>
+                          <img src="{{currentUser.profile.avatar}}" name="aboutme" width="110" height="110" class="img-circle imgSideBar"></a>
                           <br>
                               {{#if badges}}
                               {{#if c1}}
@@ -65,17 +65,17 @@
 
                       <!-- Dropdown Management-->
                 {{#if isInRole 'admin'}}
-                      <li class="panel panel-default" id="dropdown" style="background: #393836;">
-                          <a data-toggle="collapse" href="#dropdown-lvl1-Mng" style="color:white;">
+                      <li class="panel panel-default" id="dropdown" style="font-size: 15px;background: #393836;">
+                          <a data-toggle="collapse" href="#dropdown-lvl1-Mng" style="color:white;padding-bottom: 13px; padding-top: 13px;">
                               <span class="glyphicon glyphicon-user"></span> Management <span class="caret"></span>
                           </a>
                           <!-- Dropdown level 1 -->
                           <div id="dropdown-lvl1-Mng" class="panel-collapse collapse">
                               <div class="panel-body">
                                   <ul class="nav navbar-nav">
-                                    <li class="active"><a href="{{pathFor route='usersManagement'}}" style="color:white;"><span class="glyphicon glyphicon-user"></span>User Management</a></li>
-                                    <li class="active"><a href="{{pathFor route='projsManagement'}}" style="color:white;"><span class="glyphicon glyphicon-cog"></span>Projects Management</a></li>
-                                    <li class="active"><a href="{{pathFor route='generalManagement'}}" style="color:white;"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
+                                    <li class="active"><a href="{{pathFor route='usersManagement'}}" style="font-size: 13.5px;color:white;padding-top: 10px;padding-bottom: 10px;"><span class="glyphicon glyphicon-user"></span>User Management</a></li>
+                                    <li class="active"><a href="{{pathFor route='projsManagement'}}" style="font-size: 13.5px;color:white;padding-top: 10px;padding-bottom: 10px;"><span class="glyphicon glyphicon-cog"></span>Projects Management</a></li>
+                                    <li class="active"><a href="{{pathFor route='generalManagement'}}" style="font-size: 13.5px;color:white;padding-top: 10px;padding-bottom: 10px;"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
 
                                   </ul>
                               </div>
@@ -83,8 +83,8 @@
                       </li>
                 {{/if}}
                       <!-- Dropdown Projects-->
-                      <li class="panel panel-default" id="dropdown" style="background: #393836;">
-                          <a data-toggle="collapse" href="#dropdown-lvl1-Pro" style="color:white;">
+                      <li class="panel panel-default" id="dropdown" style="    font-size: 15px;background: #393836;">
+                          <a data-toggle="collapse" href="#dropdown-lvl1-Pro" style="color:white;padding-bottom: 13px; padding-top: 13px;">
                               <span class="glyphicon glyphicon-briefcase"></span> Projects <span class="caret"></span></a>
                           <!-- Dropdown level 1 -->
                           <div id="dropdown-lvl1-Pro" class="panel-collapse collapse">
@@ -94,20 +94,19 @@
                                       {{#each project}}
                                         {{#if act}}
                                         <li class="active" id="project">
-                                                <a href="{{pathFor route='projectProfile'}}" style="color:white;">
+                                                <a href="{{pathFor route='projectProfile'}}" style="font-size: 13.5px;color:white;padding-top: 10px;padding-bottom: 10px;">
                                                     <span class="	glyphicon glyphicon-paperclip"></span> {{this.projectname}} <span></span></a>
                                           </li>
                                           {{/if}}
                                         {{/each}}
                                 {{else}}
                                         <li class="active" id="project">
-                                                <a href="" style="color:white;">
+                                                <a href="" style="font-size: 13.5px;color:white;padding-top: 10px;padding-bottom: 10px;">
                                                     <span class="	glyphicon glyphicon-paperclip"></span>No Projects<span></span></a>
                                           </li>
 {{/if}}
                                       {{#if  isInRole 'admin'}}
                                             {{>projectImageItem}}
-
                                         {{/if}}
 
                                   </ul>
@@ -117,8 +116,7 @@
 
                       {{#if ledrBrd}}
 
-                      <li class="panel panel-default" id="dropdown" style="background: #393836;"><a href="{{pathFor route='leadershipboard'}}" style="color:white;"><span class="glyphicon glyphicon-king" style="color: #f3cf3e;"></span>Leadership Board</a></li>
-                      <li class="panel panel-default" id="dropdown" style="background: #393836;"></li>
+                      <li class="panel panel-default" id="dropdown" style="background: #00a8f359;"><a href="{{pathFor route='leadershipboard'}}" style="    font-size: 15px;color:white;padding-bottom: 13px; padding-top: 13px;"><span class="glyphicon glyphicon-king" style="color:#f9d33f;"></span>Leaderboard</a></li>
 
                       {{/if}}
               <!--        <li style="background: #393836; border: none;"><a href="#" style="color:white;"><span class="glyphicon glyphicon-envelope"></span> Chats </a></li> -->
@@ -131,7 +129,7 @@
 
 <template name="projectImageItem">
                                 <li class="active " id="open-modal" >
-                                        <a href="{{pathFor route='projectProfile'}}" style="color:white;">
+                                        <a href="{{pathFor route='projectProfile'}}" style="font-size: 13.5px;color:white;padding-top: 10.5px;padding-bottom: 10.5px;">
                                             <span class="fa fa-plus"></span>  Create new project<span></span></a>
                                   </li>
       </template>

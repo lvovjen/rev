@@ -1,28 +1,103 @@
 <template name="generalManagement">
-  {{>navbar}}
-  {{>sidebarBoot}}
-  <div class="main-content">
-  <div class="container-fluid text-center pad-2em">
-    <div class="row content">
-      <div class="col-md-12 text-left">
-        <div class="panel panel-default chat">
-          <div class="panel-heading">General Settings</div>
-          <div class="panel-body">
-            {{>generalMng}}
-            {{>editGenModal}}
-            {{>editGenVarModal}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+		{{#if currentUser}}
+				{{#if isIOS}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+				  <div class="container-fluid text-center">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							  {{>navbarMobile}}
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">General Settings</div>
+							  <div class="panel-body">
+								{{>generalMngMobile}}
+								{{>editGenModal}}
+								{{>editGenVarModal}}
+							  </div>
+							</div>
+						  </div>
+						</div>
+						{{>footerMobile}}
+					  </div>
+					  </div>
+				{{else if isAndroid}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+				  <div class="container-fluid text-center">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							  {{>navbarMobile}}
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">General Settings</div>
+							  <div class="panel-body">
+								{{>generalMngMobile}}
+								{{>editGenModal}}
+								{{>editGenVarModal}}
+							  </div>
+							</div>
+						  </div>
+						</div>
+						{{>footerMobile}}
+					  </div>
+					  </div>
+				{{else}}
+					  {{>navbar}}
+					  {{>sidebarBoot}}
+					  <div class="main-content">
+					  <div class="container-fluid text-center pad-2em">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">General Settings</div>
+							  <div class="panel-body">
+								{{>generalMng}}
+								{{>editGenModal}}
+								{{>editGenVarModal}}
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>
+						{{/if}}
+								  {{else}}
+				  {{>loginModal}}
+  {{/if}}
 </template>
 
-<template name="generalMng">
+<template name="generalMngMobile">
           {{#if isInRole 'admin'}}
 
-        <table class="table table-striped custab">
+        <table class="table table-striped custab" style="font-size: 21px;">
+
+           <thead>
+               <tr>
+                 <th>Attribute</th>
+                 <th>Score</th>
+               </tr>
+           </thead>
+           {{#each all}}
+            <tbody>
+                     <tr>
+                       <td>{{name}}</td>
+                       {{#if score}}
+                       <td>{{score}}</td>
+                       {{else}}
+                       <td>Disabled</td>
+                       {{/if}}
+
+                       <td><button id="open_edit{{_id}}Modal" class ="open_edit{{Name}}Modal btn btn-default pull-right"><span class="glyphicon glyphicon-edit" style="font-size:22px;"></span></button></td>
+                 </tr>
+               </tbody>
+          {{/each}}
+        </table>
+          {{else}}
+                 <p>Not</p>
+                 {{/if}}
+         </template>
+		 
+		 <template name="generalMng">
+          {{#if isInRole 'admin'}}
+
+        <table class="table table-striped custab" style="font-size: 16px;">
 
            <thead>
                <tr>
@@ -49,6 +124,7 @@
                  <p>Not</p>
                  {{/if}}
          </template>
+		 
 
 
 <!--modal for updating score of levels, score for completion-->
@@ -69,7 +145,7 @@
                               <input class="form-control" type="text" name="" placeholder="" value="" id="scNew" required="required">
                            </div>
                          </div>
-                         <button id="saveGen" class ="saveGen btn btn-default pull-right"><span class="  glyphicon glyphicon-floppy-disk"></span></button>
+                         <button id="saveGen" class ="saveGen btn btn-default pull-right"><span class="  glyphicon glyphicon-floppy-disk"></span> Save</button>
                        </form>
                  </div>
                </div>

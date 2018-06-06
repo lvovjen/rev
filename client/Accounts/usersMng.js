@@ -11,7 +11,12 @@ Template.usersManagement.onRendered(function() {
 });
 
 Template.usersManagementTemp.helpers({
-
+  activeUsers: function() {
+    return Meteor.users.find({active:true},{sort:{"profile.lastName":1}});
+  },
+    nonActiveUsers: function() {
+    return Meteor.users.find({active:false},{sort:{"profile.lastName":1}});
+  },
   userEmail: function() {
     return this.emails[0].address;
   },
@@ -20,10 +25,35 @@ Template.usersManagementTemp.helpers({
   },
   dateFormat: function() {
     return moment(this.createdAt).format('D/ M/ YYYY')
+  },
+  arcUsr:function(){
+	  return Session.get('archiveUsr');
   }
 })
 
 Template.leadershipboardTemp.helpers({
+  users: function() {
+    return Meteor.users.find({},{sort:{"profile.score":-1}});
+  },
+  userEmail: function() {
+    return this.emails[0].address;
+  },
+  admin: function() {
+    return Roles.userIsInRole(this._id, 'admin') ? 'admin' : 'normal';
+  },
+  dateFormat: function() {
+    return moment(this.createdAt).format('D M YYYY')
+  },
+  clr:function() {
+    if(this._id == Meteor.userId()){
+      return "#03a9f430";
+    }else{
+      return "#f9f9f9"
+    }
+  }
+})
+
+Template.leadershipboardTempMobile.helpers({
   users: function() {
     return Meteor.users.find({},{sort:{"profile.score":-1}});
   },
@@ -85,22 +115,27 @@ Template.removeUser_Btn.events = {
 Template.diactivate_Btn.events = {
     'click #diactivate_Btn' : function() {
     event.preventDefault();
-		Meteor.call('updateActiveUsr',Session.get('usrMgmt'));
-	}
+    $("#diactivateUserConfirmationModal").modal("show");
+  }
 };
-Template.diactivate_Btn.helpers = {
-    'usrActiveLbl' : function() {
-		console.log(this + "fsfdfsfs");
-			/*if(Meteor.users.findOne({_id:this._id}).active){
-				console.log("true");
-				return "fa fa-arrow-circle-o-down"
-			}else{
-					console.log("false");
 
-				return "fa fa-arrow-circle-o-up"
-			}*/
-		}
+Template.diactivateUserConfirmationModal.events = {
+    'click #diactivateUserConfirmation' : function() {
+    event.preventDefault();
+    $("#diactivateUserConfirmationModal").modal("hide");
+  Meteor.call('updateActiveUsr',Session.get('usrMgmt'));
+  }
 };
+
+Template.diactivate_Btn.helpers({
+    'usrActiveLbl' : function() {
+			if(Meteor.users.findOne({_id:this._id}).active){
+				return "fa fa-arrow-circle-o-down";
+			}else{
+				return "fa fa-arrow-circle-o-up";
+			}
+		}
+});
 Template.archiveUsr_btn.events({
   'click #archiveUsr_btn': function(event) {
     if(Session.get("archiveUsr")){
@@ -114,9 +149,9 @@ Template.archiveUsr_btn.events({
 Template.archiveUsr_btn.helpers({
   'btnLbl': function() {
     if(Session.get("archiveUsr")){
-      return "Active"
+      return "Show Active Users"
     }
-    return "Archive";
+    return "Show Archived Users";
   }
 });
 

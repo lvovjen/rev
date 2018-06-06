@@ -11,10 +11,10 @@ Template.projsManagement.onRendered(function() {
 
 Template.projsManagementTemp.helpers({
   'activePro': function() {
-    return Projects.find({active:true});
+    return Projects.find({active:true},{sort:{projectname:1}});
   },
   'nonActPro': function() {
-    return Projects.find({active:false});
+    return Projects.find({active:false},{sort:{projectname:1}});
   },
   'dateFormat': function() {
     return moment(this.createdAt).format('D M YYYY')
@@ -43,12 +43,21 @@ Template.archivePro_btn.events({
 Template.archivePro_btn.helpers({
   'btnLbl': function() {
     if(Session.get("archivePro")){
-      return "Active"
+      return "Show Active Projects"
     }
-    return "Archive";
+    return "Show Archived Projects";
   }
 });
 
+Template.removeProj_Btn.helpers({
+    'prjActiveLbl' : function() {
+			if(Projects.findOne({_id:this._id}).active){
+				return "fa fa-arrow-circle-o-down";
+			}else{
+				return "fa fa-arrow-circle-o-up";
+			}
+		}
+});
 
 Template.infoPro_btn.events = {
     'click #infoPro_btn' : function() {
@@ -62,11 +71,11 @@ Template.addProject_btn.events = {
     $("#addProjectModal").modal("show");
   }
 };
-Template.removeProjConfirmationModal.helpers={
+Template.removeProjConfirmationModal.helpers({
   'act':function(){
-      return this.active;
+      return Projects.findOne({_id:Session.get('currentproject')}).active;
     }
-}
+});
 Template.removeProj_Btn.events = {
     'click #removeProj_Btn' : function() {
     event.preventDefault();
@@ -88,14 +97,4 @@ Template.editProjBtn.events = {
     $("#editProjectModal").modal("show");
   }
 };
-/*
-Template.usersManagementTemp.events = {
-    'click #editUser_Btn' : function() {
-    event.preventDefault();
-    $("#editUserModal").modal("show");
-  },
-  'click #usrsTbl': function(event) {
-    Session.set("usrMgmt", this._id);
-  }
-};
-*/
+

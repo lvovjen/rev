@@ -1,38 +1,97 @@
 <template name="projsManagement">
-  {{>navbar}}
-  {{>sidebarBoot}}
-  <div class="main-content">
-  <div class="container-fluid text-center pad-2em">
-    <div class="row content">
-      <div class="col-md-12 text-left">
-        <div class="panel panel-default chat">
-          <div class="panel-heading">Project Managment</div>
-          <div class="panel-body">
-            {{>projsManagementTemp}}
-            <!--{{>createUser}}-->
+		{{#if currentUser}}
+				{{#if isIOS}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+				  <div class="container-fluid text-center">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							  {{>navbarMobile}}
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Project Managment</div>
+							  <div class="panel-body">
+								{{>projsManagementTemp}}
+								<!--{{>createUser}}-->
 
-            {{>addProjectModal}}
-            {{>editProjectModal}}
-            {{>projectInfoModal}}
-            {{>removeProjConfirmationModal}}
+								{{>addProjectModal}}
+								{{>editProjectModal}}
+								{{>projectInfoModal}}
+								{{>removeProjConfirmationModal}}
 
-          </div>
-          {{>addProject_btn}}
+							  </div>
+							  {{>addProject_btn}}
+							{{>archivePro_btn}}
+							</div>
+						  </div>
+						</div>
+						{{>footerMobile}}
+					  </div>
+					  </div>
+				{{else if isAndroid}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+				  <div class="container-fluid text-center">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							  {{>navbarMobile}}
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Project Managment</div>
+							  <div class="panel-body">
+								{{>projsManagementTemp}}
+								<!--{{>createUser}}-->
 
-                {{>archivePro_btn}}
+								{{>addProjectModal}}
+								{{>editProjectModal}}
+								{{>projectInfoModal}}
+								{{>removeProjConfirmationModal}}
 
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+							  </div>
+							  {{>addProject_btn}}
+							{{>archivePro_btn}}
+							</div>
+						  </div>
+						</div>
+						{{>footerMobile}}
+					  </div>
+					  </div>
+				{{else}}
+					  {{>navbar}}
+					  {{>sidebarBoot}}
+					  <div class="main-content">
+					  <div class="container-fluid text-center pad-2em">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Project Managment</div>
+							  <div class="panel-body">
+								{{>projsManagementTemp}}
+								<!--{{>createUser}}-->
+
+								{{>addProjectModal}}
+								{{>editProjectModal}}
+								{{>projectInfoModal}}
+								{{>removeProjConfirmationModal}}
+
+							  </div>
+							  {{>addProject_btn}}
+
+									{{>archivePro_btn}}
+
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>
+							{{/if}}
+								  {{else}}
+				  {{>loginModal}}
+  {{/if}}
+
 </template>
 
 
 <template name="projsManagementTemp">
           {{#if isInRole 'admin'}}
 
-        <table class="table table-striped custab">
+        <table class="table table-striped custab" style="font-size: 16px;">
 
            <thead>
              <tr>
@@ -52,7 +111,13 @@
                      <td><a href="{{pathFor route='projectProfile'}}">{{projectname}}</a></td>
                      <td>{{creator.profile.lastName}} {{creator.profile.fisrtName}}</td>
                      <td>{{dateFormat}}</td>
-                     <td>{{active}}</td>
+                      <td>
+					  {{#if active}}
+					  <p>Yes</p>
+					  {{else}}
+					  <p>No</p>
+					  {{/if}}
+					    </td>
                        <td>{{>editProjBtn}}</td>
                       <td>{{>infoPro_btn}}</td>
                       <td>{{>removeProj_Btn}}</td>
@@ -68,7 +133,13 @@
                       <td><a href="{{pathFor route='projectProfile'}}">{{projectname}}</a></td>
                       <td>{{creator.profile.lastName}} {{creator.profile.fisrtName}}</td>
                       <td>{{dateFormat}}</td>
-                      <td>{{active}}</td>
+                      <td>
+					  {{#if active}}
+					  <p>Yes</p>
+					  {{else}}
+					  <p>No</p>
+					  {{/if}}
+					    </td>
                         <td>{{>editProjBtn}}</td>
                        <td>{{>infoPro_btn}}</td>
                        <td>{{>removeProj_Btn}}</td>
@@ -89,14 +160,13 @@
          </template>
 
          <template name="addProject_btn">
-         <button id="addProject_btn" class ="addProject_btn btn btn-primary pull-left" style="width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-plus"></span></button>
+         <button id="addProject_btn" class ="addProject_btn btn btn-primary pull-left" style="width: 80px;font-size:15px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-plus"></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
          <template name="archivePro_btn">
-         <button id="archivePro_btn" class ="archivePro_btn btn btn-primary pull-left" style="width: 80px;font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="">{{btnLbl}}</span></button>
+         <button id="archivePro_btn" class ="archivePro_btn btn btn-primary pull-left" style="width: 91%;font-size:15px;color: white;background-color: ##286090;border-color: #978a8a;"><span class="" s><b>{{btnLbl}}</b></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
-
 
          <template name="infoPro_btn">
          <button id="infoPro_btn" class ="infoPro_btn btn btn-primary pull-left" style="padding: 0.5px 9px !important; font-size:14px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="fa fa-info"></span></button>
@@ -104,7 +174,7 @@
          </template>
 
          <template name="removeProj_Btn">
-         <button id="removeProj_Btn" class ="removeProj_Btn btn btn-primary pull-left" style="    padding: 1px 6px !important;    font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="glyphicon glyphicon-remove-sign"></span></button>
+         <button id="removeProj_Btn" class ="removeProj_Btn btn btn-primary pull-left" style="    padding: 1px 6px !important;    font-size:12px;color: #242323;background-color: #e0e0e0;border-color: #978a8a;"><span class="{{prjActiveLbl}}"></span></button>
           <!--<input type="button" class="open-modal" value="Show modal." />-->
          </template>
 

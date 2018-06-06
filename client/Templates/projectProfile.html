@@ -1,55 +1,144 @@
 <template name="projectProfile">
-
   {{#if currentUser}}
-  {{>navbar}}
-  {{>sidebarBoot}}
-  <div class="main-content">
-  <div class="container-fluid text-center pad-2em">
-    <div class="row content">
-      <div class="col-sm-10 text-left">
-        {{>projectInfo}}
-        {{>addProjectReqModal}}
-        {{>removeReqModal}}
-        {{>editReqModal}}
-        {{>editProjectModal}}
+  {{#if isIOS}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+								  <div class="container-fluid text-center">
+			  {{>navbarMobile}}
+				<div class="row content">
+				  <div class="col-sm-9 text-left">
+					{{>projectInfo}}
+					{{>addProjectReqModal}}
+					{{>removeReqModal}}
+					{{>editReqModal}}
+					{{>editProjectModal}}
 
-              {{#if isInRole 'admin'}}
-                {{>editProject}}
-                {{>projectEditUserModal}}
-              {{/if}}
-      </div>
-      <div class="col-sm-2 sidenav">
-        <div class="panel panel-default">
-          <div class="panel-heading"><b>Requirements</b></div>
-          <div class="panel-body">
-            <ul class="list-group">
-                      {{#each req}}
-                      <li class="list-group-item" id="room">
-                          <a href="{{pathFor route='chat_template'}}">
-                                {{#if newmsgs}}
-                                                        <span class="notifications" style="float:left;">{{newmsgs}}</span>
-                                                  {{/if}}
+						  {{#if isInRole 'admin'}}
+							{{>projectEditUserModal}}
+						  {{/if}}
+						  							{{>editProject}}
 
-                                {{#if compR}}
-                                                        <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
-                                                  {{/if}}
-                                {{roomName}}
-                          </a>
-                      </li>
-                      {{/each}}
-                  </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+				  </div>
+				  <div class="col-sm-3 sidenav">
+					<div class="panel panel-default">
+					  <div class="panel-heading"><b>Requirements</b></div>
+					  <div class="panel-body">
+						<ul class="list-group">
+								  {{#each req}}
+								  <li class="list-group-item" id="room">
+									  <a href="{{pathFor route='chat_template'}}">
+											{{#if newmsgs}}
+																	<span class="notifications" style="float:left;">{{newmsgs}}</span>
+															  {{/if}}
+
+											{{#if compR}}
+																	<span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+															  {{/if}}
+											{{roomName}}
+									  </a>
+								  </li>
+								  {{/each}}
+							  </ul>
+					  </div>
+					</div>
+				  </div>
+				</div>
+								{{>footerMobile}}
+			  </div>
+			  </div>
+			  {{else if isAndroid}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+								  <div class="container-fluid text-center">
+			  {{>navbarMobile}}
+				<div class="row content">
+				  <div class="col-sm-9 text-left">
+					{{>projectInfo}}
+					{{>addProjectReqModal}}
+					{{>removeReqModal}}
+					{{>editReqModal}}
+					{{>editProjectModal}}
+
+						  {{#if isInRole 'admin'}}
+							{{>projectEditUserModal}}
+						  {{/if}}
+						  							{{>editProject}}
+
+				  </div>
+				  <div class="col-sm-3 sidenav">
+					<div class="panel panel-default">
+					  <div class="panel-heading"><b>Requirements</b></div>
+					  <div class="panel-body">
+						<ul class="list-group">
+								  {{#each req}}
+								  <li class="list-group-item" id="room">
+									  <a href="{{pathFor route='chat_template'}}">
+											{{#if newmsgs}}
+																	<span class="notifications" style="float:left;">{{newmsgs}}</span>
+															  {{/if}}
+
+											{{#if compR}}
+																	<span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+															  {{/if}}
+											{{roomName}}
+									  </a>
+								  </li>
+								  {{/each}}
+							  </ul>
+					  </div>
+					</div>
+				  </div>
+				</div>
+								{{>footerMobile}}
+			  </div>
+			  </div>
+	  {{else}}
+			  {{>navbar}}
+			  {{>sidebarBoot}}
+			  <div class="main-content">
+			  <div class="container-fluid text-center pad-2em">
+				<div class="row content">
+				  <div class="col-sm-9 text-left">
+					{{>projectInfo}}
+					{{>addProjectReqModal}}
+					{{>removeReqModal}}
+					{{>editReqModal}}
+					{{>editProjectModal}}
+
+						  {{#if isInRole 'admin'}}
+							{{>projectEditUserModal}}
+						  {{/if}}
+						  							{{>editProject}}
+
+				  </div>
+				  <div class="col-sm-3 sidenav">
+					<div class="panel panel-default">
+					  <div class="panel-heading"><b>Requirements</b></div>
+					  <div class="panel-body">
+						<ul class="list-group">
+								  {{#each req}}
+								  <li class="list-group-item" id="room">
+									  <a href="{{pathFor route='chat_template'}}">
+											{{#if newmsgs}}
+																	<span class="notifications" style="float:left;">{{newmsgs}}</span>
+															  {{/if}}
+
+											{{#if compR}}
+																	<span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+															  {{/if}}
+											{{roomName}}
+									  </a>
+								  </li>
+								  {{/each}}
+							  </ul>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  </div>
+			  {{/if}}
   {{else}}
   {{>loginModal}}
-
   {{/if}}
-
-
 </template>
 
 
@@ -58,8 +147,6 @@
       <div class="panel-body">
         <div class="input-group" style="JUSTIFY-CONTENT: CENTER;DISPLAY: FLEX;">
           {{>showSumBtn}}
-          {{#if isInRole 'admin'}}
-          {{/if}}
          </div><!-- /input-group -->
 
       </div>
@@ -129,24 +216,29 @@
                            <div class="tab-content" style="overflow-y:auto;">
                                <div role="tabpanel" class="tab-pane active" id="home">
                                  {{#each reqFun}}
-                         <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} - Created by: {{this.creator.profile.lastName}} {{this.creator.profile.fisrtName}}
-</label></a>
+                         <li class="list-group-item" id="room" style="background-color: #dfe3e542;padding: 5px 17px;"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} </label><label style="padding-left: 17px;  font-size: 12px;  font-weight: normal;">  Created by {{this.creator.profile.lastName}} {{this.creator.profile.fisrtName}}</label></a>
                            {{>rmvReqBtn}}    {{>editReqModalBtn}}
 </li>
-                            <li class="list-group-item">{{>statusRow}}
-
-                                          {{#each votes}}
-                                        <li style="color: #74747b;display: inline;">{{this.profile.fisrtName}} {{this.profile.lastName}}: {{this.vote}}</li>
-                                        {{/each}}
-                                              <br>   {{descrpition}}
-                                               </li>
+                            <li class="list-group-item">
+																{{#each votes}}
+																	<li style="color: #74747b;display: inline;">{{this.profile.fisrtName}} {{this.profile.lastName}}: {{this.vote}} &emsp;</li>
+																	{{/each}}
+														{{>statusRow}} 
+                                                 <p style = "font-size:13px;">{{descrpition}}</p>
+							</li>
                    {{/each}} </div>
                                                    <div role="tabpanel" class="tab-pane" id="profile">
                                                      {{#each reqNonFun}}
-                                                    <li class="list-group-item" id="room"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} - {{cat}} - Created by:{{this.creator.profile.lastName}} {{this.creator.profile.fisrtName}}</label></a>
+                                                    <li class="list-group-item" id="room" style="background-color: #dfe3e542;padding: 5px 17px;"><a href="{{pathFor route='chat_template'}}"><label style="font-size: 15px">{{roomName}} - {{cat}} </label><label style="padding-left: 17px; font-size: 12px; font-weight: normal;">  Created by {{this.creator.profile.lastName}} {{this.creator.profile.fisrtName}}</label></a>
                                                 {{>rmvReqBtn}}  {{>editReqModalBtn}}
                                                   </li>
-                                                  <li class="list-group-item">{{>statusRow}} {{descrpition}}</li>
+                                                  <li class="list-group-item">
+																{{#each votes}}
+																	<li style="color: #74747b;display: inline;">{{this.profile.fisrtName}} {{this.profile.lastName}}: {{this.vote}} &emsp;</li>
+																	{{/each}}
+														{{>statusRow}} 
+                                                 <p style = "font-size:13px;">{{descrpition}}</p>
+												  </li>
                                                     {{/each}}                                                   </div>
                                                </div>
            </div>

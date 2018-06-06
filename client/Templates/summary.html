@@ -1,52 +1,57 @@
 <template name="summary">
-  {{>navbar}}
-  {{>sidebarBoot}}
-  <div class="main-content">
-  <div class="container-fluid text-center pad-2em">
-    <div class="row content">
-      <div class="col-md-12 text-left">
-        <div class="panel panel-default chat">
-          <div class="panel-heading">Summary</div>
-          {{>prgSum}}
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+		{{#if currentUser}}
+				{{#if isIOS}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+				  <div class="container-fluid text-center">
+						{{>navbarMobile}}
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Summary</div>
+							  {{>prgSum}}
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>
+				{{else if isAndroid}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+				  <div class="container-fluid text-center">
+					    {{>navbarMobile}}
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Summary</div>
+							  {{>prgSum}}
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>
+				{{else}}
+				  {{>navbar}}
+				  {{>sidebarBoot}}
+				  <div class="main-content">
+				  <div class="container-fluid text-center pad-2em">
+					<div class="row content">
+					  <div class="col-md-12 text-left">
+						<div class="panel panel-default chat">
+						  <div class="panel-heading">Summary</div>
+						  {{>prgSum}}
+						</div>
+					  </div>
+					</div>
+				  </div>
+				  </div>
+				  {{/if}}
+			  {{else}}
+		  {{>loginModal}}
+	  {{/if}}
+
 </template>
 
 <template name="prgSum">
   <div class="panel-body">
-    <div class="container">
-      <div class="panel">
-                <div class="panel-heading">
-                    <div class="text-center">
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <h3 class="pull-left">Welcome</h3>
-                            </div>
-                            <div class="col-sm-3">
-                                <h4 class="pull-right">
-                                <small><em>2014-07-30<br>18:30:00</em></small>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <div class="panel-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in.
-            </div>
-
-            <div class="panel-footer">
-                <span class="label label-default">Welcome</span> <span class="label label-default">Updates</span> <span class="label label-default">July</span>
-            </div>
-        </div>
-      </div>
-
     <h4>Project name: </h4> {{p.projectname}}
 
     <h4>Description: </h4> {{p.descrpition}}

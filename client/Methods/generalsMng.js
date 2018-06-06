@@ -30,6 +30,24 @@ Template.editGenVarModal.helpers({
 })
 
 
+Template.generalMngMobile.helpers({
+  'all':function(){
+    return General.find({});
+  },
+  'score':function(){
+    if(this.score == '1'){
+      return '1';
+    }
+    if(this.score == true){
+      return 'Enabled';
+    }
+    return this.score;
+  }
+})
+
+
+
+
 Template.editGenModal.events= {
 'click #saveGen': function(event,template){
   event.preventDefault();
@@ -84,8 +102,72 @@ Template.editGenVarModal.events= {
         $("#editGenModal").modal("hide");
 
 }
-
 }
+
+Template.generalMngMobile.events = {
+    'click #open_editfunScoreModal' : function() {
+    event.preventDefault();
+    $("#editGenModal").modal("show");
+    Session.set('genVar',"funScore")
+  },
+  'click #open_editnonfunScoreModal' : function() {
+  event.preventDefault();
+  $("#editGenModal").modal("show");
+  Session.set('genVar',"nonfunScore")
+  },
+  'click #open_editkilouserModal' : function() {
+  event.preventDefault();
+  $("#editGenModal").modal("show");
+  Session.set('genVar',"kilouser")
+  },
+  'click #open_editmegauserModal' : function() {
+  event.preventDefault();
+  $("#editGenModal").modal("show");
+  Session.set('genVar',"megauser")
+  },
+  'click #open_editgigauserModal' : function() {
+  event.preventDefault();
+  $("#editGenModal").modal("show");
+  Session.set('genVar',"gigauser")
+  },
+  'click #open_editterauserModal' : function() {
+  event.preventDefault();
+  $("#editGenModal").modal("show");
+  Session.set('genVar',"terauser")
+},
+'click #open_editldrbrdModal' : function() {
+event.preventDefault();
+$("#editGenVarModal").modal("show");
+Session.set('genVar',"ldrbrd")
+},
+'click #open_editlevelsModal' : function() {
+event.preventDefault();
+$("#editGenVarModal").modal("show");
+Session.set('genVar',"levels")
+},
+'click #open_editbadge1Modal' : function() {
+event.preventDefault();
+$("#editGenModal").modal("show");
+Session.set('genVar',"badge1")
+},
+'click #open_editbadge2Modal' : function() {
+event.preventDefault();
+$("#editGenModal").modal("show");
+Session.set('genVar',"badge2")
+},
+'click #open_editbadge3Modal' : function() {
+event.preventDefault();
+$("#editGenModal").modal("show");
+Session.set('genVar',"badge3")
+},
+'click #open_editbadge4Modal' : function() {
+event.preventDefault();
+$("#editGenModal").modal("show");
+Session.set('genVar',"badge4")
+}
+
+};
+
 
 Template.generalMng.events = {
     'click #open_editfunScoreModal' : function() {
@@ -148,8 +230,5 @@ event.preventDefault();
 $("#editGenModal").modal("show");
 Session.set('genVar',"badge4")
 }
-
-
-
 
 };

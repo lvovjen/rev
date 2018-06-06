@@ -113,7 +113,7 @@ input:focus{
     font-size: 15px;
 }
 .chat .media {
-  padding: 1em;
+  padding: 0.5em;
   border-radius: 10px;
 }
 p {
@@ -124,7 +124,7 @@ p {
 }
 
 .chat .panel-body {
-    height: 75vh;
+    height: 68vh;
     overflow-y: scroll;
 }
 

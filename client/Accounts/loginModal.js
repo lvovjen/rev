@@ -1,4 +1,3 @@
-
 AccountsTemplates.configure({
   hideSignUpLink:false,
   forbidClientAccountCreation: false,

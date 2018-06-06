@@ -1,29 +1,73 @@
 
 
 <template name="userFeed">
-{{#if currentUser}}
-  {{>navbar}}
-  {{>sidebarBoot}}
-        <div class="main-content">
-          <div class="container-fluid text-center pad-2em">
-            <div class="row content">
-              <div class="col-sm-9 text-left">
-                <div class="panel panel-default">
-                  <div class="panel-heading">News Feed</div>
-                  <div class="panel-body">
-                    {{>userFeedtemp}}
-                  </div>
-                </div>
-              </div>
-                  <div class="col-sm-3 sidenav">
-                      {{>challenges}}
-                  </div>
-            </div>
-          </div>
-        </div>
-  {{else}}
-  {{>loginModal}}
-  {{/if}}
+		{{#if currentUser}}
+				{{#if isIOS}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+								  <div class="container-fluid text-center">
+									<div class="row content">
+									  <div class="col-sm-9 text-left">
+											  {{>navbarMobile}}
+
+										<div class="panel panel-default">
+										  <div class="panel-heading">News Feed</div>
+										  <div class="panel-body">
+											{{>userFeedtempMobile}}
+										  </div>
+										</div>
+									  </div>
+										  <div class="col-sm-3 sidenav">
+											  {{>challenges}}
+										  </div>
+									</div>
+									{{>footerMobile}}
+								  </div>
+								</div>
+				{{else if isAndroid}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+								  <div class="container-fluid text-center">
+									<div class="row content">
+									  <div class="col-sm-9 text-left">
+											  {{>navbarMobile}}
+
+										<div class="panel panel-default">
+										  <div class="panel-heading">News Feed</div>
+										  <div class="panel-body">
+											{{>userFeedtempMobile}}
+										  </div>
+										</div>
+									  </div>
+										  <div class="col-sm-3 sidenav">
+											  {{>challenges}}
+										  </div>
+									</div>
+									{{>footerMobile}}
+								  </div>
+								</div>
+				{{else}}
+						  {{>navbar}}
+						  {{>sidebarBoot}}
+								<div class="main-content">
+								  <div class="container-fluid text-center pad-2em">
+									<div class="row content">
+									  <div class="col-sm-9 text-left">
+										<div class="panel panel-default">
+										  <div class="panel-heading">News Feed</div>
+										  <div class="panel-body">
+											{{>userFeedtemp}}
+										  </div>
+										</div>
+									  </div>
+										  <div class="col-sm-3 sidenav">
+											  {{>challenges}}
+										  </div>
+									</div>
+								  </div>
+								</div>
+				{{/if}}
+		  {{else}}
+		  {{>loginModal}}
+		  {{/if}}
 </template>
 
 <template name="userFeedtemp">
@@ -35,7 +79,10 @@
                         <span style="display:inline;"><p>{{ufName}} {{ulName}} voted <b style="color:#2196F3;">{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
                       {{else if bdg}}
                                 <span style="display:inline;"><p><b style="color:#2196F3;">Congratulations!</b> You got a new badge!</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
-                      {{else}}
+					{{else if proj}}
+                        <span style="display:inline;"><p>Welcome to project <b style="color:#2196F3;">{{pName}}</b>!</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
+
+					  {{else}}
                         <span style="display:inline;"><p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b style="color:#33c433;">completed</b> with score {{rScore}}</p><p style="font-size: 10px;color: grey;">{{timestampFixed}}</p></span>
                       {{/if}}
                     </li>
@@ -43,8 +90,28 @@
       {{else}}
       <h4>No News Yet</h4>
       {{/if}}
-
-
-
   </div>
-         </template>
+ </template>
+ 
+ <template name="userFeedtempMobile">
+  <div class="panel panel-default" style="font-size:21px;">
+    {{#if isNots}}
+          {{#each nots}}
+                    <li class="list-group-item" style="background-color: #f9f9f9;padding: 6px 15px; border: 2px solid #fff;">
+                      {{#if vote}}
+                        <span style="display:inline;"><p>{{ufName}} {{ulName}} voted <b style="color:#2196F3;">{{this.vote}}</b> for requirement <b>{{rName}}</b> in project <b>{{pName}}</b></p><p style="font-size: 13px;color: grey;">{{timestampFixed}}</p></span>
+                      {{else if bdg}}
+                                <span style="display:inline;"><p><b style="color:#2196F3;">Congratulations!</b> You got a new badge!</p><p style="font-size: 13px;color: grey;">{{timestampFixed}}</p></span>
+					{{else if proj}}
+                        <span style="display:inline;"><p>Welcome to project <b style="color:#2196F3;">{{pName}}</b>!</p><p style="font-size: 13px;color: grey;">{{timestampFixed}}</p></span>
+
+					  {{else}}
+                        <span style="display:inline;"><p>The requirement <b>{{rName}}</b> in project <b>{{pName}}</b> now <b style="color:#33c433;">completed</b> with score {{rScore}}</p><p style="font-size: 13px;color: grey;">{{timestampFixed}}</p></span>
+                      {{/if}}
+                    </li>
+          {{/each}}
+      {{else}}
+      <h4>No News Yet</h4>
+      {{/if}}
+  </div>
+ </template>

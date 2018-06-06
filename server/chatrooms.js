@@ -26,6 +26,7 @@ Meteor.methods({
        Meteor.call('addConversationToProject',projId,newReq);
        Meteor.call('addUserToConversationByReq',projId,newReq,"creator");
        Meteor.call('bagdeForCreatedRequirements_Check',Meteor.userId());
+	   console.log(newReq);
        }
    }
 ,
@@ -206,6 +207,7 @@ removeUserFromConversation:function(userId,reqId){
   var req = ChatRooms.findOne({_id: reqId});
   var isIn = ChatRooms.find({_id: reqId,userIds: {$in: [userId]}}).fetch();
 if(isIn)  {
+  console.log("in isif")
 
     if(req)  {
         //check if user in conversation.

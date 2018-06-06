@@ -36,7 +36,20 @@ if (this.userId) {
     }}
 );
 
-
+Accounts.validateLoginAttempt(function(options) {
+	if(options.user){
+		  if(!options.user.active){
+			 options.allowed = false;
+			 throw new Meteor.Error(403, "User account is inactive!");
+			 return;
+		  }
+	}else{
+				 throw new Meteor.Error(403, "No such user!");
+				 return;
+	
+	}
+	return true;
+});
 
 Accounts.emailTemplates.verifyEmail.text = function(user, url) {
     return '<a href="' + url + '">Verify eMail</a> <br> \n\n Revise Team.';
@@ -72,16 +85,16 @@ Accounts.emailTemplates.verifyEmail = {
 
   Meteor.methods({
    createUsers: function(username, email,firstName,lastName,isAdmin,passkey){
-    var userId = Accounts.createUser({username: username,profile:{firstName:firstName,lastName:lastName,email:email,isAdmin:isAdmin}, password: passkey});
-
+    var userId = Accounts.createUser({username: username, email: email,profile:{firstName:firstName,lastName:lastName,isAdmin:isAdmin,pass:passkey}, password: passkey});
 //    console.log( Accounts.createUser({username: username, email: email,profile:{firstName:firstName,lastName:lastName,isAdmin:isAdmin}, password: 'initialPassword'}))
-  //  Accounts.sendVerificationEmail(userId);
+    //Accounts.sendVerificationEmail(userId);
     if (isAdmin) {
       Roles.addUsersToRoles(userId,['admin'])
     } else {
       Roles.addUsersToRoles(userId, ['normal-user']);
   }
 },
+
 updateUsrProfile: function(userId,firstName,lastName,username,isAdmin){
   if(isAdmin){
     if(!Roles.userIsInRole(userId,'admin'))
@@ -99,7 +112,6 @@ updateUsrProfile: function(userId,firstName,lastName,username,isAdmin){
 //recalculation of the score after changing the score for functional or non functional requirement
 
 //no need for this function because the score is just keep running with new values
-
 
 scoreRecalc:function(){
   var x = Meteor.users.find({},{_id:1}).fetch();
@@ -124,6 +136,8 @@ scoreRecalc:function(){
             }
           }
     ]);
+	
+    console.log(result[0].func_count);
       nf = General.findOne({_id:'nonfunScore'}).score;
       f = General.findOne({_id:'funScore'}).score;
       s = nf * result[0].nonFunc_count + f * result[0].func_count;
@@ -290,10 +304,10 @@ Accounts.onCreateUser(function(options, user) {
     score: 0,
     level: "Kilo - User",
     date_created: new Date(),
-    comReqs:[],
     avatar:"avatarLogo.gif"
   },
-  user.pass = options.profile.pass
+  user.pass = options.profile.pass,
+  user.active=true
 /*
   user.levelsEl = true,
   user.badgesEl = true,

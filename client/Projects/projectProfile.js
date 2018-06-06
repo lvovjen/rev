@@ -8,16 +8,10 @@ Template.projectInfo.onCreated(function() {
       });
 });
 
-Template.projectInfo.onRendered(function() {
-});
-
 
 Template.projectInfo.helpers({
   'req': function() {
     return Projects.findOne({_id:Session.get("currentproject")}).requests;
-  },
-  'votes':function(){
-    return ChatRooms.findOne({_id:this._id}).votes;
   },
   'project': function() {
     return Projects.findOne({_id:Session.get("currentproject")});
@@ -88,9 +82,6 @@ Template.projectInfo.helpers({
         return false;
       }
   return true;
-},
-'compR':function(){
-  return this.completed;
 }
 
 });
@@ -265,8 +256,7 @@ Template.projectInfo.events({
 
   Template.projectEditUserModal.helpers({
     'user': function() {
-      return Meteor.users.find({"projects.project._id":{$nin:[Session.get("currentproject")]}},{sort:{"profile.fisrtName":1}}).fetch();
-
+      return Meteor.users.find({"projects.project._id":{$nin:[Session.get("currentproject")]},active:true},{sort:{"profile.fisrtName":1}}).fetch();
     },
     'userSelectToRemove':function(){
       return Meteor.users.find({"projects.project._id":{$in:[Session.get("currentproject")]}}).fetch();

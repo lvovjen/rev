@@ -2,7 +2,7 @@
     color: #333;
         background-color: #b4bec26e !important;
         border-color: #ddd;
-        font-size: 14px;
+        font-size: 18px;
         height: 29px;
         padding-top: 3px;
         font-weight: bold;
@@ -23,10 +23,21 @@ h4, .h4, h5, .h5, h6, .h6 {
 h4, .h4 {
     font-size: 15.5px;
   }
+  
+    .footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   height:4%;
+   font-size: 36px;
+   background-color: #393836;
+   color: white;
+   text-align: center;
+}
 
-  .progress{
-    margin-bottom: 5px;
-  }
+
+
   .Row
   {
       display: table;
@@ -150,17 +161,9 @@ h4, .h4 {
       padding-left: 1px;
 
       }
-      .side-menu #dropdown {
-    border: 0;
-    margin-bottom: 0;
-    border-radius: 0;
-    background-color: transparent;
-    box-shadow: none;
-    font-size: 13px;
-}
   .side-menu {
     position: fixed;
-    width: 200px;
+    width: 220px;
     height: 87%;
     background-color: #f8f8f8;
     border-right: 1px solid #e7e7e7;
@@ -200,7 +203,6 @@ h4, .h4 {
     border-radius: 0;
     background-color: transparent;
     box-shadow: none;
-    font-size: 15px;
   }
   .side-menu #dropdown .caret {
     float: right;
@@ -519,6 +521,7 @@ h4, .h4 {
   }
   body {
       padding-top: 50px;
+	  font-size:15.6px;
   }
 
   .user-details{
@@ -546,5 +549,11 @@ h4, .h4 {
     background: #393836;
   }
   .side-menu{
+	      overflow-y: auto;
     border: none;
+  }
+  
+  #editReqBtn, #editProjectBtn, #addRequirementBtn, #addProjectBtn, #saveGen, #editSaveUsrBtn{
+    width:70px !important;
+    height: 40px;
   }

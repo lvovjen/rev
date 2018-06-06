@@ -4,12 +4,41 @@ Template.sidebarBoot.onCreated(function() {
   });
 });
 
-/*Template.navbar.helpers({
-  'levels':function(){
-    return Session.get('levels');
+Template.navbarMobile.helpers({
+    'ifProjects': function(){
+      var projects = Projects.find({"userIds.user":{$in:[Meteor.userId()]}}).fetch();
+      if(projects.length>0){
+       return true;
+     }else{
+       return false;
+     }
+    },
+  'project': function(){
+      return projects = Projects.find({"userIds.user":{$in:[Meteor.userId()]}}).fetch();
+     },
+    'Allproject':function(){
+      if(Roles.userIsInRole(Meteor.userId(),'admin')){
+          return  Projects.find({}).fetch();
+      }
+    },
+   'ldrbrd':function(){
+      return Session.get('ldrbrd');
+    },
+    'levels':function(){
+      return Session.get('levels');
+    },
+    'badges':function(){
+      return Session.get('badges');
+    },
+	  'act':function(){
+    return this.active;
   }
-});*/
-
+});
+Template.footerMobile.helpers({
+    'levels':function(){
+      return Session.get('levels');
+    }
+});
 
 Template.sidebarBoot.helpers({
     'ifProjects': function(){
@@ -66,6 +95,11 @@ Template.sidebarBoot.helpers({
   }
 })
 
+Template.navbarMobile.events({
+  'click #project': function(event) {
+    Session.set("currentproject", this._id);
+  }
+});
 
 Template.sidebarBoot.events({
   'click #project': function(event) {

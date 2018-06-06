@@ -43,8 +43,9 @@ Template.editUserModal.events({
             Meteor.call('resetScore',Session.get('usrMgmt'));
           }
     },
-    'click #pro': function(event) {
-          $("#editUserModal").modal("hide");
-          Session.set("currentproject", this._id);
-    }
+    'click #pro': function() {
+        // event.preventDefault();
+		$("#editUserModal").modal("hide");
+		Session.set("currentproject", this._id);    
+		}
 })

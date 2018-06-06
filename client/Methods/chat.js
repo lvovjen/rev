@@ -36,6 +36,7 @@ Template.allMessages.helpers({
   messages: function() {
   var ms = ChatRooms.findOne({_id:Session.get("roomid")}).messages;
       return _.sortBy(ms, e => e.timestamp).reverse();
+
   },
   'color':function(){
     var x = Meteor.users.findOne({_id:this.user._id}).status.online;
@@ -47,8 +48,10 @@ Template.allMessages.helpers({
   },
    'c1':function(){
           if(Meteor.users.find({_id:this.user._id,"badges.bType":"badge1"}).fetch().length == 0){
+            console.log(Meteor.users.find({_id:this.user._id,"badges.bType":"badge1"}).fetch().length);
           return false;
         }
+        console.log("in true")
     return true;
     },
     'c2':function(){
@@ -70,10 +73,8 @@ Template.allMessages.helpers({
     return true;
   },
   'badges':function(){
+    console.log(Session.get('badges'));
     return Session.get('badges');
-  },
-  'compR':function(){
-    return ChatRooms.findOne({_id:Session.get('roomid')}).completed;
   }
 });
 
@@ -97,11 +98,7 @@ Template.chat_template.events({
         alert(er);
   }else{
           alert("Thank you for voting!");
-          Meteor.call('updateNotificationAboutVote',req._id,user,vote,function(er){
-            if(er){
-              alert(er);
-            }
-          })
+          Meteor.call('updateNotificationAboutVote',req._id,user,vote);
           Meteor.call('updateCompleted',req,Session.get('currentproject'),function(er){
             if(er){
               alert(er);

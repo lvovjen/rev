@@ -1,84 +1,164 @@
 <template name="chat_template">
-  {{>navbar}}
-  {{>sidebarBoot}}
-  <div class="main-content">
-  <div class="container-fluid text-center pad-2em">
-    <div class="row content">
-      <div class="col-sm-9 text-left">
-  {{>allMessages}}
-      </div>
-      <div class="col-sm-3 sidenav">
-        <div class="panel panel-default">
-          <div class="panel-heading">Requirements</div>
-          <div class="panel-body">
+		{{#if currentUser}}
+				{{#if isIOS}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+								  <div class="container-fluid text-center">
+					  {{>navbarMobile}}
+						<div class="row content">
+						  <div class="col-sm-9 text-left">
+					  {{>allMessages}}
+						  {{>chatForm}}
 
-            <ul class="list-group">
-                    {{#each req}}
-                    <li class="list-group-item" id="room">
-                        <a href="{{pathFor route='chat_template'}}">
-                              {{#if newmsgs}}
+						  </div>
+						  <div class="col-sm-3 sidenav">
+							<div class="panel panel-default">
+							  <div class="panel-heading">Requirements</div>
+							  <div class="panel-body">
 
-                                                      <span class="notifications" style="float:left;">{{newmsgs}}</span>
-                                                {{/if}}
+								<ul class="list-group">
+										{{#each req}}
+										<li class="list-group-item" id="room">
+											<a href="{{pathFor route='chat_template'}}">
+												  {{#if newmsgs}}
 
-                              {{#if compR}}
-                                                      <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
-                                                {{/if}}
-                              {{roomName}}
-                        </a>
-                    </li>
-                    {{/each}}
-                  </ul>
-<a href="{{pathFor route='projectProfile'}}"><button id="modalBtn" class ="btn btn-primary" data-modal-template="editUserModal">Project Profile</button>
-</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+																		  <span class="notifications" style="float:left;">{{newmsgs}}</span>
+																	{{/if}}
+
+												  {{#if compR}}
+																		  <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+																	{{/if}}
+												  {{roomName}}
+											</a>
+										</li>
+										{{/each}}
+									  </ul>
+					<a href="{{pathFor route='projectProfile'}}"><button id="modalBtn" class ="btn btn-primary" data-modal-template="editUserModal">Project Profile</button>
+					</a>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>	
+				{{else if isAndroid}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+								  <div class="container-fluid text-center">
+					  {{>navbarMobile}}
+						<div class="row content">
+						  <div class="col-sm-9 text-left">
+					  {{>allMessages}}
+						  {{>chatForm}}
+
+						  </div>
+						  <div class="col-sm-3 sidenav">
+							<div class="panel panel-default">
+							  <div class="panel-heading">Requirements</div>
+							  <div class="panel-body">
+
+								<ul class="list-group">
+										{{#each req}}
+										<li class="list-group-item" id="room">
+											<a href="{{pathFor route='chat_template'}}">
+												  {{#if newmsgs}}
+
+																		  <span class="notifications" style="float:left;">{{newmsgs}}</span>
+																	{{/if}}
+
+												  {{#if compR}}
+																		  <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+																	{{/if}}
+												  {{roomName}}
+											</a>
+										</li>
+										{{/each}}
+									  </ul>
+					<a href="{{pathFor route='projectProfile'}}"><button id="modalBtn" class ="btn btn-primary" data-modal-template="editUserModal">Project Profile</button>
+					</a>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>
+				{{else}}
+					  {{>navbar}}
+					  {{>sidebarBoot}}
+					  <div class="main-content">
+					  <div class="container-fluid text-center pad-2em">
+						<div class="row content">
+						  <div class="col-sm-9 text-left">
+					  {{>allMessages}}
+						  {{>chatForm}}
+
+						  </div>
+						  <div class="col-sm-3 sidenav">
+							<div class="panel panel-default">
+							  <div class="panel-heading">Requirements</div>
+							  <div class="panel-body">
+
+								<ul class="list-group">
+										{{#each req}}
+										<li class="list-group-item" id="room">
+											<a href="{{pathFor route='chat_template'}}">
+												  {{#if newmsgs}}
+
+																		  <span class="notifications" style="float:left;">{{newmsgs}}</span>
+																	{{/if}}
+
+												  {{#if compR}}
+																		  <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
+																	{{/if}}
+												  {{roomName}}
+											</a>
+										</li>
+										{{/each}}
+									  </ul>
+					<a href="{{pathFor route='projectProfile'}}"><button id="modalBtn" class ="btn btn-primary" data-modal-template="editUserModal">Project Profile</button>
+					</a>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>
+					  {{/if}}
+					  										  {{else}}
+						  {{>loginModal}}
+		  {{/if}}
+
 </template>
 
-<!--  <template name="singleMessage" style="chat.css">
-
-    <li>
-      <div class="userpicture">
-        <img id="avatar" src="">
-      </div>
-      <div class="message-header">
-        <span>{{user.username}}</span>
-        <span>{{timestampFixed}}</span>
-      </div>
-      <div class="message-content">
-        {{message}}
-      </div>
-    </li>
-</template>-->
 
 <template name="chatForm">
     <div class="panel panel-default">
       <div class="panel-body">
-        <div class="input-group">
+        <div class="row-fluid">
 
           <form id="sendmsgFrm">
-            <div class="row col-md-7 sendmsgbtn">
-           <span class="input-group-btn">
+		            <div class="row col-sm-7 sendmsgbtn" style="float:left;    display: flex;">
              <input type="text" name="text" id="messagetext" class="form-control" placeholder="Type Message Here...">
              <input class ="btn btn-primary" id="msgsubmit" type="submit" value="Send">
-             </span>
            </div>
 
 
-            <div class="row col-md-2 votebtn" style="float:right;">
-             <span class="input-group-btn" >
+            <div class="row col-sm-2 votebtn" style="float:right;    display: flex;">
              <input id="voteInput" type="text"  class="form-control" placeholder="Vote here">
              <button id="vote" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span></button>
 
         <!--     <button class="btn btn-primary" id="msgsubmit" type="button">Send</button> -->
-           </span>
-
          </div>
-         <label style="margin-left:1.5em;margin-top:1em;color:#74747b;">Required Score: {{reqScore}}</label>
+         </form>
+		 		         
+						 
+						 <div class="form-group" style = "padding-top: 5px;">
+              <div  style = "padding-top: 5px;padding-left: 15px;">
+                <textarea class="form-control" style="height: 70px" type="text" name="requirementDescrpition" value={{reqDesc}} placeholder="Descrpition" id="editReqDescrpitionInChat" required="required"></textarea>
+                <button id="saveDescChangesChat" class ="saveDescChangesChat btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk"></span> Save changes</button>
+             </div>
+           </div>   
+		   
+		   
+         <label style="margin-left:1.5em;margin-top:0.5em;color:#74747b;">Required Score: {{reqScore}}</label>
          {{#if comp}}
                <span style="color:#33c433" class="glyphicon glyphicon-check"></span>
                 {{/if}}
@@ -88,28 +168,17 @@
                  {{/each}}
                </ul>
 
-         </form>
+
          </div><!-- /input-group -->
 
-         <div class="form-group">
-              <div class="col-sm-12">
-                <textarea class="form-control" style="height: 60px" type="text" name="requirementDescrpition" value={{reqDesc}} placeholder="Descrpition" id="editReqDescrpitionInChat" required="required"></textarea>
-                <button id="saveDescChangesChat" class ="saveDescChangesChat btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk"></span> Save changes</button>
-             </div>
-           </div>
 
       </div>
     </div>
 </template>
 
 <template name="allMessages" style="chat.css">
-    <div class="panel panel-default chat" id="panel panel-default chat">
-      {{#if compR}}
-        <div class="panel-heading"><b>Chat - {{project.projectname}} - {{room}} </b><span style="color:#33c433;font-size: 18px;" class="glyphicon glyphicon-check"></span></div>
-        {{else}}
-        <div class="panel-heading"><b>Chat - {{project.projectname}} - {{room}}</b></div>
-        {{/if}}
-
+    <div class="panel panel-default chat" id="panel panel-default chat" style="margin-bottom: 2px;">
+      <div class="panel-heading"><b>{{project.projectname}} - {{room}}</b></div>
       <div class="panel-body">
         <!-- Left-aligned -->
         {{#each messages}}
@@ -153,5 +222,4 @@
           {{/each}}
       </div>
     </div>
-    {{>chatForm}}
 </template>

@@ -1,31 +1,96 @@
 <template name="leadershipboard">
-  {{#if currentUser}}
+  		{{#if currentUser}}
+				{{#if isIOS}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+					  <div class="container-fluid text-center">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							  {{>navbarMobile}}
 
-  {{>navbar}}
-  {{>sidebarBoot}}
-  <div class="main-content">
-  <div class="container-fluid text-center pad-2em">
-    <div class="row content">
-      <div class="col-md-12 text-left">
-        <div class="panel panel-default chat">
-          <div class="panel-heading">Leadership Board</div>
-          <div class="panel-body">
-            {{>leadershipboardTemp}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-  {{else}}
-  {{>loginModal}}
-  {{/if}}
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Leaderboard</div>
+							  <div class="panel-body">
+								{{>leadershipboardTempMobile}}
+							  </div>
+							</div>
+						  </div>
+						</div>
+						{{>footerMobile}}
+					  </div>
+					  </div>
+				{{else if isAndroid}}
+							<div class="main-content" style="margin-left:0px;margin-top:45px;">
+					  <div class="container-fluid text-center">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							  {{>navbarMobile}}
 
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Leaderboard</div>
+							  <div class="panel-body">
+								{{>leadershipboardTempMobile}}
+							  </div>
+							</div>
+						  </div>
+						</div>
+						{{>footerMobile}}
+					  </div>
+					  </div>
+
+				{{else}}
+					  {{>navbar}}
+					  {{>sidebarBoot}}
+					  <div class="main-content">
+					  <div class="container-fluid text-center pad-2em">
+						<div class="row content">
+						  <div class="col-md-12 text-left">
+							<div class="panel panel-default chat">
+							  <div class="panel-heading">Leaderboard</div>
+							  <div class="panel-body">
+								{{>leadershipboardTemp}}
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  </div>
+					  {{/if}}
+					  {{else}}
+		  {{>loginModal}}
+		  {{/if}}
 </template>
 
 
 <template name="leadershipboardTemp">
-        <table class="table table-striped custab" id="leaderTbl" style="counter-reset:rownumber;    font-family: sans-serif;">
+        <table class="table table-striped custab" id="leaderTbl" style="counter-reset:rownumber;    font-family: sans-serif;font-size: 16.5px;">
+
+           <thead>
+               <tr>
+                 <th>No</th>
+
+                 <th>Last Name</th>
+                 <th>First Name</th>
+                 <th>Score</th>
+               </tr>
+           </thead>
+           {{#each users}}
+            <tbody>
+
+              <tr style="counter-increment:rownumber;background-color:{{clr}};">
+                <td></td>
+
+                       <td>{{profile.lastName}}</td>
+                       <td>{{profile.fisrtName}}</td>
+                       <td>{{profile.score}}</td>
+
+                 </tr>
+               </tbody>
+          {{/each}}
+        </table>
+         </template>
+		 
+		 <template name="leadershipboardTempMobile">
+        <table class="table table-striped custab" id="leaderTbl" style="counter-reset:rownumber;    font-family: sans-serif;font-size: 23px;">
 
            <thead>
                <tr>
